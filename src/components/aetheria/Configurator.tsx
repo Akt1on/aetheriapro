@@ -10,45 +10,45 @@ type Selections = {
 };
 
 const STEPS = [
-  { key: "type", label: "Project Type", icon: Layers },
-  { key: "style", label: "Design Direction", icon: Sparkles },
-  { key: "caps", label: "Capabilities", icon: Zap },
-  { key: "scope", label: "Scope & Timeline", icon: Clock },
+  { key: "type", label: "Тип проекта", icon: Layers },
+  { key: "style", label: "Стиль дизайна", icon: Sparkles },
+  { key: "caps", label: "Возможности", icon: Zap },
+  { key: "scope", label: "Объём и сроки", icon: Clock },
 ] as const;
 
 const TYPES = [
-  { id: "landing", label: "Signature Landing", desc: "A single, cinematic page.", base: 18000 },
-  { id: "corp", label: "Corporate Site", desc: "Multi-page brand experience.", base: 38000 },
-  { id: "ecom", label: "E-commerce 3D", desc: "Immersive product storytelling.", base: 62000 },
-  { id: "app", label: "Web Application", desc: "Custom product, PWA-ready.", base: 85000 },
+  { id: "landing", label: "Премиум-лендинг", desc: "Одна страница. Кинематографичная.", base: 1500000 },
+  { id: "corp", label: "Корпоративный сайт", desc: "Многостраничный бренд-опыт.", base: 3200000 },
+  { id: "ecom", label: "E-commerce с 3D", desc: "Иммерсивные витрины товаров.", base: 5200000 },
+  { id: "app", label: "Веб-приложение", desc: "Кастомный продукт, PWA.", base: 7100000 },
 ];
 
 const STYLES = [
-  { id: "void", label: "Void Luxe", colors: ["#0a0a1a", "#4f46e5", "#a855f7", "#22d3ee"] },
-  { id: "editorial", label: "Editorial", colors: ["#f5f3ee", "#0d0d0d", "#c9a84c", "#6b3a2a"] },
-  { id: "neo", label: "Neo Brutalist", colors: ["#ffffff", "#0a0a0a", "#ff5722", "#ffeb3b"] },
-  { id: "glass", label: "Glass Aurora", colors: ["#1a1a2e", "#4ade80", "#a78bfa", "#67e8f9"] },
+  { id: "void", label: "Тёмная роскошь", colors: ["#0a0a1a", "#4f46e5", "#a855f7", "#22d3ee"] },
+  { id: "editorial", label: "Редакционный", colors: ["#f5f3ee", "#0d0d0d", "#c9a84c", "#6b3a2a"] },
+  { id: "neo", label: "Нео-брутализм", colors: ["#ffffff", "#0a0a0a", "#ff5722", "#ffeb3b"] },
+  { id: "glass", label: "Стеклянное сияние", colors: ["#1a1a2e", "#4ade80", "#a78bfa", "#67e8f9"] },
 ];
 
 const CAPS = [
-  { id: "3d", label: "Real-time 3D / WebGL", add: 14000 },
-  { id: "ai", label: "AI Interfaces", add: 11000 },
-  { id: "cms", label: "Headless CMS", add: 6000 },
-  { id: "anim", label: "Cinematic Motion", add: 8000 },
-  { id: "i18n", label: "Multi-language", add: 4500 },
-  { id: "perf", label: "Edge Performance", add: 5000 },
+  { id: "3d", label: "Real-time 3D / WebGL", add: 1200000 },
+  { id: "ai", label: "AI-интерфейсы", add: 950000 },
+  { id: "cms", label: "Headless CMS", add: 520000 },
+  { id: "anim", label: "Кинематографичная анимация", add: 680000 },
+  { id: "i18n", label: "Мультиязычность", add: 380000 },
+  { id: "perf", label: "Edge-производительность", add: 420000 },
 ];
 
 const SCOPES = [
-  { id: "sprint", label: "Sprint · 4 weeks", mult: 1.15 },
-  { id: "standard", label: "Standard · 8 weeks", mult: 1.0 },
-  { id: "premium", label: "Premium · 12 weeks", mult: 1.25 },
+  { id: "sprint", label: "Спринт · 4 недели", mult: 1.15 },
+  { id: "standard", label: "Стандарт · 8 недель", mult: 1.0 },
+  { id: "premium", label: "Премиум · 12 недель", mult: 1.25 },
 ];
 
 function AnimatedNumber({ value }: { value: number }) {
   const mv = useMotionValue(0);
   const spring = useSpring(mv, { damping: 30, stiffness: 90 });
-  const rounded = useTransform(spring, (v) => `$${Math.round(v).toLocaleString()}`);
+  const rounded = useTransform(spring, (v) => `${Math.round(v).toLocaleString("ru-RU")} ₽`);
   useEffect(() => {
     const ctrl = animate(mv, value, { duration: 0.9, ease: [0.22, 1, 0.36, 1] });
     return ctrl.stop;
@@ -75,22 +75,17 @@ export function Configurator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.05fr_1fr]">
-      {/* Left: form */}
+      {/* Левая колонка: форма */}
       <div className="glass-strong relative overflow-hidden rounded-3xl p-6 md:p-10">
         <div className="aurora-bg opacity-40" />
         <div className="relative">
-          {/* Stepper */}
           <div className="mb-8 flex items-center gap-2">
             {STEPS.map((s, i) => {
               const Icon = s.icon;
               const active = i === step;
               const done = i < step;
               return (
-                <button
-                  key={s.key}
-                  onClick={() => setStep(i)}
-                  className="group flex items-center gap-2"
-                >
+                <button key={s.key} onClick={() => setStep(i)} className="group flex items-center gap-2">
                   <span
                     className={`flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-500 ${
                       active
@@ -109,7 +104,7 @@ export function Configurator() {
           </div>
 
           <div className="mb-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-white/40">Step 0{step + 1} / 04</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/40">Шаг 0{step + 1} / 04</div>
             <h3 className="mt-1 font-display text-3xl text-white md:text-4xl">{STEPS[step].label}</h3>
           </div>
 
@@ -127,7 +122,7 @@ export function Configurator() {
                     <OptionCard key={t.id} active={sel.type === t.id} onClick={() => setSel({ ...sel, type: t.id })}>
                       <div className="text-base font-semibold text-white">{t.label}</div>
                       <div className="mt-1 text-sm text-white/55">{t.desc}</div>
-                      <div className="mt-3 text-xs text-cyan/80">from ${t.base.toLocaleString()}</div>
+                      <div className="mt-3 text-xs text-cyan/80">от {t.base.toLocaleString("ru-RU")} ₽</div>
                     </OptionCard>
                   ))}
                 </div>
@@ -156,7 +151,7 @@ export function Configurator() {
                     <OptionCard key={c.id} active={sel.capabilities.includes(c.id)} onClick={() => toggleCap(c.id)}>
                       <div className="flex items-center justify-between">
                         <div className="text-sm font-semibold text-white">{c.label}</div>
-                        <div className="text-xs text-cyan/80">+${c.add.toLocaleString()}</div>
+                        <div className="text-xs text-cyan/80">+{c.add.toLocaleString("ru-RU")} ₽</div>
                       </div>
                     </OptionCard>
                   ))}
@@ -175,11 +170,11 @@ export function Configurator() {
                   ))}
 
                   <div className="glass mt-6 rounded-2xl p-5">
-                    <div className="text-xs uppercase tracking-widest text-white/40">Brief contact</div>
+                    <div className="text-xs uppercase tracking-widest text-white/40">Краткое знакомство</div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Name" />
+                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
                       <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Company" />
+                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Компания" />
                     </div>
                   </div>
                 </div>
@@ -193,60 +188,47 @@ export function Configurator() {
               disabled={step === 0}
               className="text-sm text-white/60 transition hover:text-white disabled:opacity-30"
             >
-              ← Back
+              ← Назад
             </button>
             {step < STEPS.length - 1 ? (
-              <button
-                onClick={() => setStep(step + 1)}
-                className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm"
-              >
-                Continue <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button onClick={() => setStep(step + 1)} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
+                Продолжить <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
-              <button
-                onClick={() => setSubmitted(true)}
-                className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm"
-              >
-                Submit Brief <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button onClick={() => setSubmitted(true)} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
+                Отправить бриф <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             )}
           </div>
         </div>
       </div>
 
-      {/* Right: live preview */}
+      {/* Правая колонка: живой превью */}
       <div className="glass-strong relative overflow-hidden rounded-3xl p-6 md:p-8">
         <div className="aurora-bg opacity-50" style={{ filter: "blur(60px)" }} />
         <div className="relative flex h-full flex-col">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Live Preview</div>
-              <div className="mt-1 font-display text-2xl text-white">Your Experience</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Живой превью</div>
+              <div className="mt-1 font-display text-2xl text-white">Ваш проект</div>
             </div>
             <div className="text-right">
-              <div className="text-xs uppercase tracking-widest text-white/40">Investment</div>
+              <div className="text-xs uppercase tracking-widest text-white/40">Бюджет</div>
               <div className="font-display text-3xl text-aurora">
                 <AnimatedNumber value={price} />
               </div>
             </div>
           </div>
 
-          {/* Live mock */}
           <div className="relative mt-6 flex-1">
             <PreviewMock styleId={sel.style} caps={sel.capabilities} type={sel.type} />
           </div>
 
-          {/* Active palette */}
           <div className="mt-6">
-            <div className="text-xs uppercase tracking-widest text-white/40">Palette</div>
+            <div className="text-xs uppercase tracking-widest text-white/40">Палитра</div>
             <div className="mt-2 flex gap-2">
               {styleObj.colors.map((c) => (
-                <motion.div
-                  key={c}
-                  layout
-                  className="h-8 flex-1 rounded-lg ring-1 ring-white/10"
-                  style={{ background: c }}
-                />
+                <motion.div key={c} layout className="h-8 flex-1 rounded-lg ring-1 ring-white/10" style={{ background: c }} />
               ))}
             </div>
           </div>
@@ -293,6 +275,13 @@ function PreviewMock({ styleId, caps, type }: { styleId: string; caps: string[];
   const is3D = caps.includes("3d");
   const isAI = caps.includes("ai");
 
+  const headlines: Record<string, string> = {
+    ecom: "Предметы желания.",
+    app: "Создавайте по-настоящему.",
+    landing: "Одна страница. Бесконечная глубина.",
+    corp: "Бренды, которые движутся.",
+  };
+
   return (
     <motion.div
       key={styleId + type}
@@ -302,7 +291,6 @@ function PreviewMock({ styleId, caps, type }: { styleId: string; caps: string[];
       className="relative h-full min-h-[280px] overflow-hidden rounded-2xl ring-1 ring-white/10"
       style={{ background: p.bg, boxShadow: `0 30px 80px -20px ${p.glow}` }}
     >
-      {/* device chrome */}
       <div className="flex items-center gap-1.5 border-b border-black/10 bg-black/5 px-3 py-2 dark:border-white/10 dark:bg-white/5">
         <span className="h-2 w-2 rounded-full" style={{ background: "#ff5f57" }} />
         <span className="h-2 w-2 rounded-full" style={{ background: "#ffbd2e" }} />
@@ -318,9 +306,9 @@ function PreviewMock({ styleId, caps, type }: { styleId: string; caps: string[];
           transition={{ duration: 4, repeat: Infinity }}
         />
         <div className="relative">
-          <div className="text-[10px] uppercase tracking-[0.3em] opacity-50" style={{ color: p.ink }}>aetheria · live</div>
+          <div className="text-[10px] uppercase tracking-[0.3em] opacity-50" style={{ color: p.ink }}>aetheria · в эфире</div>
           <div className="mt-2 font-display text-2xl leading-tight md:text-3xl" style={{ color: p.ink }}>
-            {type === "ecom" ? "Objects of desire." : type === "app" ? "Build something real." : type === "landing" ? "One page. Infinite depth." : "Brands that move."}
+            {headlines[type] ?? headlines.corp}
           </div>
           <div className="mt-3 h-1.5 w-16 rounded-full" style={{ background: p.accent }} />
 
@@ -347,13 +335,12 @@ function PreviewMock({ styleId, caps, type }: { styleId: string; caps: string[];
               className="mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[10px] font-medium"
               style={{ background: `${p.accent}22`, color: p.ink, border: `1px solid ${p.accent}55` }}
             >
-              <Sparkles className="h-3 w-3" style={{ color: p.accent }} /> AI assistant connected
+              <Sparkles className="h-3 w-3" style={{ color: p.accent }} /> AI-ассистент подключён
             </motion.div>
           )}
         </div>
       </div>
 
-      {/* sweeping light ray */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute -inset-y-10 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/15 to-transparent"
@@ -376,7 +363,6 @@ function SuccessOverlay({ onClose, price }: { onClose: () => void; price: number
       exit={{ opacity: 0 }}
     >
       <div className="absolute inset-0 bg-black/80 backdrop-blur-xl" onClick={onClose} />
-      {/* confetti */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {pieces.current.map((i) => {
           const colors = ["#a855f7", "#67e8f9", "#f0d78c", "#4f46e5"];
@@ -408,12 +394,12 @@ function SuccessOverlay({ onClose, price }: { onClose: () => void; price: number
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet to-cyan shadow-[0_0_60px_-10px_oklch(0.7_0.24_300/80%)]">
           <Check className="h-8 w-8 text-black" strokeWidth={3} />
         </div>
-        <h3 className="mt-6 font-display text-3xl text-white">Brief received.</h3>
+        <h3 className="mt-6 font-display text-3xl text-white">Бриф получен.</h3>
         <p className="mt-3 text-sm text-white/60">
-          A creative director will personally reach out within 24 hours with a tailored proposal. Your estimated investment is{" "}
-          <span className="text-aurora font-semibold">${price.toLocaleString()}</span>.
+          Креативный директор лично свяжется с вами в течение 24 часов с персональным предложением.
+          Ориентировочный бюджет проекта — <span className="text-aurora font-semibold">{price.toLocaleString("ru-RU")} ₽</span>.
         </p>
-        <button onClick={onClose} className="btn-ghost-line mt-7 rounded-full px-6 py-2.5 text-sm">Close</button>
+        <button onClick={onClose} className="btn-ghost-line mt-7 rounded-full px-6 py-2.5 text-sm">Закрыть</button>
       </motion.div>
     </motion.div>
   );
