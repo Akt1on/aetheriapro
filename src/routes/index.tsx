@@ -9,10 +9,10 @@ import { Configurator } from "@/components/aetheria/Configurator";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Aetheria — Digital worlds that feel." },
-      { name: "description", content: "A high-end digital studio crafting cinematic websites, immersive 3D experiences, and AI-powered interfaces with flawless performance." },
-      { property: "og:title", content: "Aetheria — Digital worlds that feel." },
-      { property: "og:description", content: "Cinematic websites, immersive 3D, AI-powered interfaces." },
+      { title: "Aetheria — Цифровые миры, которые чувствуют." },
+      { name: "description", content: "Премиальная цифровая студия. Создаём кинематографичные сайты, иммерсивные 3D-опыты и AI-интерфейсы с безупречной производительностью." },
+      { property: "og:title", content: "Aetheria — Цифровые миры, которые чувствуют." },
+      { property: "og:description", content: "Кинематографичные сайты, иммерсивный 3D, AI-интерфейсы." },
     ],
   }),
   component: Index,
@@ -42,28 +42,18 @@ function BackgroundAura() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.08 0.02 265) 60%)" }} />
-      <div
-        className="absolute -top-40 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full opacity-50"
-        style={{ background: "radial-gradient(closest-side, oklch(0.55 0.25 270 / 50%), transparent 70%)", filter: "blur(40px)" }}
-      />
-      <div
-        className="absolute top-[40%] -right-32 h-[500px] w-[500px] rounded-full opacity-40"
-        style={{ background: "radial-gradient(closest-side, oklch(0.78 0.18 215 / 50%), transparent 70%)", filter: "blur(40px)" }}
-      />
-      <div
-        className="absolute top-[80%] -left-32 h-[500px] w-[500px] rounded-full opacity-30"
-        style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(40px)" }}
-      />
-      {/* Grid */}
-      <div
-        className="absolute inset-0 opacity-[0.07]"
+      <div className="absolute -top-40 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full opacity-50"
+        style={{ background: "radial-gradient(closest-side, oklch(0.55 0.25 270 / 50%), transparent 70%)", filter: "blur(40px)" }} />
+      <div className="absolute top-[40%] -right-32 h-[500px] w-[500px] rounded-full opacity-40"
+        style={{ background: "radial-gradient(closest-side, oklch(0.78 0.18 215 / 50%), transparent 70%)", filter: "blur(40px)" }} />
+      <div className="absolute top-[80%] -left-32 h-[500px] w-[500px] rounded-full opacity-30"
+        style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(40px)" }} />
+      <div className="absolute inset-0 opacity-[0.07]"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
           backgroundSize: "80px 80px",
           maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
-        }}
-      />
+        }} />
     </div>
   );
 }
@@ -77,10 +67,10 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   const items = [
-    ["Services", "#services"],
-    ["Configurator", "#configurator"],
-    ["Work", "#work"],
-    ["Process", "#process"],
+    ["Услуги", "#services"],
+    ["Конфигуратор", "#configurator"],
+    ["Работы", "#work"],
+    ["Процесс", "#process"],
   ];
   return (
     <motion.header
@@ -105,7 +95,7 @@ function Nav() {
           ))}
         </nav>
         <a href="#configurator" className="btn-primary-glow inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-medium">
-          Start a project <ArrowRight className="h-3.5 w-3.5" />
+          Начать проект <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
     </motion.header>
@@ -115,10 +105,8 @@ function Nav() {
 function Logo() {
   return (
     <div className="relative h-7 w-7">
-      <div
-        className="absolute inset-0 rounded-md"
-        style={{ background: "conic-gradient(from 120deg, oklch(0.55 0.25 270), oklch(0.7 0.24 300), oklch(0.82 0.16 215), oklch(0.55 0.25 270))" }}
-      />
+      <div className="absolute inset-0 rounded-md"
+        style={{ background: "conic-gradient(from 120deg, oklch(0.55 0.25 270), oklch(0.7 0.24 300), oklch(0.82 0.16 215), oklch(0.55 0.25 270))" }} />
       <div className="absolute inset-[3px] rounded-[5px] bg-background" />
       <div className="absolute inset-[7px] rounded-sm bg-gradient-to-br from-violet to-cyan" />
     </div>
@@ -127,7 +115,7 @@ function Logo() {
 
 /* ---------- Hero ---------- */
 function Hero() {
-  const headline = "Digital worlds that feel.";
+  const headline = "Цифровые миры, которые чувствуют.";
   const words = headline.split(" ");
   return (
     <section id="top" className="relative pb-24 pt-36 md:pt-44 lg:pb-32">
@@ -147,17 +135,17 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan" />
             </span>
-            Now booking Q3 · 2026
+            Открыт набор на III квартал 2026
           </motion.div>
 
-          <h1 className="mt-7 font-display text-[clamp(3rem,8vw,6.5rem)] font-normal leading-[0.95] tracking-tight text-white">
+          <h1 className="mt-7 font-display text-[clamp(2.5rem,7.5vw,6.5rem)] font-normal leading-[0.98] tracking-tight text-white">
             {words.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <motion.span
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
-                  transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.12 }}
-                  className={`inline-block ${i === words.length - 1 ? "text-aurora italic" : ""}`}
+                  transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: 0.2 + i * 0.1 }}
+                  className={`inline-block ${i >= words.length - 2 ? "text-aurora italic" : ""}`}
                 >
                   {w}&nbsp;
                 </motion.span>
@@ -171,8 +159,9 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="mt-7 max-w-xl text-lg leading-relaxed text-white/65"
           >
-            We design and engineer extraordinary websites — fusing real-time 3D, generative AI, and
-            obsessive performance to create digital experiences that move people, not just pixels.
+            Мы проектируем и создаём выдающиеся сайты — соединяя real-time 3D, генеративный AI и
+            маниакальную производительность, чтобы рождать цифровой опыт, который трогает людей,
+            а не просто пиксели.
           </motion.p>
 
           <motion.div
@@ -182,11 +171,11 @@ function Hero() {
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Open Project Configurator
+              Открыть конфигуратор проекта
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a href="#work" className="btn-ghost-line group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Explore Our Work
+              Смотреть работы
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </motion.div>
@@ -197,7 +186,7 @@ function Hero() {
             transition={{ duration: 1.5, delay: 1.5 }}
             className="mt-14 grid max-w-md grid-cols-3 gap-6"
           >
-            {[["180+", "Crafted launches"], ["28", "Industry awards"], ["100/100", "Avg. Lighthouse"]].map(([n, l]) => (
+            {[["180+", "Запущенных проектов"], ["28", "Отраслевых наград"], ["100/100", "Средний Lighthouse"]].map(([n, l]) => (
               <div key={l}>
                 <div className="font-display text-3xl text-white">{n}</div>
                 <div className="mt-1 text-xs uppercase tracking-widest text-white/40">{l}</div>
@@ -224,7 +213,7 @@ function TrustBar() {
   return (
     <section className="relative border-y border-white/5 py-10">
       <div className="mx-auto max-w-7xl px-6 text-center">
-        <div className="text-xs uppercase tracking-[0.4em] text-white/35">Recognized by the world's most demanding juries</div>
+        <div className="text-xs uppercase tracking-[0.4em] text-white/35">Признание самых требовательных жюри мира</div>
       </div>
       <div className="relative mt-6 overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-background to-transparent" />
@@ -245,17 +234,20 @@ function TrustBar() {
 /* ---------- Services ---------- */
 function Services() {
   const services = [
-    { icon: Sparkles, title: "Signature Landing Pages", desc: "Cinematic single-page sites engineered to convert and inspire.", tag: "From $18k" },
-    { icon: Globe, title: "Corporate Digital Experiences", desc: "Multi-page brand systems with editorial craft and depth.", tag: "From $38k" },
-    { icon: ShoppingBag, title: "E-commerce with 3D", desc: "Product worlds you can walk through. Storefronts that sell stories.", tag: "From $62k" },
-    { icon: Cpu, title: "PWA & Web Applications", desc: "Performant, installable product experiences that feel native.", tag: "From $85k" },
-    { icon: Boxes, title: "Custom Immersive Products", desc: "WebGL, AI, generative — bespoke moments only we can build.", tag: "On request" },
+    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 1 500 000 ₽" },
+    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 3 200 000 ₽" },
+    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 5 200 000 ₽" },
+    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 7 100 000 ₽" },
+    { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
   ];
   return (
     <section id="services" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader eyebrow="Services" title={<>Crafted disciplines.<br/><span className="text-aurora italic">No templates.</span></>}
-          subtitle="Five focused practices, one studio — each engineered with the same obsessive standard." />
+        <SectionHeader
+          eyebrow="Услуги"
+          title={<>Отточенные дисциплины.<br/><span className="text-aurora italic">Никаких шаблонов.</span></>}
+          subtitle="Пять сфокусированных направлений — одна студия. Каждое сделано с одним и тем же одержимым стандартом."
+        />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
@@ -290,7 +282,6 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
         className="glass relative h-full overflow-hidden rounded-3xl p-7 transition-transform duration-500"
         style={{ transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`, transformStyle: "preserve-3d" }}
       >
-        {/* Hover aurora */}
         <div className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{ background: "radial-gradient(400px circle at var(--mx,50%) var(--my,50%), oklch(0.7 0.24 300 / 18%), transparent 60%)" }} />
 
@@ -317,9 +308,9 @@ function ConfiguratorSection() {
       <div className="absolute inset-x-0 top-0 h-px hairline" />
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          eyebrow="The Configurator"
-          title={<>Build your <span className="text-aurora italic">digital experience.</span></>}
-          subtitle="Compose your project in four steps. Watch it come alive in real-time, with an honest investment estimate before you ever talk to us."
+          eyebrow="Конфигуратор"
+          title={<>Соберите свой <span className="text-aurora italic">цифровой опыт.</span></>}
+          subtitle="Соберите проект за четыре шага. Увидите, как он оживает в реальном времени, и получите честную оценку бюджета ещё до первого разговора."
         />
         <div className="mt-14">
           <Configurator />
@@ -331,20 +322,23 @@ function ConfiguratorSection() {
 
 /* ---------- Work ---------- */
 const PROJECTS = [
-  { name: "Lumen Atelier", category: "Luxury Fashion · E-commerce 3D", metric: "+312% conversion", year: "2026", colors: ["#1a1a1a", "#c9a84c"], pos: { left: "8%", top: "30%" } },
-  { name: "Nova Aerospace", category: "Aerospace · Corporate", metric: "Awwwards SOTD", year: "2026", colors: ["#0a0a1a", "#67e8f9"], pos: { right: "12%", top: "20%" } },
-  { name: "Hyperion AI", category: "AI Platform · Web App", metric: "Series B launch", year: "2025", colors: ["#16213e", "#a78bfa"], pos: { left: "12%", bottom: "25%" } },
-  { name: "Atelier Verde", category: "Restaurant · Signature Page", metric: "FWA of the Day", year: "2025", colors: ["#1a3c2a", "#a0c49d"], pos: { right: "8%", bottom: "30%" } },
-  { name: "Forma Studio", category: "Architecture · Portfolio", metric: "+8m organic reach", year: "2025", colors: ["#2d2d2d", "#e85d3a"], pos: { left: "40%", top: "12%" } },
-  { name: "Polaris Bank", category: "Fintech · PWA", metric: "Lighthouse 100", year: "2024", colors: ["#0f1b3d", "#3b6fa0"], pos: { left: "40%", bottom: "12%" } },
+  { name: "Lumen Atelier", category: "Люкс-мода · E-commerce 3D", metric: "+312% к конверсии", year: "2026", colors: ["#1a1a1a", "#c9a84c"] },
+  { name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", metric: "Awwwards SOTD", year: "2026", colors: ["#0a0a1a", "#67e8f9"] },
+  { name: "Hyperion AI", category: "AI-платформа · Веб-приложение", metric: "Запуск Series B", year: "2025", colors: ["#16213e", "#a78bfa"] },
+  { name: "Atelier Verde", category: "Ресторан · Лендинг", metric: "FWA of the Day", year: "2025", colors: ["#1a3c2a", "#a0c49d"] },
+  { name: "Forma Studio", category: "Архитектура · Портфолио", metric: "+8 млн органики", year: "2025", colors: ["#2d2d2d", "#e85d3a"] },
+  { name: "Polaris Bank", category: "Финтех · PWA", metric: "Lighthouse 100", year: "2024", colors: ["#0f1b3d", "#3b6fa0"] },
 ];
 
 function Work() {
   return (
     <section id="work" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader eyebrow="Selected Work" title={<>Recent <span className="text-aurora italic">obsessions.</span></>}
-          subtitle="A small, intentional roster. Every launch is a love letter to craft." />
+        <SectionHeader
+          eyebrow="Избранные работы"
+          title={<>Наши <span className="text-aurora italic">одержимости.</span></>}
+          subtitle="Маленький, продуманный портфель. Каждый запуск — признание в любви к ремеслу."
+        />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {PROJECTS.map((p, i) => (
@@ -370,7 +364,6 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
       className="group relative block aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/10"
       style={{ background: `linear-gradient(160deg, ${project.colors[0]}, ${project.colors[1]}55, ${project.colors[0]})` }}
     >
-      {/* faux mock */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         animate={{ scale: hover ? 1.08 : 1 }}
@@ -393,7 +386,6 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
         </div>
       </motion.div>
 
-      {/* overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 p-6">
@@ -418,20 +410,22 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
 /* ---------- Process ---------- */
 function Process() {
   const steps = [
-    { n: "01", t: "Discover", d: "Deep audit of brand, business model, and ambition. We listen first." },
-    { n: "02", t: "Direct", d: "Three rendered creative directions — never moodboards, always working pixels." },
-    { n: "03", t: "Design", d: "Pixel-perfect systems with motion baked in from the first frame." },
-    { n: "04", t: "Engineer", d: "Hand-crafted code. WebGL, AI, edge — chosen for the story, not the buzzword." },
-    { n: "05", t: "Launch", d: "Performance-audited, accessibility-checked, championed by us long after release." },
+    { n: "01", t: "Исследование", d: "Глубокий аудит бренда, бизнес-модели и амбиций. Сначала мы слушаем." },
+    { n: "02", t: "Направление", d: "Три отрисованных креативных направления — не мудборды, а живые пиксели." },
+    { n: "03", t: "Дизайн", d: "Идеальные до пикселя системы с движением, заложенным с первого кадра." },
+    { n: "04", t: "Инженерия", d: "Код, написанный руками. WebGL, AI, edge — выбраны ради смысла, а не модного слова." },
+    { n: "05", t: "Запуск", d: "Аудит производительности, проверка доступности и поддержка задолго после релиза." },
   ];
   return (
     <section id="process" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeader eyebrow="Process" title={<>From first brief to <span className="text-aurora italic">final pixel.</span></>}
-          subtitle="A disciplined, transparent process designed for ambitious teams." />
+        <SectionHeader
+          eyebrow="Процесс"
+          title={<>От первого брифа до <span className="text-aurora italic">финального пикселя.</span></>}
+          subtitle="Дисциплинированный, прозрачный процесс, созданный для амбициозных команд."
+        />
 
         <div className="relative mt-20">
-          {/* vertical line */}
           <div className="absolute left-[19px] top-0 h-full w-px bg-gradient-to-b from-violet/60 via-cyan/40 to-transparent md:left-1/2" />
           <div className="space-y-12">
             {steps.map((s, i) => (
@@ -449,9 +443,7 @@ function Process() {
                   <p className="mt-3 text-white/55">{s.d}</p>
                 </div>
                 <div className="hidden md:block" />
-                <div
-                  className="absolute left-0 top-1.5 flex h-10 w-10 items-center justify-center rounded-full glass-strong md:left-1/2 md:-translate-x-1/2"
-                >
+                <div className="absolute left-0 top-1.5 flex h-10 w-10 items-center justify-center rounded-full glass-strong md:left-1/2 md:-translate-x-1/2">
                   <div className="h-2.5 w-2.5 rounded-full bg-gradient-to-br from-violet to-cyan shadow-[0_0_20px_4px_oklch(0.7_0.24_300/70%)]" />
                 </div>
               </motion.div>
@@ -466,10 +458,10 @@ function Process() {
 /* ---------- Why Aetheria ---------- */
 function WhyAetheria() {
   const points = [
-    { icon: Zap, t: "Performance-first", d: "Average 98+ Lighthouse. Beauty has no excuse to be slow." },
-    { icon: Code2, t: "Hand-engineered", d: "Every line of code is ours. No bloated builders, no templates." },
-    { icon: Sparkles, t: "Motion-native", d: "Animation isn't decoration — it's part of the meaning we design." },
-    { icon: Layers, t: "Senior-only team", d: "Six artisans. No juniors. Every project touched by directors." },
+    { icon: Zap, t: "Производительность прежде всего", d: "Средний Lighthouse 98+. У красоты нет права быть медленной." },
+    { icon: Code2, t: "Сделано вручную", d: "Каждая строка кода — наша. Никаких раздутых конструкторов и шаблонов." },
+    { icon: Sparkles, t: "Движение в основе", d: "Анимация — не украшение, а часть смысла, который мы проектируем." },
+    { icon: Layers, t: "Только синьоры", d: "Шесть мастеров. Никаких джунов. Каждый проект ведут директора." },
   ];
   return (
     <section className="relative py-32">
@@ -478,13 +470,13 @@ function WhyAetheria() {
           <div className="aurora-bg opacity-50" />
           <div className="relative grid gap-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Why Aetheria</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
               <h2 className="mt-4 font-display text-5xl leading-[1] text-white md:text-6xl">
-                Other studios ship websites.<br/><span className="text-aurora italic">We ship feelings.</span>
+                Другие студии делают сайты.<br/><span className="text-aurora italic">Мы создаём ощущения.</span>
               </h2>
               <p className="mt-6 max-w-md text-white/55">
-                The web has never been more saturated. To stand out, you need more than design — you need
-                a moment. We build moments people remember.
+                Веб никогда не был таким перенасыщенным. Чтобы выделиться, нужен не просто дизайн —
+                нужен момент. Мы создаём моменты, которые запоминают.
               </p>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
@@ -527,9 +519,9 @@ function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-[clamp(3rem,10vw,8rem)] font-normal leading-[0.9] tracking-tight text-white"
+          className="font-display text-[clamp(2.5rem,9vw,8rem)] font-normal leading-[0.95] tracking-tight text-white"
         >
-          Let's build something <span className="text-aurora italic">unforgettable.</span>
+          Создадим то, что <span className="text-aurora italic">невозможно забыть.</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -538,7 +530,7 @@ function FinalCTA() {
           transition={{ duration: 1, delay: 0.4 }}
           className="mx-auto mt-7 max-w-xl text-lg text-white/60"
         >
-          We accept four engagements per quarter. If your ambition matches ours, let's talk.
+          Мы берём в работу четыре проекта в квартал. Если ваши амбиции совпадают с нашими — давайте говорить.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -548,9 +540,9 @@ function FinalCTA() {
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm">
-            Start your project <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            Начать проект <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
-          <a href="mailto:studio@aetheria.dev" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.dev</a>
+          <a href="mailto:studio@aetheria.ru" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.ru</a>
         </motion.div>
       </div>
     </section>
@@ -565,12 +557,12 @@ function Footer() {
         <div className="flex items-center gap-2">
           <Logo />
           <span className="font-display text-lg text-white">Aetheria</span>
-          <span className="ml-3 text-xs text-white/40">© 2026 — Crafted in the void.</span>
+          <span className="ml-3 text-xs text-white/40">© 2026 — Создано в пустоте.</span>
         </div>
         <div className="flex gap-6 text-xs text-white/50">
-          <a href="#" className="hover:text-white">Instagram</a>
-          <a href="#" className="hover:text-white">Are.na</a>
-          <a href="#" className="hover:text-white">LinkedIn</a>
+          <a href="#" className="hover:text-white">Telegram</a>
+          <a href="#" className="hover:text-white">Behance</a>
+          <a href="#" className="hover:text-white">VK</a>
           <a href="#" className="hover:text-white">Awwwards</a>
         </div>
       </div>
