@@ -41,14 +41,11 @@ function Index() {
 function BackgroundAura() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.08 0.02 265) 60%)" }} />
-      <div className="absolute -top-40 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full opacity-50"
-        style={{ background: "radial-gradient(closest-side, oklch(0.55 0.25 270 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute top-[40%] -right-32 h-[500px] w-[500px] rounded-full opacity-40"
-        style={{ background: "radial-gradient(closest-side, oklch(0.78 0.18 215 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute top-[80%] -left-32 h-[500px] w-[500px] rounded-full opacity-30"
-        style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute inset-0 opacity-[0.07]"
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.06 0.02 265) 70%)" }} />
+      <div className="absolute inset-0">
+        <ParticleField density={240} />
+      </div>
+      <div className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
           backgroundSize: "80px 80px",
