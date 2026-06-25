@@ -116,9 +116,7 @@ function Hero() {
   const words = headline.split(" ");
   return (
     <section id="top" className="relative pb-24 pt-36 md:pt-44 lg:pb-32">
-      <div className="absolute inset-0 -z-10">
-        <ParticleField density={70} />
-      </div>
+
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.1fr_1fr]">
         <div>
