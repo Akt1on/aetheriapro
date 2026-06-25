@@ -418,34 +418,33 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-      {/* Hover overlay: задача / решение / результат */}
-      <motion.div
-        className="absolute inset-0 flex flex-col justify-end p-6"
-        initial={false}
-        animate={{ opacity: hover ? 1 : 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <div className="glass-strong rounded-2xl p-4 text-xs leading-relaxed text-white/85">
-          <div><span className="text-cyan">Задача.</span> {project.task}</div>
-          <div className="mt-1.5"><span className="text-cyan">Решение.</span> {project.solution}</div>
-          <div className="mt-1.5"><span className="text-gold">Результат.</span> {project.result}</div>
-        </div>
-      </motion.div>
-
       <div className="absolute inset-x-0 bottom-0 p-6">
-        <div className="flex items-end justify-between">
-          <div>
+        <div className="flex items-end justify-between gap-3">
+          <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/50">{project.category} · {project.year}</div>
             <div className="mt-1.5 font-display text-2xl text-white">{project.name}</div>
             <div className="mt-1 text-xs text-cyan">{project.result.split(",")[0]}</div>
           </div>
           <motion.div
-            className="glass-strong flex h-10 w-10 items-center justify-center rounded-full"
+            className="glass-strong flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
             animate={{ scale: hover ? 1.1 : 1, rotate: hover ? 45 : 0 }}
           >
             <ArrowUpRight className="h-4 w-4 text-white" />
           </motion.div>
         </div>
+
+        <motion.div
+          initial={false}
+          animate={{ opacity: hover ? 1 : 0, y: hover ? 0 : 12, height: hover ? "auto" : 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden"
+        >
+          <div className="glass-strong mt-4 rounded-2xl p-4 text-xs leading-relaxed text-white/85">
+            <div><span className="text-cyan">Задача.</span> {project.task}</div>
+            <div className="mt-1.5"><span className="text-cyan">Решение.</span> {project.solution}</div>
+            <div className="mt-1.5"><span className="text-gold">Результат.</span> {project.result}</div>
+          </div>
+        </motion.div>
       </div>
     </motion.a>
   );
