@@ -322,12 +322,42 @@ function ConfiguratorSection() {
 
 /* ---------- Work ---------- */
 const PROJECTS = [
-  { name: "Lumen Atelier", category: "Люкс-мода · E-commerce 3D", metric: "+312% к конверсии", year: "2026", colors: ["#1a1a1a", "#c9a84c"] },
-  { name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", metric: "Awwwards SOTD", year: "2026", colors: ["#0a0a1a", "#67e8f9"] },
-  { name: "Hyperion AI", category: "AI-платформа · Веб-приложение", metric: "Запуск Series B", year: "2025", colors: ["#16213e", "#a78bfa"] },
-  { name: "Atelier Verde", category: "Ресторан · Лендинг", metric: "FWA of the Day", year: "2025", colors: ["#1a3c2a", "#a0c49d"] },
-  { name: "Forma Studio", category: "Архитектура · Портфолио", metric: "+8 млн органики", year: "2025", colors: ["#2d2d2d", "#e85d3a"] },
-  { name: "Polaris Bank", category: "Финтех · PWA", metric: "Lighthouse 100", year: "2024", colors: ["#0f1b3d", "#3b6fa0"] },
+  {
+    name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", colors: ["#1a1a1a", "#c9a84c"],
+    task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.",
+    solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.",
+    result: "+38% к конверсии, средний чек вырос на 24%.",
+  },
+  {
+    name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", colors: ["#0a0a1a", "#67e8f9"],
+    task: "Объяснить сложный продукт инвесторам и инженерам одновременно.",
+    solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.",
+    result: "Время на странице ×2.1, +47% к заявкам на демо.",
+  },
+  {
+    name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", colors: ["#16213e", "#a78bfa"],
+    task: "Поднять активацию после регистрации в B2B SaaS.",
+    solution: "Новый онбординг из 4 шагов, интерактивный дашборд, тёмная тема.",
+    result: "Активация выросла с 31% до 58% за два месяца.",
+  },
+  {
+    name: "Atelier Verde", category: "Ресторан · Лендинг", year: "2025", colors: ["#1a3c2a", "#a0c49d"],
+    task: "Увеличить онлайн-бронирования и снизить нагрузку на хостес.",
+    solution: "Лендинг-меню с атмосферой места, бронь в 2 тапа, интеграция с iiko.",
+    result: "+62% онлайн-броней, звонки сократились на треть.",
+  },
+  {
+    name: "Forma Studio", category: "Архитектура · Портфолио", year: "2025", colors: ["#2d2d2d", "#e85d3a"],
+    task: "Сделать портфолио, которое продаёт проекты от 30 млн ₽.",
+    solution: "Кейсы-длинноформы, кинематографичные обложки, медленный ритм.",
+    result: "5 крупных контрактов за квартал, средний бюджет +40%.",
+  },
+  {
+    name: "Polaris Bank", category: "Финтех · PWA", year: "2024", colors: ["#0f1b3d", "#3b6fa0"],
+    task: "Заменить мобильный сайт без жертв по скорости и доступности.",
+    solution: "PWA на edge, офлайн-режим, аудит a11y по WCAG 2.2 AA.",
+    result: "Lighthouse 98+, отказы на мобильных −29%.",
+  },
 ];
 
 function Work() {
