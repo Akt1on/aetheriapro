@@ -22,8 +22,10 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
 
     let w = 0, h = 0;
     const resize = () => {
-      w = canvas.width = Math.floor(canvas.offsetWidth * DPR);
-      h = canvas.height = Math.floor(canvas.offsetHeight * DPR);
+      const cw = canvas.offsetWidth || canvas.parentElement?.offsetWidth || window.innerWidth;
+      const ch = canvas.offsetHeight || canvas.parentElement?.offsetHeight || window.innerHeight;
+      w = canvas.width = Math.max(1, Math.floor(cw * DPR));
+      h = canvas.height = Math.max(1, Math.floor(ch * DPR));
       buildNebula();
     };
 
@@ -34,9 +36,9 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
       nebula.width = w;
       nebula.height = h;
       const blobs = [
-        { x: w * 0.25, y: h * 0.3, r: Math.max(w, h) * 0.55, c: "rgba(120, 80, 255, 0.18)" },
-        { x: w * 0.75, y: h * 0.55, r: Math.max(w, h) * 0.45, c: "rgba(80, 200, 255, 0.14)" },
-        { x: w * 0.55, y: h * 0.85, r: Math.max(w, h) * 0.4, c: "rgba(255, 120, 200, 0.10)" },
+        { x: w * 0.25, y: h * 0.3, r: Math.max(w, h) * 0.55, c: "rgba(120, 80, 255, 0.22)" },
+        { x: w * 0.75, y: h * 0.55, r: Math.max(w, h) * 0.45, c: "rgba(80, 200, 255, 0.18)" },
+        { x: w * 0.55, y: h * 0.85, r: Math.max(w, h) * 0.4, c: "rgba(255, 120, 200, 0.12)" },
       ];
       for (const b of blobs) {
         const g = nctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
