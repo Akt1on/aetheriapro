@@ -51,6 +51,8 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
 
     resize();
     window.addEventListener("resize", resize);
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
 
     // ---- Stars: 3 parallax layers ----
     type Star = { x: number; y: number; r: number; a: number; tw: number; tp: number; depth: number; hue: number };
