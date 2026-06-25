@@ -20,7 +20,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="dark relative min-h-screen bg-background text-foreground">
+    <div className="dark relative min-h-screen text-foreground">
+      <div className="fixed inset-0 -z-20 bg-background" />
       <div className="noise" />
       <BackgroundAura />
       <Nav />
@@ -91,8 +92,8 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a href="#configurator" className="btn-primary-glow inline-flex items-center gap-2 rounded-full px-5 py-2 text-xs font-medium">
-          Начать проект <ArrowRight className="h-3.5 w-3.5" />
+        <a href="#configurator" className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
+          <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
     </motion.header>
@@ -133,9 +134,9 @@ function Hero() {
             Открыт набор на III квартал 2026
           </motion.div>
 
-          <h1 className="mt-7 font-display text-[clamp(2.5rem,7.5vw,6.5rem)] font-normal leading-[0.98] tracking-tight text-white">
+          <h1 className="mt-7 font-display text-[clamp(2.25rem,7vw,6rem)] font-normal leading-[1.05] tracking-tight text-white">
             {words.map((w, i) => (
-              <span key={i} className="inline-block overflow-hidden align-bottom">
+              <span key={i} className="inline-block overflow-hidden pb-3 align-bottom">
                 <motion.span
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
@@ -179,12 +180,12 @@ function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5, delay: 1.5 }}
-            className="mt-14 grid max-w-md grid-cols-3 gap-6"
+            className="mt-14 grid max-w-md grid-cols-3 gap-4 sm:gap-6"
           >
             {[["180+", "Запущенных проектов"], ["28", "Отраслевых наград"], ["100/100", "Средний Lighthouse"]].map(([n, l]) => (
-              <div key={l}>
-                <div className="font-display text-3xl text-white">{n}</div>
-                <div className="mt-1 text-xs uppercase tracking-widest text-white/40">{l}</div>
+              <div key={l} className="min-w-0">
+                <div className="font-display text-xl sm:text-3xl text-white">{n}</div>
+                <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-widest text-white/40">{l}</div>
               </div>
             ))}
           </motion.div>
@@ -194,6 +195,7 @@ function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="hidden lg:block"
         >
           <HeroScene />
         </motion.div>
@@ -229,14 +231,14 @@ function TrustBar() {
 /* ---------- Services ---------- */
 function Services() {
   const services = [
-    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 350 000 ₽" },
-    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 900 000 ₽" },
-    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 1 800 000 ₽" },
-    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 2 800 000 ₽" },
+    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 30 000 ₽" },
+    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 80 000 ₽" },
+    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 150 000 ₽" },
+    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 250 000 ₽" },
     { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
   ];
   return (
-    <section id="services" className="relative py-32">
+    <section id="services" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Услуги"
@@ -299,7 +301,7 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
 /* ---------- Configurator Section ---------- */
 function ConfiguratorSection() {
   return (
-    <section id="configurator" className="relative py-32">
+    <section id="configurator" className="relative py-20 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px hairline" />
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
@@ -357,7 +359,7 @@ const PROJECTS = [
 
 function Work() {
   return (
-    <section id="work" className="relative py-32">
+    <section id="work" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Избранные работы"
@@ -455,7 +457,7 @@ function Process() {
     { n: "05", t: "Запуск", d: "Аудит производительности, проверка доступности и поддержка задолго после релиза." },
   ];
   return (
-    <section id="process" className="relative py-32">
+    <section id="process" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Процесс"
@@ -502,14 +504,14 @@ function WhyAetheria() {
     { icon: Layers, t: "Только синьоры", d: "Шесть мастеров. Никаких джунов. Каждый проект ведут директора." },
   ];
   return (
-    <section className="relative py-32">
+    <section className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="glass-strong relative overflow-hidden rounded-[2.5rem] p-10 md:p-16">
+        <div className="glass-strong relative overflow-hidden rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16">
           <div className="aurora-bg opacity-50" />
           <div className="relative grid gap-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
-              <h2 className="mt-4 font-display text-5xl leading-[1] text-white md:text-6xl">
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
+              <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] text-white">
                 Другие студии делают сайты.<br/><span className="text-aurora italic">Мы создаём ощущения.</span>
               </h2>
               <p className="mt-6 max-w-md text-white/55">
@@ -546,7 +548,7 @@ function FinalCTA() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
   return (
-    <section ref={ref} className="relative overflow-hidden py-40">
+    <section ref={ref} className="relative overflow-hidden py-24 sm:py-40">
       <motion.div style={{ y }} className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[700px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(50px)" }} />
@@ -618,9 +620,9 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="max-w-3xl"
     >
-      <div className="text-xs uppercase tracking-[0.4em] text-white/40">{eyebrow}</div>
-      <h2 className="mt-4 font-display text-5xl leading-[1.02] tracking-tight text-white md:text-6xl">{title}</h2>
-      {subtitle && <p className="mt-5 max-w-2xl text-lg text-white/55">{subtitle}</p>}
+      <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/40">{eyebrow}</div>
+      <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-white">{title}</h2>
+      {subtitle && <p className="mt-5 max-w-2xl text-base sm:text-lg text-white/55">{subtitle}</p>}
     </motion.div>
   );
 }

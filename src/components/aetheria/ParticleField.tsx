@@ -22,8 +22,10 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
 
     let w = 0, h = 0;
     const resize = () => {
-      w = canvas.width = Math.floor(canvas.offsetWidth * DPR);
-      h = canvas.height = Math.floor(canvas.offsetHeight * DPR);
+      const cw = canvas.offsetWidth || canvas.parentElement?.offsetWidth || window.innerWidth;
+      const ch = canvas.offsetHeight || canvas.parentElement?.offsetHeight || window.innerHeight;
+      w = canvas.width = Math.max(1, Math.floor(cw * DPR));
+      h = canvas.height = Math.max(1, Math.floor(ch * DPR));
       buildNebula();
     };
 
@@ -34,9 +36,9 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
       nebula.width = w;
       nebula.height = h;
       const blobs = [
-        { x: w * 0.25, y: h * 0.3, r: Math.max(w, h) * 0.55, c: "rgba(120, 80, 255, 0.18)" },
-        { x: w * 0.75, y: h * 0.55, r: Math.max(w, h) * 0.45, c: "rgba(80, 200, 255, 0.14)" },
-        { x: w * 0.55, y: h * 0.85, r: Math.max(w, h) * 0.4, c: "rgba(255, 120, 200, 0.10)" },
+        { x: w * 0.25, y: h * 0.3, r: Math.max(w, h) * 0.55, c: "rgba(120, 80, 255, 0.22)" },
+        { x: w * 0.75, y: h * 0.55, r: Math.max(w, h) * 0.45, c: "rgba(80, 200, 255, 0.18)" },
+        { x: w * 0.55, y: h * 0.85, r: Math.max(w, h) * 0.4, c: "rgba(255, 120, 200, 0.12)" },
       ];
       for (const b of blobs) {
         const g = nctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
@@ -49,6 +51,8 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
 
     resize();
     window.addEventListener("resize", resize);
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
 
     // ---- Stars: 3 parallax layers ----
     type Star = { x: number; y: number; r: number; a: number; tw: number; tp: number; depth: number; hue: number };
@@ -58,20 +62,20 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
       return {
         x: Math.random() * w,
         y: Math.random() * h,
-        r: (0.3 + depth * 1.6) * DPR,
-        a: 0.4 + Math.random() * 0.6,
+        r: (0.6 + depth * 2.2) * DPR,
+        a: 0.7 + Math.random() * 0.3,
         tw: Math.random() * Math.PI * 2,
         tp: 0.4 + Math.random() * 1.8,
         depth,
-        hue: 200 + Math.random() * 80, // blue → violet
+        hue: 200 + Math.random() * 80,
       };
     });
 
     // A handful of luminous "hero" stars
-    const heroes = Array.from({ length: 14 }, () => ({
+    const heroes = Array.from({ length: 22 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: (1.4 + Math.random() * 1.6) * DPR,
+      r: (2 + Math.random() * 2) * DPR,
       tw: Math.random() * Math.PI * 2,
       tp: 0.6 + Math.random() * 1.2,
       hue: Math.random() < 0.5 ? 270 : 200,
@@ -133,7 +137,7 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
         s.x += 0.02 * s.depth * dt;
         if (s.x > w + 4) s.x = -4;
 
-        ctx.fillStyle = `hsla(${s.hue}, 90%, ${75 + s.depth * 15}%, ${s.a * tw})`;
+        ctx.fillStyle = `hsla(${s.hue}, 70%, ${85 + s.depth * 10}%, ${s.a * tw})`;
         ctx.beginPath();
         ctx.arc(px, py, s.r, 0, Math.PI * 2);
         ctx.fill();
@@ -193,6 +197,7 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      ro.disconnect();
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("visibilitychange", onVis);
     };
