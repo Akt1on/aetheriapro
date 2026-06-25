@@ -504,12 +504,12 @@ function WhyAetheria() {
   return (
     <section className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="glass-strong relative overflow-hidden rounded-[2.5rem] p-10 md:p-16">
+        <div className="glass-strong relative overflow-hidden rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16">
           <div className="aurora-bg opacity-50" />
           <div className="relative grid gap-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
-              <h2 className="mt-4 font-display text-5xl leading-[1] text-white md:text-6xl">
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
+              <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] text-white">
                 Другие студии делают сайты.<br/><span className="text-aurora italic">Мы создаём ощущения.</span>
               </h2>
               <p className="mt-6 max-w-md text-white/55">
