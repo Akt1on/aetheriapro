@@ -41,14 +41,11 @@ function Index() {
 function BackgroundAura() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.08 0.02 265) 60%)" }} />
-      <div className="absolute -top-40 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 rounded-full opacity-50"
-        style={{ background: "radial-gradient(closest-side, oklch(0.55 0.25 270 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute top-[40%] -right-32 h-[500px] w-[500px] rounded-full opacity-40"
-        style={{ background: "radial-gradient(closest-side, oklch(0.78 0.18 215 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute top-[80%] -left-32 h-[500px] w-[500px] rounded-full opacity-30"
-        style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(40px)" }} />
-      <div className="absolute inset-0 opacity-[0.07]"
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.06 0.02 265) 70%)" }} />
+      <div className="absolute inset-0">
+        <ParticleField density={240} />
+      </div>
+      <div className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
           backgroundSize: "80px 80px",
@@ -119,9 +116,7 @@ function Hero() {
   const words = headline.split(" ");
   return (
     <section id="top" className="relative pb-24 pt-36 md:pt-44 lg:pb-32">
-      <div className="absolute inset-0 -z-10">
-        <ParticleField density={70} />
-      </div>
+
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.1fr_1fr]">
         <div>
@@ -234,10 +229,10 @@ function TrustBar() {
 /* ---------- Services ---------- */
 function Services() {
   const services = [
-    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 1 500 000 ₽" },
-    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 3 200 000 ₽" },
-    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 5 200 000 ₽" },
-    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 7 100 000 ₽" },
+    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 350 000 ₽" },
+    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 900 000 ₽" },
+    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 1 800 000 ₽" },
+    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 2 800 000 ₽" },
     { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
   ];
   return (
@@ -322,12 +317,42 @@ function ConfiguratorSection() {
 
 /* ---------- Work ---------- */
 const PROJECTS = [
-  { name: "Lumen Atelier", category: "Люкс-мода · E-commerce 3D", metric: "+312% к конверсии", year: "2026", colors: ["#1a1a1a", "#c9a84c"] },
-  { name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", metric: "Awwwards SOTD", year: "2026", colors: ["#0a0a1a", "#67e8f9"] },
-  { name: "Hyperion AI", category: "AI-платформа · Веб-приложение", metric: "Запуск Series B", year: "2025", colors: ["#16213e", "#a78bfa"] },
-  { name: "Atelier Verde", category: "Ресторан · Лендинг", metric: "FWA of the Day", year: "2025", colors: ["#1a3c2a", "#a0c49d"] },
-  { name: "Forma Studio", category: "Архитектура · Портфолио", metric: "+8 млн органики", year: "2025", colors: ["#2d2d2d", "#e85d3a"] },
-  { name: "Polaris Bank", category: "Финтех · PWA", metric: "Lighthouse 100", year: "2024", colors: ["#0f1b3d", "#3b6fa0"] },
+  {
+    name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", colors: ["#1a1a1a", "#c9a84c"],
+    task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.",
+    solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.",
+    result: "+38% к конверсии, средний чек вырос на 24%.",
+  },
+  {
+    name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", colors: ["#0a0a1a", "#67e8f9"],
+    task: "Объяснить сложный продукт инвесторам и инженерам одновременно.",
+    solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.",
+    result: "Время на странице ×2.1, +47% к заявкам на демо.",
+  },
+  {
+    name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", colors: ["#16213e", "#a78bfa"],
+    task: "Поднять активацию после регистрации в B2B SaaS.",
+    solution: "Новый онбординг из 4 шагов, интерактивный дашборд, тёмная тема.",
+    result: "Активация выросла с 31% до 58% за два месяца.",
+  },
+  {
+    name: "Atelier Verde", category: "Ресторан · Лендинг", year: "2025", colors: ["#1a3c2a", "#a0c49d"],
+    task: "Увеличить онлайн-бронирования и снизить нагрузку на хостес.",
+    solution: "Лендинг-меню с атмосферой места, бронь в 2 тапа, интеграция с iiko.",
+    result: "+62% онлайн-броней, звонки сократились на треть.",
+  },
+  {
+    name: "Forma Studio", category: "Архитектура · Портфолио", year: "2025", colors: ["#2d2d2d", "#e85d3a"],
+    task: "Сделать портфолио, которое продаёт проекты от 30 млн ₽.",
+    solution: "Кейсы-длинноформы, кинематографичные обложки, медленный ритм.",
+    result: "5 крупных контрактов за квартал, средний бюджет +40%.",
+  },
+  {
+    name: "Polaris Bank", category: "Финтех · PWA", year: "2024", colors: ["#0f1b3d", "#3b6fa0"],
+    task: "Заменить мобильный сайт без жертв по скорости и доступности.",
+    solution: "PWA на edge, офлайн-режим, аудит a11y по WCAG 2.2 AA.",
+    result: "Lighthouse 98+, отказы на мобильных −29%.",
+  },
 ];
 
 function Work() {
@@ -386,22 +411,35 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
         </div>
       </motion.div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 p-6">
-        <div className="flex items-end justify-between">
-          <div>
+        <div className="flex items-end justify-between gap-3">
+          <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-[0.3em] text-white/50">{project.category} · {project.year}</div>
             <div className="mt-1.5 font-display text-2xl text-white">{project.name}</div>
-            <div className="mt-1 text-xs text-cyan">{project.metric}</div>
+            <div className="mt-1 text-xs text-cyan">{project.result.split(",")[0]}</div>
           </div>
           <motion.div
-            className="glass-strong flex h-10 w-10 items-center justify-center rounded-full"
+            className="glass-strong flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
             animate={{ scale: hover ? 1.1 : 1, rotate: hover ? 45 : 0 }}
           >
             <ArrowUpRight className="h-4 w-4 text-white" />
           </motion.div>
         </div>
+
+        <motion.div
+          initial={false}
+          animate={{ opacity: hover ? 1 : 0, y: hover ? 0 : 12, height: hover ? "auto" : 0 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="overflow-hidden"
+        >
+          <div className="glass-strong mt-4 rounded-2xl p-4 text-xs leading-relaxed text-white/85">
+            <div><span className="text-cyan">Задача.</span> {project.task}</div>
+            <div className="mt-1.5"><span className="text-cyan">Решение.</span> {project.solution}</div>
+            <div className="mt-1.5"><span className="text-gold">Результат.</span> {project.result}</div>
+          </div>
+        </motion.div>
       </div>
     </motion.a>
   );

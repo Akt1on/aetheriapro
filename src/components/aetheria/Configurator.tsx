@@ -17,10 +17,10 @@ const STEPS = [
 ] as const;
 
 const TYPES = [
-  { id: "landing", label: "Премиум-лендинг", desc: "Одна страница. Кинематографичная.", base: 1500000 },
-  { id: "corp", label: "Корпоративный сайт", desc: "Многостраничный бренд-опыт.", base: 3200000 },
-  { id: "ecom", label: "E-commerce с 3D", desc: "Иммерсивные витрины товаров.", base: 5200000 },
-  { id: "app", label: "Веб-приложение", desc: "Кастомный продукт, PWA.", base: 7100000 },
+  { id: "landing", label: "Премиум-лендинг", desc: "Одна страница. Кинематографичная.", base: 350000 },
+  { id: "corp", label: "Корпоративный сайт", desc: "Многостраничный бренд-опыт.", base: 900000 },
+  { id: "ecom", label: "E-commerce с 3D", desc: "Иммерсивные витрины товаров.", base: 1800000 },
+  { id: "app", label: "Веб-приложение", desc: "Кастомный продукт, PWA.", base: 2800000 },
 ];
 
 const STYLES = [
@@ -31,12 +31,12 @@ const STYLES = [
 ];
 
 const CAPS = [
-  { id: "3d", label: "Real-time 3D / WebGL", add: 1200000 },
-  { id: "ai", label: "AI-интерфейсы", add: 950000 },
-  { id: "cms", label: "Headless CMS", add: 520000 },
-  { id: "anim", label: "Кинематографичная анимация", add: 680000 },
-  { id: "i18n", label: "Мультиязычность", add: 380000 },
-  { id: "perf", label: "Edge-производительность", add: 420000 },
+  { id: "3d", label: "Real-time 3D / WebGL", add: 450000 },
+  { id: "ai", label: "AI-интерфейсы", add: 380000 },
+  { id: "cms", label: "Headless CMS", add: 180000 },
+  { id: "anim", label: "Кинематографичная анимация", add: 220000 },
+  { id: "i18n", label: "Мультиязычность", add: 120000 },
+  { id: "perf", label: "Edge-производительность", add: 150000 },
 ];
 
 const SCOPES = [
