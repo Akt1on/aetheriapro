@@ -62,20 +62,20 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
       return {
         x: Math.random() * w,
         y: Math.random() * h,
-        r: (0.3 + depth * 1.6) * DPR,
-        a: 0.4 + Math.random() * 0.6,
+        r: (0.6 + depth * 2.2) * DPR,
+        a: 0.7 + Math.random() * 0.3,
         tw: Math.random() * Math.PI * 2,
         tp: 0.4 + Math.random() * 1.8,
         depth,
-        hue: 200 + Math.random() * 80, // blue → violet
+        hue: 200 + Math.random() * 80,
       };
     });
 
     // A handful of luminous "hero" stars
-    const heroes = Array.from({ length: 14 }, () => ({
+    const heroes = Array.from({ length: 22 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
-      r: (1.4 + Math.random() * 1.6) * DPR,
+      r: (2 + Math.random() * 2) * DPR,
       tw: Math.random() * Math.PI * 2,
       tp: 0.6 + Math.random() * 1.2,
       hue: Math.random() < 0.5 ? 270 : 200,
