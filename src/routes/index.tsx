@@ -179,12 +179,12 @@ function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5, delay: 1.5 }}
-            className="mt-14 grid max-w-md grid-cols-3 gap-6"
+            className="mt-14 grid max-w-md grid-cols-3 gap-4 sm:gap-6"
           >
             {[["180+", "Запущенных проектов"], ["28", "Отраслевых наград"], ["100/100", "Средний Lighthouse"]].map(([n, l]) => (
-              <div key={l}>
-                <div className="font-display text-3xl text-white">{n}</div>
-                <div className="mt-1 text-xs uppercase tracking-widest text-white/40">{l}</div>
+              <div key={l} className="min-w-0">
+                <div className="font-display text-xl sm:text-3xl text-white">{n}</div>
+                <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-widest text-white/40">{l}</div>
               </div>
             ))}
           </motion.div>
