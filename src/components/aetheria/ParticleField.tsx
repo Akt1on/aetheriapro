@@ -137,7 +137,7 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
         s.x += 0.02 * s.depth * dt;
         if (s.x > w + 4) s.x = -4;
 
-        ctx.fillStyle = `hsla(${s.hue}, 90%, ${75 + s.depth * 15}%, ${s.a * tw})`;
+        ctx.fillStyle = `hsla(${s.hue}, 70%, ${85 + s.depth * 10}%, ${s.a * tw})`;
         ctx.beginPath();
         ctx.arc(px, py, s.r, 0, Math.PI * 2);
         ctx.fill();
