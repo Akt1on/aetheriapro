@@ -236,7 +236,7 @@ function Services() {
     { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
   ];
   return (
-    <section id="services" className="relative py-32">
+    <section id="services" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Услуги"
@@ -299,7 +299,7 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
 /* ---------- Configurator Section ---------- */
 function ConfiguratorSection() {
   return (
-    <section id="configurator" className="relative py-32">
+    <section id="configurator" className="relative py-20 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px hairline" />
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
@@ -357,7 +357,7 @@ const PROJECTS = [
 
 function Work() {
   return (
-    <section id="work" className="relative py-32">
+    <section id="work" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Избранные работы"
@@ -455,7 +455,7 @@ function Process() {
     { n: "05", t: "Запуск", d: "Аудит производительности, проверка доступности и поддержка задолго после релиза." },
   ];
   return (
-    <section id="process" className="relative py-32">
+    <section id="process" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Процесс"
@@ -502,7 +502,7 @@ function WhyAetheria() {
     { icon: Layers, t: "Только синьоры", d: "Шесть мастеров. Никаких джунов. Каждый проект ведут директора." },
   ];
   return (
-    <section className="relative py-32">
+    <section className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="glass-strong relative overflow-hidden rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-16">
           <div className="aurora-bg opacity-50" />
@@ -546,7 +546,7 @@ function FinalCTA() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
   return (
-    <section ref={ref} className="relative overflow-hidden py-40">
+    <section ref={ref} className="relative overflow-hidden py-24 sm:py-40">
       <motion.div style={{ y }} className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[700px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ background: "radial-gradient(closest-side, oklch(0.7 0.24 300 / 50%), transparent 70%)", filter: "blur(50px)" }} />
