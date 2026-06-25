@@ -133,9 +133,9 @@ function Hero() {
             Открыт набор на III квартал 2026
           </motion.div>
 
-          <h1 className="mt-7 font-display text-[clamp(2.5rem,7.5vw,6.5rem)] font-normal leading-[0.98] tracking-tight text-white">
+          <h1 className="mt-7 font-display text-[clamp(2.25rem,7vw,6rem)] font-normal leading-[1.05] tracking-tight text-white">
             {words.map((w, i) => (
-              <span key={i} className="inline-block overflow-hidden align-bottom">
+              <span key={i} className="inline-block overflow-hidden pb-2 align-bottom">
                 <motion.span
                   initial={{ y: "110%" }}
                   animate={{ y: 0 }}
