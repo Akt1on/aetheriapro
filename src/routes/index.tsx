@@ -618,9 +618,9 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="max-w-3xl"
     >
-      <div className="text-xs uppercase tracking-[0.4em] text-white/40">{eyebrow}</div>
-      <h2 className="mt-4 font-display text-5xl leading-[1.02] tracking-tight text-white md:text-6xl">{title}</h2>
-      {subtitle && <p className="mt-5 max-w-2xl text-lg text-white/55">{subtitle}</p>}
+      <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/40">{eyebrow}</div>
+      <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-white">{title}</h2>
+      {subtitle && <p className="mt-5 max-w-2xl text-base sm:text-lg text-white/55">{subtitle}</p>}
     </motion.div>
   );
 }
