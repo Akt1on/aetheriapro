@@ -20,7 +20,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="dark relative min-h-screen bg-background text-foreground">
+    <div className="dark relative min-h-screen text-foreground">
+      <div className="fixed inset-0 -z-20 bg-background" />
       <div className="noise" />
       <BackgroundAura />
       <Nav />
