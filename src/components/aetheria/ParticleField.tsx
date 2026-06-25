@@ -197,6 +197,7 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      ro.disconnect();
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("visibilitychange", onVis);
     };
