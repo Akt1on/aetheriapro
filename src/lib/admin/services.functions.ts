@@ -30,7 +30,7 @@ export const listServicesAdmin = createServerFn({ method: "GET" })
       .select("*")
       .order("display_order", { ascending: true });
     if (error) throw new Error(error.message);
-    return (data ?? []) as Array<Record<string, unknown>>;
+    return ((data ?? []) as unknown[]) as any[];
   });
 
 export const upsertService = createServerFn({ method: "POST" })
