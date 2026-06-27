@@ -252,7 +252,9 @@ function Hero() {
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="hidden lg:block"
         >
-          <HeroScene />
+          <Suspense fallback={<div className="h-[420px] w-full rounded-3xl glass" />}>
+            <HeroScene />
+          </Suspense>
         </motion.div>
       </div>
     </section>
