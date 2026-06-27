@@ -390,46 +390,14 @@ function ConfiguratorSection() {
 }
 
 /* ---------- Work ---------- */
-const PROJECTS = [
-  {
-    name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", colors: ["#1a1a1a", "#c9a84c"],
-    task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.",
-    solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.",
-    result: "+38% к конверсии, средний чек вырос на 24%.",
-  },
-  {
-    name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", colors: ["#0a0a1a", "#67e8f9"],
-    task: "Объяснить сложный продукт инвесторам и инженерам одновременно.",
-    solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.",
-    result: "Время на странице ×2.1, +47% к заявкам на демо.",
-  },
-  {
-    name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", colors: ["#16213e", "#a78bfa"],
-    task: "Поднять активацию после регистрации в B2B SaaS.",
-    solution: "Новый онбординг из 4 шагов, интерактивный дашборд, тёмная тема.",
-    result: "Активация выросла с 31% до 58% за два месяца.",
-  },
-  {
-    name: "Atelier Verde", category: "Ресторан · Лендинг", year: "2025", colors: ["#1a3c2a", "#a0c49d"],
-    task: "Увеличить онлайн-бронирования и снизить нагрузку на хостес.",
-    solution: "Лендинг-меню с атмосферой места, бронь в 2 тапа, интеграция с iiko.",
-    result: "+62% онлайн-броней, звонки сократились на треть.",
-  },
-  {
-    name: "Forma Studio", category: "Архитектура · Портфолио", year: "2025", colors: ["#2d2d2d", "#e85d3a"],
-    task: "Сделать портфолио, которое продаёт проекты от 30 млн ₽.",
-    solution: "Кейсы-длинноформы, кинематографичные обложки, медленный ритм.",
-    result: "5 крупных контрактов за квартал, средний бюджет +40%.",
-  },
-  {
-    name: "Polaris Bank", category: "Финтех · PWA", year: "2024", colors: ["#0f1b3d", "#3b6fa0"],
-    task: "Заменить мобильный сайт без жертв по скорости и доступности.",
-    solution: "PWA на edge, офлайн-режим, аудит a11y по WCAG 2.2 AA.",
-    result: "Lighthouse 98+, отказы на мобильных −29%.",
-  },
-];
-
 function Work() {
+  const { data } = useQuery({
+    queryKey: ["public", "projects"],
+    queryFn: fetchProjects,
+    staleTime: 60_000,
+    initialData: FALLBACK_PROJECTS,
+  });
+  const projects = data ?? FALLBACK_PROJECTS;
   return (
     <section id="work" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -440,8 +408,8 @@ function Work() {
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.name} project={p} index={i} />
+          {projects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>
