@@ -645,6 +645,7 @@ function Footer() {
           <a href="#" className="hover:text-white">Behance</a>
           <a href="#" className="hover:text-white">VK</a>
           <a href="#" className="hover:text-white">Awwwards</a>
+          <a href="/admin" className="text-white/30 hover:text-white">Студия</a>
         </div>
       </div>
     </footer>
