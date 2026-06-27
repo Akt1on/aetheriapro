@@ -287,25 +287,33 @@ function TrustBar() {
 
 /* ---------- Services ---------- */
 function Services() {
-  const services = [
-    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 30 000 ₽" },
-    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 80 000 ₽" },
-    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 150 000 ₽" },
-    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 250 000 ₽" },
-    { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
-  ];
+  const { data } = useQuery({
+    queryKey: ["public", "services"],
+    queryFn: fetchServices,
+    staleTime: 60_000,
+    initialData: FALLBACK_SERVICES,
+  });
+  const services = (data ?? FALLBACK_SERVICES);
   return (
     <section id="services" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Услуги"
           title={<>Отточенные дисциплины.<br/><span className="text-aurora italic">Никаких шаблонов.</span></>}
-          subtitle="Пять сфокусированных направлений — одна студия. Каждое сделано с одним и тем же одержимым стандартом."
+          subtitle="Сфокусированные направления — одна студия. Каждое сделано с одним и тем же одержимым стандартом."
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <ServiceCard key={s.title} {...s} index={i} large={i === 0} />
+            <ServiceCard
+              key={s.id}
+              icon={ICONS[s.icon] ?? Sparkles}
+              title={s.title}
+              desc={s.description}
+              tag={s.price_label || `от ${s.base_price.toLocaleString("ru-RU")} ₽`}
+              index={i}
+              large={i === 0}
+            />
           ))}
         </div>
       </div>
