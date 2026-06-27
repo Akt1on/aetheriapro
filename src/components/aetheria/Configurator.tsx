@@ -62,6 +62,8 @@ export function Configurator() {
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selections>({ type: "corp", style: "void", capabilities: ["anim", "perf"], scope: "standard" });
   const [submitted, setSubmitted] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [contact, setContact] = useState({ name: "", email: "", company: "" });
 
   const price = useMemo(() => {
     const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
