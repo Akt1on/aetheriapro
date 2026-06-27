@@ -65,12 +65,12 @@ function AdminShell() {
     );
   }
 
-  const nav = [
+  const nav: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
     { to: "/admin", label: "Обзор", icon: LayoutDashboard, exact: true },
     { to: "/admin/leads", label: "Заявки", icon: Inbox },
     { to: "/admin/projects", label: "Проекты", icon: Briefcase },
     { to: "/admin/services", label: "Услуги", icon: Wrench },
-  ] as const;
+  ];
 
   return (
     <div className="dark relative min-h-screen bg-background text-white">
