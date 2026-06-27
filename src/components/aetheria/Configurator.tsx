@@ -1,6 +1,8 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ArrowRight, Sparkles, Layers, Zap, Clock } from "lucide-react";
+import { submitLead } from "@/lib/leads-client";
+import { toast } from "sonner";
 
 type Selections = {
   type: string;
@@ -60,6 +62,8 @@ export function Configurator() {
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selections>({ type: "corp", style: "void", capabilities: ["anim", "perf"], scope: "standard" });
   const [submitted, setSubmitted] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [contact, setContact] = useState({ name: "", email: "", company: "" });
 
   const price = useMemo(() => {
     const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
@@ -172,9 +176,9 @@ export function Configurator() {
                   <div className="glass mt-6 rounded-2xl p-5">
                     <div className="text-xs uppercase tracking-widest text-white/40">Краткое знакомство</div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Компания" />
+                      <input value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
+                      <input value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} type="email" className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
+                      <input value={contact.company} onChange={(e) => setContact({ ...contact, company: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Компания" />
                     </div>
                   </div>
                 </div>
@@ -195,8 +199,35 @@ export function Configurator() {
                 Продолжить <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
-              <button onClick={() => setSubmitted(true)} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
-                Отправить бриф <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button
+                onClick={async () => {
+                  if (!contact.email || !contact.email.includes("@")) {
+                    toast.error("Укажите корректный email");
+                    return;
+                  }
+                  setBusy(true);
+                  try {
+                    await submitLead({
+                      name: contact.name || null,
+                      email: contact.email,
+                      company: contact.company || null,
+                      project_type: sel.type,
+                      design_style: sel.style,
+                      capabilities: sel.capabilities,
+                      scope: sel.scope,
+                      estimated_price: price,
+                    });
+                    setSubmitted(true);
+                  } catch (e) {
+                    toast.error((e as Error).message);
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+                disabled={busy}
+                className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm disabled:opacity-60"
+              >
+                {busy ? "Отправка…" : "Отправить бриф"} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             )}
           </div>

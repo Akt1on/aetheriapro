@@ -1,10 +1,57 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, ArrowUpRight, Award, Cpu, Layers, ShoppingBag, Sparkles, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
-import { HeroScene } from "@/components/aetheria/HeroScene";
-import { Configurator } from "@/components/aetheria/Configurator";
+import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
+
+const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
+const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
+
+const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
+
+const FALLBACK_SERVICES: PublicService[] = [
+  { id: "s1", title: "Премиум-лендинги", description: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", base_price: 30000, price_label: "от 30 000 ₽", icon: "Sparkles", display_order: 1 },
+  { id: "s2", title: "Корпоративные сайты", description: "Многостраничные бренд-системы с редакционным вниманием к деталям.", base_price: 80000, price_label: "от 80 000 ₽", icon: "Globe", display_order: 2 },
+  { id: "s3", title: "E-commerce с 3D", description: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", base_price: 150000, price_label: "от 150 000 ₽", icon: "ShoppingBag", display_order: 3 },
+  { id: "s4", title: "PWA и веб-приложения", description: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", base_price: 250000, price_label: "от 250 000 ₽", icon: "Cpu", display_order: 4 },
+  { id: "s5", title: "Иммерсивные продукты", description: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", base_price: 0, price_label: "по запросу", icon: "Boxes", display_order: 5 },
+];
+
+const FALLBACK_PROJECTS: PublicProject[] = [
+  { id: "p1", name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.", solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.", result: "+38% к конверсии, средний чек вырос на 24%.", color_primary: "#1a1a1a", color_accent: "#c9a84c", display_order: 1 },
+  { id: "p2", name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", task: "Объяснить сложный продукт инвесторам и инженерам.", solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.", result: "Время на странице ×2.1, +47% к заявкам на демо.", color_primary: "#0a0a1a", color_accent: "#67e8f9", display_order: 2 },
+  { id: "p3", name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", task: "Поднять активацию после регистрации.", solution: "Онбординг из 4 шагов, интерактивный дашборд.", result: "Активация с 31% до 58% за два месяца.", color_primary: "#16213e", color_accent: "#a78bfa", display_order: 3 },
+];
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(m.matches);
+    const cb = () => setReduced(m.matches);
+    m.addEventListener("change", cb);
+    return () => m.removeEventListener("change", cb);
+  }, []);
+  return reduced;
+}
+
+function useInView<T extends HTMLElement>(rootMargin = "200px") {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current || inView) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } },
+      { rootMargin },
+    );
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [inView, rootMargin]);
+  return [ref, inView] as const;
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,12 +87,20 @@ function Index() {
 
 /* ---------- Background ---------- */
 function BackgroundAura() {
+  const reduced = usePrefersReducedMotion();
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") setMobile(window.innerWidth < 768);
+  }, []);
+  const density = reduced ? 0 : mobile ? 90 : 200;
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.06 0.02 265) 70%)" }} />
-      <div className="absolute inset-0">
-        <ParticleField density={240} />
-      </div>
+      {density > 0 && (
+        <div className="absolute inset-0">
+          <ParticleField density={density} />
+        </div>
+      )}
       <div className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
@@ -197,7 +252,9 @@ function Hero() {
           transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="hidden lg:block"
         >
-          <HeroScene />
+          <Suspense fallback={<div className="h-[420px] w-full rounded-3xl glass" />}>
+            <HeroScene />
+          </Suspense>
         </motion.div>
       </div>
     </section>
@@ -230,25 +287,33 @@ function TrustBar() {
 
 /* ---------- Services ---------- */
 function Services() {
-  const services = [
-    { icon: Sparkles, title: "Премиум-лендинги", desc: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", tag: "от 30 000 ₽" },
-    { icon: Globe, title: "Корпоративные сайты", desc: "Многостраничные бренд-системы с редакционным вниманием к деталям.", tag: "от 80 000 ₽" },
-    { icon: ShoppingBag, title: "E-commerce с 3D", desc: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", tag: "от 150 000 ₽" },
-    { icon: Cpu, title: "PWA и веб-приложения", desc: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", tag: "от 250 000 ₽" },
-    { icon: Boxes, title: "Иммерсивные продукты", desc: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", tag: "по запросу" },
-  ];
+  const { data } = useQuery({
+    queryKey: ["public", "services"],
+    queryFn: fetchServices,
+    staleTime: 60_000,
+    initialData: FALLBACK_SERVICES,
+  });
+  const services = (data ?? FALLBACK_SERVICES);
   return (
     <section id="services" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
           eyebrow="Услуги"
           title={<>Отточенные дисциплины.<br/><span className="text-aurora italic">Никаких шаблонов.</span></>}
-          subtitle="Пять сфокусированных направлений — одна студия. Каждое сделано с одним и тем же одержимым стандартом."
+          subtitle="Сфокусированные направления — одна студия. Каждое сделано с одним и тем же одержимым стандартом."
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <ServiceCard key={s.title} {...s} index={i} large={i === 0} />
+            <ServiceCard
+              key={s.id}
+              icon={ICONS[s.icon] ?? Sparkles}
+              title={s.title}
+              desc={s.description}
+              tag={s.price_label || `от ${s.base_price.toLocaleString("ru-RU")} ₽`}
+              index={i}
+              large={i === 0}
+            />
           ))}
         </div>
       </div>
@@ -300,6 +365,7 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
 
 /* ---------- Configurator Section ---------- */
 function ConfiguratorSection() {
+  const [holder, inView] = useInView<HTMLDivElement>("400px");
   return (
     <section id="configurator" className="relative py-20 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px hairline" />
@@ -309,8 +375,14 @@ function ConfiguratorSection() {
           title={<>Соберите свой <span className="text-aurora italic">цифровой опыт.</span></>}
           subtitle="Соберите проект за четыре шага. Увидите, как он оживает в реальном времени, и получите честную оценку бюджета ещё до первого разговора."
         />
-        <div className="mt-14">
-          <Configurator />
+        <div ref={holder} className="mt-14 min-h-[400px]">
+          {inView ? (
+            <Suspense fallback={<div className="h-[500px] rounded-3xl glass-strong" />}>
+              <Configurator />
+            </Suspense>
+          ) : (
+            <div className="h-[500px] rounded-3xl glass-strong" />
+          )}
         </div>
       </div>
     </section>
@@ -318,46 +390,14 @@ function ConfiguratorSection() {
 }
 
 /* ---------- Work ---------- */
-const PROJECTS = [
-  {
-    name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", colors: ["#1a1a1a", "#c9a84c"],
-    task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.",
-    solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.",
-    result: "+38% к конверсии, средний чек вырос на 24%.",
-  },
-  {
-    name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", colors: ["#0a0a1a", "#67e8f9"],
-    task: "Объяснить сложный продукт инвесторам и инженерам одновременно.",
-    solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.",
-    result: "Время на странице ×2.1, +47% к заявкам на демо.",
-  },
-  {
-    name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", colors: ["#16213e", "#a78bfa"],
-    task: "Поднять активацию после регистрации в B2B SaaS.",
-    solution: "Новый онбординг из 4 шагов, интерактивный дашборд, тёмная тема.",
-    result: "Активация выросла с 31% до 58% за два месяца.",
-  },
-  {
-    name: "Atelier Verde", category: "Ресторан · Лендинг", year: "2025", colors: ["#1a3c2a", "#a0c49d"],
-    task: "Увеличить онлайн-бронирования и снизить нагрузку на хостес.",
-    solution: "Лендинг-меню с атмосферой места, бронь в 2 тапа, интеграция с iiko.",
-    result: "+62% онлайн-броней, звонки сократились на треть.",
-  },
-  {
-    name: "Forma Studio", category: "Архитектура · Портфолио", year: "2025", colors: ["#2d2d2d", "#e85d3a"],
-    task: "Сделать портфолио, которое продаёт проекты от 30 млн ₽.",
-    solution: "Кейсы-длинноформы, кинематографичные обложки, медленный ритм.",
-    result: "5 крупных контрактов за квартал, средний бюджет +40%.",
-  },
-  {
-    name: "Polaris Bank", category: "Финтех · PWA", year: "2024", colors: ["#0f1b3d", "#3b6fa0"],
-    task: "Заменить мобильный сайт без жертв по скорости и доступности.",
-    solution: "PWA на edge, офлайн-режим, аудит a11y по WCAG 2.2 AA.",
-    result: "Lighthouse 98+, отказы на мобильных −29%.",
-  },
-];
-
 function Work() {
+  const { data } = useQuery({
+    queryKey: ["public", "projects"],
+    queryFn: fetchProjects,
+    staleTime: 60_000,
+    initialData: FALLBACK_PROJECTS,
+  });
+  const projects = data ?? FALLBACK_PROJECTS;
   return (
     <section id="work" className="relative py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -368,8 +408,8 @@ function Work() {
         />
 
         <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.name} project={p} index={i} />
+          {projects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>
@@ -377,7 +417,8 @@ function Work() {
   );
 }
 
-function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; index: number }) {
+function ProjectCard({ project, index }: { project: PublicProject; index: number }) {
+  const colors = [project.color_primary, project.color_accent];
   const [hover, setHover] = useState(false);
   return (
     <motion.a
@@ -389,7 +430,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className="group relative block aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/10"
-      style={{ background: `linear-gradient(160deg, ${project.colors[0]}, ${project.colors[1]}55, ${project.colors[0]})` }}
+      style={{ background: `linear-gradient(160deg, ${colors[0]}, ${colors[1]}55, ${colors[0]})` }}
     >
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
@@ -398,13 +439,13 @@ function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; ind
       >
         <div className="relative h-3/5 w-4/5 rounded-2xl ring-1 ring-white/20"
           style={{
-            background: `linear-gradient(140deg, ${project.colors[1]}99, ${project.colors[0]})`,
-            boxShadow: `0 40px 80px -20px ${project.colors[1]}55`,
+            background: `linear-gradient(140deg, ${colors[1]}99, ${colors[0]})`,
+            boxShadow: `0 40px 80px -20px ${colors[1]}55`,
           }}
         >
           <motion.div
             className="absolute inset-6 rounded-xl"
-            style={{ background: `radial-gradient(circle at 30% 30%, ${project.colors[1]}, ${project.colors[0]})` }}
+            style={{ background: `radial-gradient(circle at 30% 30%, ${colors[1]}, ${colors[0]})` }}
             animate={{ rotate: hover ? 6 : 0 }}
             transition={{ duration: 1.2 }}
           />
@@ -604,6 +645,7 @@ function Footer() {
           <a href="#" className="hover:text-white">Behance</a>
           <a href="#" className="hover:text-white">VK</a>
           <a href="#" className="hover:text-white">Awwwards</a>
+          <a href="/admin" className="text-white/30 hover:text-white">Студия</a>
         </div>
       </div>
     </footer>
