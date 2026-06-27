@@ -176,9 +176,9 @@ export function Configurator() {
                   <div className="glass mt-6 rounded-2xl p-5">
                     <div className="text-xs uppercase tracking-widest text-white/40">Краткое знакомство</div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
-                      <input className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Компания" />
+                      <input value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
+                      <input value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} type="email" className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
+                      <input value={contact.company} onChange={(e) => setContact({ ...contact, company: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet sm:col-span-2" placeholder="Компания" />
                     </div>
                   </div>
                 </div>
