@@ -365,6 +365,7 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
 
 /* ---------- Configurator Section ---------- */
 function ConfiguratorSection() {
+  const [holder, inView] = useInView<HTMLDivElement>("400px");
   return (
     <section id="configurator" className="relative py-20 sm:py-32">
       <div className="absolute inset-x-0 top-0 h-px hairline" />
@@ -374,8 +375,14 @@ function ConfiguratorSection() {
           title={<>Соберите свой <span className="text-aurora italic">цифровой опыт.</span></>}
           subtitle="Соберите проект за четыре шага. Увидите, как он оживает в реальном времени, и получите честную оценку бюджета ещё до первого разговора."
         />
-        <div className="mt-14">
-          <Configurator />
+        <div ref={holder} className="mt-14 min-h-[400px]">
+          {inView ? (
+            <Suspense fallback={<div className="h-[500px] rounded-3xl glass-strong" />}>
+              <Configurator />
+            </Suspense>
+          ) : (
+            <div className="h-[500px] rounded-3xl glass-strong" />
+          )}
         </div>
       </div>
     </section>
