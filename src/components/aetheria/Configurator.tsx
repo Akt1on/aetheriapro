@@ -1,6 +1,8 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ArrowRight, Sparkles, Layers, Zap, Clock } from "lucide-react";
+import { submitLead } from "@/lib/leads-client";
+import { toast } from "sonner";
 
 type Selections = {
   type: string;
