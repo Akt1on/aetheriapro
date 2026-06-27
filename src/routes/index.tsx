@@ -1,10 +1,57 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, ArrowUpRight, Award, Cpu, Layers, ShoppingBag, Sparkles, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
-import { HeroScene } from "@/components/aetheria/HeroScene";
-import { Configurator } from "@/components/aetheria/Configurator";
+import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
+
+const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
+const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
+
+const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
+
+const FALLBACK_SERVICES: PublicService[] = [
+  { id: "s1", title: "Премиум-лендинги", description: "Кинематографичные одностраничники, созданные вдохновлять и конвертировать.", base_price: 30000, price_label: "от 30 000 ₽", icon: "Sparkles", display_order: 1 },
+  { id: "s2", title: "Корпоративные сайты", description: "Многостраничные бренд-системы с редакционным вниманием к деталям.", base_price: 80000, price_label: "от 80 000 ₽", icon: "Globe", display_order: 2 },
+  { id: "s3", title: "E-commerce с 3D", description: "Миры товаров, через которые можно пройти. Витрины, рассказывающие истории.", base_price: 150000, price_label: "от 150 000 ₽", icon: "ShoppingBag", display_order: 3 },
+  { id: "s4", title: "PWA и веб-приложения", description: "Производительные, устанавливаемые продукты, которые ощущаются как нативные.", base_price: 250000, price_label: "от 250 000 ₽", icon: "Cpu", display_order: 4 },
+  { id: "s5", title: "Иммерсивные продукты", description: "WebGL, AI, генеративное — уникальные моменты, которые умеем только мы.", base_price: 0, price_label: "по запросу", icon: "Boxes", display_order: 5 },
+];
+
+const FALLBACK_PROJECTS: PublicProject[] = [
+  { id: "p1", name: "Lumen Atelier", category: "Люкс-мода · E-commerce", year: "2026", task: "Перенести оффлайн-бутик в онлайн без потери ощущения ручной работы.", solution: "Каталог с мягкой 3D-витриной, тёплая типографика, чекаут в один экран.", result: "+38% к конверсии, средний чек вырос на 24%.", color_primary: "#1a1a1a", color_accent: "#c9a84c", display_order: 1 },
+  { id: "p2", name: "Nova Aerospace", category: "Аэрокосмос · Корпоративный", year: "2026", task: "Объяснить сложный продукт инвесторам и инженерам.", solution: "Сценарный сторителлинг по скроллу, интерактивные схемы, EN/RU.", result: "Время на странице ×2.1, +47% к заявкам на демо.", color_primary: "#0a0a1a", color_accent: "#67e8f9", display_order: 2 },
+  { id: "p3", name: "Hyperion AI", category: "SaaS · Веб-приложение", year: "2025", task: "Поднять активацию после регистрации.", solution: "Онбординг из 4 шагов, интерактивный дашборд.", result: "Активация с 31% до 58% за два месяца.", color_primary: "#16213e", color_accent: "#a78bfa", display_order: 3 },
+];
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(m.matches);
+    const cb = () => setReduced(m.matches);
+    m.addEventListener("change", cb);
+    return () => m.removeEventListener("change", cb);
+  }, []);
+  return reduced;
+}
+
+function useInView<T extends HTMLElement>(rootMargin = "200px") {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current || inView) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } },
+      { rootMargin },
+    );
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [inView, rootMargin]);
+  return [ref, inView] as const;
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
