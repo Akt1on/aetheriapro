@@ -430,7 +430,7 @@ function ProjectCard({ project, index }: { project: PublicProject; index: number
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className="group relative block aspect-[4/5] overflow-hidden rounded-3xl ring-1 ring-white/10"
-      style={{ background: `linear-gradient(160deg, ${project.colors[0]}, ${project.colors[1]}55, ${project.colors[0]})` }}
+      style={{ background: `linear-gradient(160deg, ${colors[0]}, ${colors[1]}55, ${colors[0]})` }}
     >
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
@@ -439,13 +439,13 @@ function ProjectCard({ project, index }: { project: PublicProject; index: number
       >
         <div className="relative h-3/5 w-4/5 rounded-2xl ring-1 ring-white/20"
           style={{
-            background: `linear-gradient(140deg, ${project.colors[1]}99, ${project.colors[0]})`,
-            boxShadow: `0 40px 80px -20px ${project.colors[1]}55`,
+            background: `linear-gradient(140deg, ${colors[1]}99, ${colors[0]})`,
+            boxShadow: `0 40px 80px -20px ${colors[1]}55`,
           }}
         >
           <motion.div
             className="absolute inset-6 rounded-xl"
-            style={{ background: `radial-gradient(circle at 30% 30%, ${project.colors[1]}, ${project.colors[0]})` }}
+            style={{ background: `radial-gradient(circle at 30% 30%, ${colors[1]}, ${colors[0]})` }}
             animate={{ rotate: hover ? 6 : 0 }}
             transition={{ duration: 1.2 }}
           />
