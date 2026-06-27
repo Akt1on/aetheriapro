@@ -199,8 +199,35 @@ export function Configurator() {
                 Продолжить <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
-              <button onClick={() => setSubmitted(true)} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
-                Отправить бриф <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <button
+                onClick={async () => {
+                  if (!contact.email || !contact.email.includes("@")) {
+                    toast.error("Укажите корректный email");
+                    return;
+                  }
+                  setBusy(true);
+                  try {
+                    await submitLead({
+                      name: contact.name || null,
+                      email: contact.email,
+                      company: contact.company || null,
+                      project_type: sel.type,
+                      design_style: sel.style,
+                      capabilities: sel.capabilities,
+                      scope: sel.scope,
+                      estimated_price: price,
+                    });
+                    setSubmitted(true);
+                  } catch (e) {
+                    toast.error((e as Error).message);
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+                disabled={busy}
+                className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm disabled:opacity-60"
+              >
+                {busy ? "Отправка…" : "Отправить бриф"} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             )}
           </div>
