@@ -417,7 +417,8 @@ function Work() {
   );
 }
 
-function ProjectCard({ project, index }: { project: typeof PROJECTS[number]; index: number }) {
+function ProjectCard({ project, index }: { project: PublicProject; index: number }) {
+  const colors = [project.color_primary, project.color_accent];
   const [hover, setHover] = useState(false);
   return (
     <motion.a
