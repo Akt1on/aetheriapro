@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as ApiPublicSubmitLeadRouteImport } from './routes/api/public/submit-lead'
 import { Route as ApiPublicNotifyLeadRouteImport } from './routes/api/public/notify-lead'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin/services'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin/projects'
@@ -42,6 +43,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const ApiPublicSubmitLeadRoute = ApiPublicSubmitLeadRouteImport.update({
+  id: '/api/public/submit-lead',
+  path: '/api/public/submit-lead',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicNotifyLeadRoute = ApiPublicNotifyLeadRouteImport.update({
   id: '/api/public/notify-lead',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
   '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
+  '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
   '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
+  '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
   '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
+  '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/services'
     | '/api/public/notify-lead'
+    | '/api/public/submit-lead'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/services'
     | '/api/public/notify-lead'
+    | '/api/public/submit-lead'
     | '/admin'
   id:
     | '__root__'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/projects'
     | '/_authenticated/admin/services'
     | '/api/public/notify-lead'
+    | '/api/public/submit-lead'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -135,6 +147,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ApiPublicNotifyLeadRoute: typeof ApiPublicNotifyLeadRoute
+  ApiPublicSubmitLeadRoute: typeof ApiPublicSubmitLeadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -173,6 +186,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/api/public/submit-lead': {
+      id: '/api/public/submit-lead'
+      path: '/api/public/submit-lead'
+      fullPath: '/api/public/submit-lead'
+      preLoaderRoute: typeof ApiPublicSubmitLeadRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/notify-lead': {
       id: '/api/public/notify-lead'
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ApiPublicNotifyLeadRoute: ApiPublicNotifyLeadRoute,
+  ApiPublicSubmitLeadRoute: ApiPublicSubmitLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
