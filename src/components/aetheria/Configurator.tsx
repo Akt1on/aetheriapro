@@ -217,6 +217,7 @@ export function Configurator() {
                       capabilities: sel.capabilities,
                       scope: sel.scope,
                       estimated_price: price,
+                      website: honeypotRef.current?.value ?? "",
                     });
                     setSubmitted(true);
                   } catch (e) {
