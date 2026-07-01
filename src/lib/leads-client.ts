@@ -24,5 +24,18 @@ export async function submitLead(payload: LeadPayload) {
     source: "configurator",
   });
   if (error) throw new Error(error.message);
+
+  // Fire-and-forget Telegram notification. Never block the user on this.
+  try {
+    void fetch("/api/public/notify-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => undefined);
+  } catch {
+    /* noop */
+  }
+
   return { ok: true };
 }
