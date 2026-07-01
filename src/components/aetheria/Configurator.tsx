@@ -64,6 +64,7 @@ export function Configurator() {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [contact, setContact] = useState({ name: "", email: "", company: "" });
+  const honeypotRef = useRef<HTMLInputElement>(null);
 
   const price = useMemo(() => {
     const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
