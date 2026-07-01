@@ -15,7 +15,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as ApiPublicSubmitLeadRouteImport } from './routes/api/public/submit-lead'
-import { Route as ApiPublicNotifyLeadRouteImport } from './routes/api/public/notify-lead'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin/services'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin/projects'
 import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated/admin/leads'
@@ -49,11 +48,6 @@ const ApiPublicSubmitLeadRoute = ApiPublicSubmitLeadRouteImport.update({
   path: '/api/public/submit-lead',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicNotifyLeadRoute = ApiPublicNotifyLeadRouteImport.update({
-  id: '/api/public/notify-lead',
-  path: '/api/public/notify-lead',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedAdminServicesRoute =
   AuthenticatedAdminServicesRouteImport.update({
     id: '/services',
@@ -79,7 +73,6 @@ export interface FileRoutesByFullPath {
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
-  '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -89,7 +82,6 @@ export interface FileRoutesByTo {
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
-  '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -102,7 +94,6 @@ export interface FileRoutesById {
   '/_authenticated/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
-  '/api/public/notify-lead': typeof ApiPublicNotifyLeadRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -115,7 +106,6 @@ export interface FileRouteTypes {
     | '/admin/leads'
     | '/admin/projects'
     | '/admin/services'
-    | '/api/public/notify-lead'
     | '/api/public/submit-lead'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -125,7 +115,6 @@ export interface FileRouteTypes {
     | '/admin/leads'
     | '/admin/projects'
     | '/admin/services'
-    | '/api/public/notify-lead'
     | '/api/public/submit-lead'
     | '/admin'
   id:
@@ -137,7 +126,6 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/leads'
     | '/_authenticated/admin/projects'
     | '/_authenticated/admin/services'
-    | '/api/public/notify-lead'
     | '/api/public/submit-lead'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -146,7 +134,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ApiPublicNotifyLeadRoute: typeof ApiPublicNotifyLeadRoute
   ApiPublicSubmitLeadRoute: typeof ApiPublicSubmitLeadRoute
 }
 
@@ -192,13 +179,6 @@ declare module '@tanstack/react-router' {
       path: '/api/public/submit-lead'
       fullPath: '/api/public/submit-lead'
       preLoaderRoute: typeof ApiPublicSubmitLeadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/notify-lead': {
-      id: '/api/public/notify-lead'
-      path: '/api/public/notify-lead'
-      fullPath: '/api/public/notify-lead'
-      preLoaderRoute: typeof ApiPublicNotifyLeadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/services': {
@@ -260,7 +240,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  ApiPublicNotifyLeadRoute: ApiPublicNotifyLeadRoute,
   ApiPublicSubmitLeadRoute: ApiPublicSubmitLeadRoute,
 }
 export const routeTree = rootRouteImport

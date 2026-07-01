@@ -1,9 +1,8 @@
 /**
- * Submits a configurator lead via the browser supabase client.
- * RLS allows anon INSERT; reads remain admin-only.
+ * Sends a configurator lead through the server route (/api/public/submit-lead).
+ * The server route enforces rate-limiting, honeypot checks, validation,
+ * writes via service_role, and fires a Telegram notification.
  */
-import { supabase } from "@/integrations/supabase/client";
-
 export type LeadPayload = {
   name?: string | null;
   email?: string | null;
@@ -13,29 +12,19 @@ export type LeadPayload = {
   capabilities: string[];
   scope: string;
   estimated_price: number;
+  /** Honeypot — must always be empty from real users. */
+  website?: string | null;
 };
 
 export async function submitLead(payload: LeadPayload) {
-  const userAgent = typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 400) : null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error } = await (supabase.from("leads") as any).insert({
-    ...payload,
-    user_agent: userAgent,
-    source: "configurator",
+  const res = await fetch("/api/public/submit-lead", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
-  if (error) throw new Error(error.message);
-
-  // Fire-and-forget Telegram notification. Never block the user on this.
-  try {
-    void fetch("/api/public/notify-lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true,
-    }).catch(() => undefined);
-  } catch {
-    /* noop */
+  const body = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+  if (!res.ok || !body.ok) {
+    throw new Error(body.error ?? "Не удалось отправить заявку");
   }
-
   return { ok: true };
 }
