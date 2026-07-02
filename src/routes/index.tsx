@@ -8,6 +8,7 @@ import { fetchServices, fetchProjects, type PublicService, type PublicProject } 
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
+const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
@@ -103,6 +104,7 @@ function Index() {
       <Services />
       <ConfiguratorSection />
       <Work />
+      <Galaxy />
       <Process />
       <WhyAetheria />
       <FinalCTA />
