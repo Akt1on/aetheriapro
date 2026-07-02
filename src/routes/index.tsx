@@ -53,6 +53,24 @@ function useInView<T extends HTMLElement>(rootMargin = "200px") {
   return [ref, inView] as const;
 }
 
+const ORG_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Aetheria",
+  url: "https://aetheriapro.lovable.app",
+  description:
+    "Премиальная цифровая студия. Кинематографичные сайты, иммерсивный 3D, AI-интерфейсы и безупречная производительность.",
+  founder: { "@type": "Person", name: "Aetheria Studio" },
+  sameAs: [],
+  areaServed: "Worldwide",
+  makesOffer: [
+    { "@type": "Offer", name: "Премиум-лендинги", priceCurrency: "RUB", price: "30000" },
+    { "@type": "Offer", name: "Корпоративные сайты", priceCurrency: "RUB", price: "80000" },
+    { "@type": "Offer", name: "E-commerce с 3D", priceCurrency: "RUB", price: "150000" },
+    { "@type": "Offer", name: "Веб-приложения / PWA", priceCurrency: "RUB", price: "250000" },
+  ],
+});
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -60,6 +78,14 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Премиальная цифровая студия. Создаём кинематографичные сайты, иммерсивные 3D-опыты и AI-интерфейсы с безупречной производительностью." },
       { property: "og:title", content: "Aetheria — Цифровые миры, которые чувствуют." },
       { property: "og:description", content: "Кинематографичные сайты, иммерсивный 3D, AI-интерфейсы." },
+      { property: "og:url", content: "https://aetheriapro.lovable.app/" },
+      { property: "og:locale", content: "ru_RU" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://aetheriapro.lovable.app/" },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: ORG_JSONLD },
     ],
   }),
   component: Index,
