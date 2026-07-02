@@ -417,6 +417,31 @@ function ConfiguratorSection() {
   );
 }
 
+/* ---------- Galaxy Section ---------- */
+function Galaxy() {
+  const [holder, inView] = useInView<HTMLDivElement>("300px");
+  return (
+    <section id="galaxy" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="Наблюдение"
+          title={<>Галактика <span className="text-aurora italic">Aetheria.</span></>}
+          subtitle="Живая спираль из тысяч звёзд и четырёх планет. Real-time, без единого пикселя видео — только код."
+        />
+        <div ref={holder} className="mt-14">
+          {inView ? (
+            <Suspense fallback={<div className="aspect-[16/10] w-full rounded-3xl glass-strong" />}>
+              <GalaxyScene />
+            </Suspense>
+          ) : (
+            <div className="aspect-[16/10] w-full rounded-3xl glass-strong" />
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Work ---------- */
 function Work() {
   const { data } = useQuery({
