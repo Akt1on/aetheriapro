@@ -15,6 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as ApiPublicSubmitLeadRouteImport } from './routes/api/public/submit-lead'
+import { Route as ApiPublicSitemapDotxmlRouteImport } from './routes/api/public/sitemap[.]xml'
+import { Route as ApiPublicRobotsDottxtRouteImport } from './routes/api/public/robots[.]txt'
 import { Route as AuthenticatedAdminServicesRouteImport } from './routes/_authenticated/admin/services'
 import { Route as AuthenticatedAdminProjectsRouteImport } from './routes/_authenticated/admin/projects'
 import { Route as AuthenticatedAdminLeadsRouteImport } from './routes/_authenticated/admin/leads'
@@ -48,6 +50,16 @@ const ApiPublicSubmitLeadRoute = ApiPublicSubmitLeadRouteImport.update({
   path: '/api/public/submit-lead',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSitemapDotxmlRoute = ApiPublicSitemapDotxmlRouteImport.update({
+  id: '/api/public/sitemap.xml',
+  path: '/api/public/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicRobotsDottxtRoute = ApiPublicRobotsDottxtRouteImport.update({
+  id: '/api/public/robots.txt',
+  path: '/api/public/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminServicesRoute =
   AuthenticatedAdminServicesRouteImport.update({
     id: '/services',
@@ -73,6 +85,8 @@ export interface FileRoutesByFullPath {
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -82,6 +96,8 @@ export interface FileRoutesByTo {
   '/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
@@ -94,6 +110,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/leads': typeof AuthenticatedAdminLeadsRoute
   '/_authenticated/admin/projects': typeof AuthenticatedAdminProjectsRoute
   '/_authenticated/admin/services': typeof AuthenticatedAdminServicesRoute
+  '/api/public/robots.txt': typeof ApiPublicRobotsDottxtRoute
+  '/api/public/sitemap.xml': typeof ApiPublicSitemapDotxmlRoute
   '/api/public/submit-lead': typeof ApiPublicSubmitLeadRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
@@ -106,6 +124,8 @@ export interface FileRouteTypes {
     | '/admin/leads'
     | '/admin/projects'
     | '/admin/services'
+    | '/api/public/robots.txt'
+    | '/api/public/sitemap.xml'
     | '/api/public/submit-lead'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -115,6 +135,8 @@ export interface FileRouteTypes {
     | '/admin/leads'
     | '/admin/projects'
     | '/admin/services'
+    | '/api/public/robots.txt'
+    | '/api/public/sitemap.xml'
     | '/api/public/submit-lead'
     | '/admin'
   id:
@@ -126,6 +148,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/leads'
     | '/_authenticated/admin/projects'
     | '/_authenticated/admin/services'
+    | '/api/public/robots.txt'
+    | '/api/public/sitemap.xml'
     | '/api/public/submit-lead'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
@@ -134,6 +158,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicRobotsDottxtRoute: typeof ApiPublicRobotsDottxtRoute
+  ApiPublicSitemapDotxmlRoute: typeof ApiPublicSitemapDotxmlRoute
   ApiPublicSubmitLeadRoute: typeof ApiPublicSubmitLeadRoute
 }
 
@@ -179,6 +205,20 @@ declare module '@tanstack/react-router' {
       path: '/api/public/submit-lead'
       fullPath: '/api/public/submit-lead'
       preLoaderRoute: typeof ApiPublicSubmitLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/sitemap.xml': {
+      id: '/api/public/sitemap.xml'
+      path: '/api/public/sitemap.xml'
+      fullPath: '/api/public/sitemap.xml'
+      preLoaderRoute: typeof ApiPublicSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/robots.txt': {
+      id: '/api/public/robots.txt'
+      path: '/api/public/robots.txt'
+      fullPath: '/api/public/robots.txt'
+      preLoaderRoute: typeof ApiPublicRobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/services': {
@@ -240,6 +280,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicRobotsDottxtRoute: ApiPublicRobotsDottxtRoute,
+  ApiPublicSitemapDotxmlRoute: ApiPublicSitemapDotxmlRoute,
   ApiPublicSubmitLeadRoute: ApiPublicSubmitLeadRoute,
 }
 export const routeTree = rootRouteImport
