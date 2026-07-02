@@ -8,6 +8,7 @@ import { fetchServices, fetchProjects, type PublicService, type PublicProject } 
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
+const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
@@ -103,6 +104,7 @@ function Index() {
       <Services />
       <ConfiguratorSection />
       <Work />
+      <Galaxy />
       <Process />
       <WhyAetheria />
       <FinalCTA />
@@ -408,6 +410,31 @@ function ConfiguratorSection() {
             </Suspense>
           ) : (
             <div className="h-[500px] rounded-3xl glass-strong" />
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Galaxy Section ---------- */
+function Galaxy() {
+  const [holder, inView] = useInView<HTMLDivElement>("300px");
+  return (
+    <section id="galaxy" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="Наблюдение"
+          title={<>Галактика <span className="text-aurora italic">Aetheria.</span></>}
+          subtitle="Живая спираль из тысяч звёзд и четырёх планет. Real-time, без единого пикселя видео — только код."
+        />
+        <div ref={holder} className="mt-14">
+          {inView ? (
+            <Suspense fallback={<div className="aspect-[16/10] w-full rounded-3xl glass-strong" />}>
+              <GalaxyScene />
+            </Suspense>
+          ) : (
+            <div className="aspect-[16/10] w-full rounded-3xl glass-strong" />
           )}
         </div>
       </div>
