@@ -104,8 +104,32 @@ body { background: transparent; color: var(--foreground); }
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
   }
   ::selection { background: oklch(0.7 0.24 300 / 40%); color: white; }
+
+  /* Premium focus ring — accessible without breaking the aesthetic */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--background), 0 0 0 4px oklch(0.78 0.18 215 / 70%);
+    border-radius: 8px;
+  }
+
+  /* Respect user preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Rendering perf — skip painting for offscreen sections */
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
 }
 
 /* Aurora background blob */
