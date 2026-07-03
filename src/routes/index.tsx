@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ArrowUpRight, Award, Cpu, Layers, ShoppingBag, Sparkles, Zap, Code2, Globe, Boxes } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, ShoppingBag, Sparkles, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
 import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
 
@@ -98,18 +98,62 @@ function Index() {
       <div className="fixed inset-0 -z-20 bg-background" />
       <div className="noise" />
       <BackgroundAura />
+      <ScrollProgress />
       <Nav />
       <Hero />
       <TrustBar />
-      <Services />
+      <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
-      <Work />
+      <div className="cv-auto"><Work /></div>
       <Galaxy />
-      <Process />
-      <WhyAetheria />
+      <div className="cv-auto"><Process /></div>
+      <div className="cv-auto"><WhyAetheria /></div>
       <FinalCTA />
       <Footer />
+      <BackToTop />
     </div>
+  );
+}
+
+/* ---------- Scroll Progress ---------- */
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 24, mass: 0.4 });
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "0% 50%" }}
+      className="fixed left-0 right-0 top-0 z-[60] h-[2px]"
+    >
+      <div className="h-full w-full bg-gradient-to-r from-violet via-cyan to-gold shadow-[0_0_18px_oklch(0.7_0.24_300/70%)]" />
+    </motion.div>
+  );
+}
+
+/* ---------- Back to top ---------- */
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const on = () => setShow(window.scrollY > 800);
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.button
+          initial={{ opacity: 0, y: 20, scale: 0.85 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.85 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Наверх"
+          className="glass-strong fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+          style={{ boxShadow: "0 0 40px -8px oklch(0.7 0.24 300 / 60%)" }}
+        >
+          <ArrowUp className="h-5 w-5" />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -142,11 +186,16 @@ function BackgroundAura() {
 /* ---------- Nav ---------- */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
   const items = [
     ["Услуги", "#services"],
     ["Конфигуратор", "#configurator"],
@@ -154,32 +203,83 @@ function Nav() {
     ["Процесс", "#process"],
   ];
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed left-1/2 top-4 z-50 w-[min(96%,1180px)] -translate-x-1/2 rounded-full px-5 py-2.5 transition-all duration-500 ${
-        scrolled ? "glass-strong" : "border border-white/5 bg-white/[0.02] backdrop-blur-md"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <Logo />
-          <span className="font-display text-xl tracking-tight text-white">Aetheria</span>
-        </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          {items.map(([label, href]) => (
-            <a key={href} href={href} className="group relative text-sm text-white/70 transition hover:text-white">
-              {label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-violet to-cyan transition-all duration-300 group-hover:w-full" />
+    <>
+      <motion.header
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed left-1/2 top-4 z-50 w-[min(96%,1180px)] -translate-x-1/2 rounded-full px-5 py-2.5 transition-all duration-500 ${
+          scrolled ? "glass-strong" : "border border-white/5 bg-white/[0.02] backdrop-blur-md"
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <a href="#top" className="flex items-center gap-2">
+            <Logo />
+            <span className="font-display text-xl tracking-tight text-white">Aetheria</span>
+          </a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {items.map(([label, href]) => (
+              <a key={href} href={href} className="group relative text-sm text-white/70 transition hover:text-white">
+                {label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-violet to-cyan transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            <a href="#configurator" className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
+              <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
             </a>
-          ))}
-        </nav>
-        <a href="#configurator" className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
-          <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-    </motion.header>
+            <button
+              type="button"
+              aria-label={open ? "Закрыть меню" : "Открыть меню"}
+              onClick={() => setOpen((v) => !v)}
+              className="glass flex h-9 w-9 items-center justify-center rounded-full text-white/85 md:hidden"
+            >
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 md:hidden"
+          >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-xl" onClick={() => setOpen(false)} />
+            <motion.nav
+              initial={{ y: -30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="glass-strong absolute left-1/2 top-24 w-[min(92%,420px)] -translate-x-1/2 rounded-3xl p-6"
+            >
+              <div className="flex flex-col gap-1">
+                {items.map(([label, href], i) => (
+                  <motion.a
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + i * 0.05 }}
+                    className="flex items-center justify-between rounded-2xl px-4 py-3 text-lg text-white/85 hover:bg-white/5"
+                  >
+                    <span className="font-display">{label}</span>
+                    <ArrowUpRight className="h-4 w-4 text-white/40" />
+                  </motion.a>
+                ))}
+              </div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
