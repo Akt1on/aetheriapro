@@ -186,11 +186,16 @@ function BackgroundAura() {
 /* ---------- Nav ---------- */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
   const items = [
     ["Услуги", "#services"],
     ["Конфигуратор", "#configurator"],
@@ -198,32 +203,83 @@ function Nav() {
     ["Процесс", "#process"],
   ];
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed left-1/2 top-4 z-50 w-[min(96%,1180px)] -translate-x-1/2 rounded-full px-5 py-2.5 transition-all duration-500 ${
-        scrolled ? "glass-strong" : "border border-white/5 bg-white/[0.02] backdrop-blur-md"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <Logo />
-          <span className="font-display text-xl tracking-tight text-white">Aetheria</span>
-        </a>
-        <nav className="hidden items-center gap-8 md:flex">
-          {items.map(([label, href]) => (
-            <a key={href} href={href} className="group relative text-sm text-white/70 transition hover:text-white">
-              {label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-violet to-cyan transition-all duration-300 group-hover:w-full" />
+    <>
+      <motion.header
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed left-1/2 top-4 z-50 w-[min(96%,1180px)] -translate-x-1/2 rounded-full px-5 py-2.5 transition-all duration-500 ${
+          scrolled ? "glass-strong" : "border border-white/5 bg-white/[0.02] backdrop-blur-md"
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <a href="#top" className="flex items-center gap-2">
+            <Logo />
+            <span className="font-display text-xl tracking-tight text-white">Aetheria</span>
+          </a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {items.map(([label, href]) => (
+              <a key={href} href={href} className="group relative text-sm text-white/70 transition hover:text-white">
+                {label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-gradient-to-r from-violet to-cyan transition-all duration-300 group-hover:w-full" />
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-2">
+            <a href="#configurator" className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
+              <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
             </a>
-          ))}
-        </nav>
-        <a href="#configurator" className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
-          <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
-        </a>
-      </div>
-    </motion.header>
+            <button
+              type="button"
+              aria-label={open ? "Закрыть меню" : "Открыть меню"}
+              onClick={() => setOpen((v) => !v)}
+              className="glass flex h-9 w-9 items-center justify-center rounded-full text-white/85 md:hidden"
+            >
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 md:hidden"
+          >
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-xl" onClick={() => setOpen(false)} />
+            <motion.nav
+              initial={{ y: -30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="glass-strong absolute left-1/2 top-24 w-[min(92%,420px)] -translate-x-1/2 rounded-3xl p-6"
+            >
+              <div className="flex flex-col gap-1">
+                {items.map(([label, href], i) => (
+                  <motion.a
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + i * 0.05 }}
+                    className="flex items-center justify-between rounded-2xl px-4 py-3 text-lg text-white/85 hover:bg-white/5"
+                  >
+                    <span className="font-display">{label}</span>
+                    <ArrowUpRight className="h-4 w-4 text-white/40" />
+                  </motion.a>
+                ))}
+              </div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
