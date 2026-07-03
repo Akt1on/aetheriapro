@@ -98,18 +98,62 @@ function Index() {
       <div className="fixed inset-0 -z-20 bg-background" />
       <div className="noise" />
       <BackgroundAura />
+      <ScrollProgress />
       <Nav />
       <Hero />
       <TrustBar />
-      <Services />
+      <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
-      <Work />
+      <div className="cv-auto"><Work /></div>
       <Galaxy />
-      <Process />
-      <WhyAetheria />
+      <div className="cv-auto"><Process /></div>
+      <div className="cv-auto"><WhyAetheria /></div>
       <FinalCTA />
       <Footer />
+      <BackToTop />
     </div>
+  );
+}
+
+/* ---------- Scroll Progress ---------- */
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 24, mass: 0.4 });
+  return (
+    <motion.div
+      style={{ scaleX, transformOrigin: "0% 50%" }}
+      className="fixed left-0 right-0 top-0 z-[60] h-[2px]"
+    >
+      <div className="h-full w-full bg-gradient-to-r from-violet via-cyan to-gold shadow-[0_0_18px_oklch(0.7_0.24_300/70%)]" />
+    </motion.div>
+  );
+}
+
+/* ---------- Back to top ---------- */
+function BackToTop() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const on = () => setShow(window.scrollY > 800);
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.button
+          initial={{ opacity: 0, y: 20, scale: 0.85 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.85 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Наверх"
+          className="glass-strong fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+          style={{ boxShadow: "0 0 40px -8px oklch(0.7 0.24 300 / 60%)" }}
+        >
+          <ArrowUp className="h-5 w-5" />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }
 
