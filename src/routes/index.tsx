@@ -130,6 +130,7 @@ function Index() {
       <div className="noise" />
       <BackgroundAura />
       <ScrollProgress />
+      <Suspense fallback={null}><CustomCursor /></Suspense>
       <Nav />
       <Hero />
       <TrustBar />
@@ -137,8 +138,10 @@ function Index() {
       <ConfiguratorSection />
       <div className="cv-auto"><Work /></div>
       <Galaxy />
+      <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
       <div className="cv-auto"><WhyAetheria /></div>
+      <div className="cv-auto"><FAQ /></div>
       <FinalCTA />
       <Footer />
       <BackToTop />
