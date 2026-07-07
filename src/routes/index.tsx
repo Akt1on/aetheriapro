@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, ShoppingBag, Sparkles, X, Zap, Code2, Globe, Boxes } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plus, Quote, ShoppingBag, Sparkles, Star, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
 import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
 
