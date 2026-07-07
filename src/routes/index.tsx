@@ -234,7 +234,8 @@ function Nav() {
     ["Услуги", "#services"],
     ["Конфигуратор", "#configurator"],
     ["Работы", "#work"],
-    ["Процесс", "#process"],
+    ["Отзывы", "#testimonials"],
+    ["FAQ", "#faq"],
   ];
   return (
     <>
