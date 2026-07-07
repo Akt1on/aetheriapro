@@ -73,6 +73,34 @@ const ORG_JSONLD = JSON.stringify({
   ],
 });
 
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  { q: "Сколько стоит проект?", a: "Лендинги — от 30 000 ₽, корпоративные сайты — от 80 000 ₽, e-commerce с 3D — от 150 000 ₽, веб-приложения — от 250 000 ₽. Точную оценку показывает конфигуратор — без разговоров и без спама." },
+  { q: "Сколько времени занимает проект?", a: "Лендинг — 3–4 недели, корпоративный сайт — 6–8 недель, e-commerce и PWA — 10–14 недель. Каждый этап сопровождается прозрачным планом и еженедельными демо." },
+  { q: "Что входит в стоимость?", a: "Исследование, три дизайн-направления, финальный дизайн, ручная инженерия, аудит производительности и доступности, деплой на edge-инфраструктуру и месяц гарантийной поддержки после запуска." },
+  { q: "Работаете ли вы с международными клиентами?", a: "Да. Проекты ведём на русском и английском, обслуживаем клиентов в СНГ, ЕС и США. Общение — Telegram, Slack, Notion, Linear — как удобно вам." },
+  { q: "Что если мне нужны только доработки?", a: "Небольшие задачи не берём — нам важна цельность продукта. Но если у вас крепкий сайт и нужен рывок в дизайне или производительности, обсудим партнёрский формат." },
+  { q: "Что происходит после запуска?", a: "Первый месяц — гарантия и мелкие правки бесплатно. Дальше — retainer от 60 000 ₽/мес: развитие, аналитика, A/B-тесты, поддержка контента и инфраструктуры." },
+];
+
+const FAQ_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((it) => ({
+    "@type": "Question",
+    name: it.q,
+    acceptedAnswer: { "@type": "Answer", text: it.a },
+  })),
+});
+
+const WEBSITE_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Aetheria",
+  url: "https://aetheriapro.lovable.app",
+  inLanguage: "ru-RU",
+  publisher: { "@type": "Organization", name: "Aetheria" },
+});
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -88,6 +116,8 @@ export const Route = createFileRoute("/")({
     ],
     scripts: [
       { type: "application/ld+json", children: ORG_JSONLD },
+      { type: "application/ld+json", children: WEBSITE_JSONLD },
+      { type: "application/ld+json", children: FAQ_JSONLD },
     ],
   }),
   component: Index,
