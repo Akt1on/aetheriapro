@@ -2,13 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, ShoppingBag, Sparkles, X, Zap, Code2, Globe, Boxes } from "lucide-react";
+import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plus, Quote, ShoppingBag, Sparkles, Star, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
 import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
 const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
+const CustomCursor = lazy(() => import("@/components/aetheria/CustomCursor").then((m) => ({ default: m.CustomCursor })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
@@ -72,6 +73,34 @@ const ORG_JSONLD = JSON.stringify({
   ],
 });
 
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  { q: "Сколько стоит проект?", a: "Лендинги — от 30 000 ₽, корпоративные сайты — от 80 000 ₽, e-commerce с 3D — от 150 000 ₽, веб-приложения — от 250 000 ₽. Точную оценку показывает конфигуратор — без разговоров и без спама." },
+  { q: "Сколько времени занимает проект?", a: "Лендинг — 3–4 недели, корпоративный сайт — 6–8 недель, e-commerce и PWA — 10–14 недель. Каждый этап сопровождается прозрачным планом и еженедельными демо." },
+  { q: "Что входит в стоимость?", a: "Исследование, три дизайн-направления, финальный дизайн, ручная инженерия, аудит производительности и доступности, деплой на edge-инфраструктуру и месяц гарантийной поддержки после запуска." },
+  { q: "Работаете ли вы с международными клиентами?", a: "Да. Проекты ведём на русском и английском, обслуживаем клиентов в СНГ, ЕС и США. Общение — Telegram, Slack, Notion, Linear — как удобно вам." },
+  { q: "Что если мне нужны только доработки?", a: "Небольшие задачи не берём — нам важна цельность продукта. Но если у вас крепкий сайт и нужен рывок в дизайне или производительности, обсудим партнёрский формат." },
+  { q: "Что происходит после запуска?", a: "Первый месяц — гарантия и мелкие правки бесплатно. Дальше — retainer от 60 000 ₽/мес: развитие, аналитика, A/B-тесты, поддержка контента и инфраструктуры." },
+];
+
+const FAQ_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((it) => ({
+    "@type": "Question",
+    name: it.q,
+    acceptedAnswer: { "@type": "Answer", text: it.a },
+  })),
+});
+
+const WEBSITE_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Aetheria",
+  url: "https://aetheriapro.lovable.app",
+  inLanguage: "ru-RU",
+  publisher: { "@type": "Organization", name: "Aetheria" },
+});
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -87,6 +116,8 @@ export const Route = createFileRoute("/")({
     ],
     scripts: [
       { type: "application/ld+json", children: ORG_JSONLD },
+      { type: "application/ld+json", children: WEBSITE_JSONLD },
+      { type: "application/ld+json", children: FAQ_JSONLD },
     ],
   }),
   component: Index,
@@ -99,6 +130,7 @@ function Index() {
       <div className="noise" />
       <BackgroundAura />
       <ScrollProgress />
+      <Suspense fallback={null}><CustomCursor /></Suspense>
       <Nav />
       <Hero />
       <TrustBar />
@@ -106,8 +138,10 @@ function Index() {
       <ConfiguratorSection />
       <div className="cv-auto"><Work /></div>
       <Galaxy />
+      <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
       <div className="cv-auto"><WhyAetheria /></div>
+      <div className="cv-auto"><FAQ /></div>
       <FinalCTA />
       <Footer />
       <BackToTop />
@@ -200,7 +234,8 @@ function Nav() {
     ["Услуги", "#services"],
     ["Конфигуратор", "#configurator"],
     ["Работы", "#work"],
-    ["Процесс", "#process"],
+    ["Отзывы", "#testimonials"],
+    ["FAQ", "#faq"],
   ];
   return (
     <>
@@ -821,3 +856,140 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
     </motion.div>
   );
 }
+
+/* ---------- Testimonials ---------- */
+const TESTIMONIALS = [
+  {
+    quote: "Aetheria собрали не просто сайт — целый мир для нашего бренда. Через два месяца после запуска конверсия выросла на 38%, а средний чек — на четверть.",
+    name: "Мария Ковалёва",
+    role: "CMO, Lumen Atelier",
+    accent: "#c9a84c",
+  },
+  {
+    quote: "Работа с ними напоминает партнёрство с топовым архитектурным бюро. Каждое решение — от типографики до 3D-схем — обоснованно и красиво.",
+    name: "Артём Новиков",
+    role: "CEO, Nova Aerospace",
+    accent: "#67e8f9",
+  },
+  {
+    quote: "Мы пробовали три студии до Aetheria. Только они смогли поднять активацию с 31% до 58% — и объяснить, за счёт чего это случилось.",
+    name: "Ксения Лаврова",
+    role: "Head of Product, Hyperion AI",
+    accent: "#a78bfa",
+  },
+  {
+    quote: "Единственная студия, где каждое слово в презентации подтверждается кодом на проде. Lighthouse 100/100 не был обещанием — он был данностью.",
+    name: "Даниил Егоров",
+    role: "CTO, Meridian Capital",
+    accent: "#ff8a5b",
+  },
+];
+
+function Testimonials() {
+  return (
+    <section id="testimonials" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="Голоса клиентов"
+          title={<>Работа, о которой <span className="text-aurora italic">говорят вслух.</span></>}
+          subtitle="Мы не пишем отзывы за клиентов. Они говорят сами — когда результат стоит того."
+        />
+
+        <div className="mt-16 grid gap-5 md:grid-cols-2">
+          {TESTIMONIALS.map((t, i) => (
+            <motion.figure
+              key={t.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              className="glass group relative overflow-hidden rounded-3xl p-7 sm:p-9"
+            >
+              <div
+                className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-60"
+                style={{ background: t.accent }}
+              />
+              <Quote className="h-8 w-8 text-white/25" />
+              <blockquote className="relative mt-5 font-display text-xl leading-snug text-white/90 sm:text-2xl">
+                «{t.quote}»
+              </blockquote>
+              <div className="relative mt-7 flex items-center justify-between gap-4">
+                <figcaption className="min-w-0">
+                  <div className="truncate font-display text-base text-white">{t.name}</div>
+                  <div className="mt-0.5 truncate text-xs uppercase tracking-widest text-white/45">{t.role}</div>
+                </figcaption>
+                <div className="flex shrink-0 items-center gap-0.5">
+                  {[0, 1, 2, 3, 4].map((s) => (
+                    <Star key={s} className="h-3.5 w-3.5 fill-gold text-gold" />
+                  ))}
+                </div>
+              </div>
+            </motion.figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- FAQ ---------- */
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <section id="faq" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-4xl px-6">
+        <SectionHeader
+          eyebrow="Частые вопросы"
+          title={<>Всё, что вы <span className="text-aurora italic">хотели спросить.</span></>}
+          subtitle="Если ответа нет — напишите нам. Отвечаем в течение рабочего дня."
+        />
+
+        <div className="mt-14 divide-y divide-white/5 rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-xl">
+          {FAQ_ITEMS.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <motion.div
+                key={it.q}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.04 }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left sm:px-8 sm:py-6"
+                >
+                  <span className="font-display text-lg text-white sm:text-xl">{it.q}</span>
+                  <span
+                    className={`glass-strong flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-transform duration-500 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    {isOpen ? <Minus className="h-4 w-4 text-cyan" /> : <Plus className="h-4 w-4 text-white/70" />}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-6 pb-6 pr-16 text-white/65 sm:px-8 sm:pb-7">{it.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
