@@ -4,6 +4,8 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plus, Quote, ShoppingBag, Sparkles, Star, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
+import { Magnetic } from "@/components/aetheria/Magnetic";
+import { KineticMarquee } from "@/components/aetheria/KineticMarquee";
 import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
@@ -139,6 +141,9 @@ function Index() {
       <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
       <div className="cv-auto"><Work /></div>
+      <section aria-hidden className="relative py-10 sm:py-16">
+        <KineticMarquee items={["Aetheria", "Digital worlds that feel", "WebGL · AI · 3D", "Est. 2026", "Awwwards · FWA · CSSDA"]} />
+      </section>
       <Galaxy />
       <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
@@ -386,14 +391,18 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
-            <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Открыть конфигуратор проекта
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a href="#work" className="btn-ghost-line group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Смотреть работы
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            <Magnetic strength={0.4}>
+              <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
+                Открыть конфигуратор проекта
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.3}>
+              <a href="#work" className="btn-ghost-line group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
+                Смотреть работы
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </Magnetic>
           </motion.div>
 
           <motion.div
@@ -810,10 +819,14 @@ function FinalCTA() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm">
-            Начать проект <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a href="mailto:studio@aetheria.ru" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.ru</a>
+          <Magnetic strength={0.4}>
+            <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm">
+              Начать проект <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.3}>
+            <a href="mailto:studio@aetheria.ru" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.ru</a>
+          </Magnetic>
         </motion.div>
       </div>
     </section>
