@@ -819,10 +819,14 @@ function FinalCTA() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm">
-            Начать проект <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a href="mailto:studio@aetheria.ru" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.ru</a>
+          <Magnetic strength={0.4}>
+            <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm">
+              Начать проект <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.3}>
+            <a href="mailto:studio@aetheria.ru" className="btn-ghost-line rounded-full px-8 py-4 text-sm">studio@aetheria.ru</a>
+          </Magnetic>
         </motion.div>
       </div>
     </section>
