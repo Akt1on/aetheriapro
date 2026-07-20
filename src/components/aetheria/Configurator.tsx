@@ -312,6 +312,23 @@ export function Configurator() {
                 <motion.div key={c} layout className="h-8 flex-1 rounded-lg ring-1 ring-white/10" style={{ background: c }} />
               ))}
             </div>
+            <button
+              type="button"
+              onClick={async () => {
+                const url = new URL(window.location.href);
+                url.searchParams.set("c", encodeSel(sel));
+                url.hash = "configurator";
+                try {
+                  await navigator.clipboard.writeText(url.toString());
+                  toast.success("Ссылка на конфигурацию скопирована");
+                } catch {
+                  toast.error("Не удалось скопировать ссылку");
+                }
+              }}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/70 transition hover:border-violet/50 hover:bg-violet/10 hover:text-white"
+            >
+              <Share2 className="h-3.5 w-3.5" /> Поделиться конфигурацией
+            </button>
           </div>
         </div>
       </div>
