@@ -141,6 +141,9 @@ function Index() {
       <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
       <div className="cv-auto"><Work /></div>
+      <section aria-hidden className="relative py-10 sm:py-16">
+        <KineticMarquee items={["Aetheria", "Digital worlds that feel", "WebGL · AI · 3D", "Est. 2026", "Awwwards · FWA · CSSDA"]} />
+      </section>
       <Galaxy />
       <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
