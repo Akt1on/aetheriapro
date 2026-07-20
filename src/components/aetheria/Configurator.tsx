@@ -1,8 +1,17 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ArrowRight, Sparkles, Layers, Zap, Clock } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Layers, Zap, Clock, Share2 } from "lucide-react";
 import { submitLead } from "@/lib/leads-client";
 import { toast } from "sonner";
+
+const STORAGE_KEY = "aetheria:configurator:v1";
+
+function encodeSel(sel: unknown): string {
+  try { return btoa(unescape(encodeURIComponent(JSON.stringify(sel)))); } catch { return ""; }
+}
+function decodeSel(s: string): unknown | null {
+  try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch { return null; }
+}
 
 type Selections = {
   type: string;
@@ -65,6 +74,35 @@ export function Configurator() {
   const [busy, setBusy] = useState(false);
   const [contact, setContact] = useState({ name: "", email: "", company: "" });
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const hydrated = useRef(false);
+
+  // Load from URL (?c=...) or localStorage on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get("c");
+    const raw = fromUrl ? decodeSel(fromUrl) : (() => {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null"); } catch { return null; }
+    })();
+    if (raw && typeof raw === "object") {
+      const r = raw as Partial<Selections>;
+      if (r.type && r.style && r.scope && Array.isArray(r.capabilities)) {
+        setSel({ type: r.type, style: r.style, scope: r.scope, capabilities: r.capabilities });
+        if (fromUrl) toast.success("Конфигурация загружена из ссылки");
+      }
+    }
+    hydrated.current = true;
+  }, []);
+
+  // Persist to localStorage + sync URL
+  useEffect(() => {
+    if (!hydrated.current || typeof window === "undefined") return;
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(sel)); } catch { /* quota */ }
+    const encoded = encodeSel(sel);
+    const url = new URL(window.location.href);
+    url.searchParams.set("c", encoded);
+    window.history.replaceState(null, "", url.toString());
+  }, [sel]);
 
   const price = useMemo(() => {
     const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
@@ -274,6 +312,23 @@ export function Configurator() {
                 <motion.div key={c} layout className="h-8 flex-1 rounded-lg ring-1 ring-white/10" style={{ background: c }} />
               ))}
             </div>
+            <button
+              type="button"
+              onClick={async () => {
+                const url = new URL(window.location.href);
+                url.searchParams.set("c", encodeSel(sel));
+                url.hash = "configurator";
+                try {
+                  await navigator.clipboard.writeText(url.toString());
+                  toast.success("Ссылка на конфигурацию скопирована");
+                } catch {
+                  toast.error("Не удалось скопировать ссылку");
+                }
+              }}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs text-white/70 transition hover:border-violet/50 hover:bg-violet/10 hover:text-white"
+            >
+              <Share2 className="h-3.5 w-3.5" /> Поделиться конфигурацией
+            </button>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) 
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
 const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
 const CustomCursor = lazy(() => import("@/components/aetheria/CustomCursor").then((m) => ({ default: m.CustomCursor })));
+const SmoothScroll = lazy(() => import("@/components/aetheria/SmoothScroll").then((m) => ({ default: m.SmoothScroll })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
@@ -131,6 +132,7 @@ function Index() {
       <BackgroundAura />
       <ScrollProgress />
       <Suspense fallback={null}><CustomCursor /></Suspense>
+      <Suspense fallback={null}><SmoothScroll /></Suspense>
       <Nav />
       <Hero />
       <TrustBar />
