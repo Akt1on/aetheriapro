@@ -132,6 +132,7 @@ function Index() {
       <BackgroundAura />
       <ScrollProgress />
       <Suspense fallback={null}><CustomCursor /></Suspense>
+      <Suspense fallback={null}><SmoothScroll /></Suspense>
       <Nav />
       <Hero />
       <TrustBar />
