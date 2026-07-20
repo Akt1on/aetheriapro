@@ -74,6 +74,35 @@ export function Configurator() {
   const [busy, setBusy] = useState(false);
   const [contact, setContact] = useState({ name: "", email: "", company: "" });
   const honeypotRef = useRef<HTMLInputElement>(null);
+  const hydrated = useRef(false);
+
+  // Load from URL (?c=...) or localStorage on mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const fromUrl = params.get("c");
+    const raw = fromUrl ? decodeSel(fromUrl) : (() => {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null"); } catch { return null; }
+    })();
+    if (raw && typeof raw === "object") {
+      const r = raw as Partial<Selections>;
+      if (r.type && r.style && r.scope && Array.isArray(r.capabilities)) {
+        setSel({ type: r.type, style: r.style, scope: r.scope, capabilities: r.capabilities });
+        if (fromUrl) toast.success("Конфигурация загружена из ссылки");
+      }
+    }
+    hydrated.current = true;
+  }, []);
+
+  // Persist to localStorage + sync URL
+  useEffect(() => {
+    if (!hydrated.current || typeof window === "undefined") return;
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(sel)); } catch { /* quota */ }
+    const encoded = encodeSel(sel);
+    const url = new URL(window.location.href);
+    url.searchParams.set("c", encoded);
+    window.history.replaceState(null, "", url.toString());
+  }, [sel]);
 
   const price = useMemo(() => {
     const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
