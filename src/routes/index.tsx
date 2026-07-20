@@ -391,14 +391,18 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.9 }}
             className="mt-10 flex flex-wrap items-center gap-4"
           >
-            <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Открыть конфигуратор проекта
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a href="#work" className="btn-ghost-line group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
-              Смотреть работы
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            <Magnetic strength={0.4}>
+              <a href="#configurator" className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
+                Открыть конфигуратор проекта
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.3}>
+              <a href="#work" className="btn-ghost-line group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm">
+                Смотреть работы
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </Magnetic>
           </motion.div>
 
           <motion.div
