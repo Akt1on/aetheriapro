@@ -4,6 +4,8 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plus, Quote, ShoppingBag, Sparkles, Star, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
+import { Magnetic } from "@/components/aetheria/Magnetic";
+import { KineticMarquee } from "@/components/aetheria/KineticMarquee";
 import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
