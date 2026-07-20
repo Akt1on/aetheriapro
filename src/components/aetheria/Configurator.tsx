@@ -1,8 +1,17 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ArrowRight, Sparkles, Layers, Zap, Clock } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Layers, Zap, Clock, Share2 } from "lucide-react";
 import { submitLead } from "@/lib/leads-client";
 import { toast } from "sonner";
+
+const STORAGE_KEY = "aetheria:configurator:v1";
+
+function encodeSel(sel: unknown): string {
+  try { return btoa(unescape(encodeURIComponent(JSON.stringify(sel)))); } catch { return ""; }
+}
+function decodeSel(s: string): unknown | null {
+  try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch { return null; }
+}
 
 type Selections = {
   type: string;
