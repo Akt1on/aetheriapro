@@ -73,13 +73,23 @@ export function ShaderBackdrop({ className = "" }: { className?: string }) {
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!;
       gl.shaderSource(s, src); gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); }
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.warn("[ShaderBackdrop] compile failed:", gl.getShaderInfoLog(s) || "(no log)");
+        return null;
+      }
       return s;
     };
+    const vsSh = compile(gl.VERTEX_SHADER, vs);
+    const fsSh = compile(gl.FRAGMENT_SHADER, fs);
+    if (!vsSh || !fsSh) { canvas.style.display = "none"; return; }
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+    gl.attachShader(prog, vsSh);
+    gl.attachShader(prog, fsSh);
     gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn("[ShaderBackdrop] link failed:", gl.getProgramInfoLog(prog));
+      canvas.style.display = "none"; return;
+    }
     gl.useProgram(prog);
 
     const buf = gl.createBuffer();
