@@ -13,6 +13,8 @@ const Configurator = lazy(() => import("@/components/aetheria/Configurator").the
 const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
 const CustomCursor = lazy(() => import("@/components/aetheria/CustomCursor").then((m) => ({ default: m.CustomCursor })));
 const SmoothScroll = lazy(() => import("@/components/aetheria/SmoothScroll").then((m) => ({ default: m.SmoothScroll })));
+const ShaderBackdrop = lazy(() => import("@/components/aetheria/ShaderBackdrop").then((m) => ({ default: m.ShaderBackdrop })));
+const LiquidOrb = lazy(() => import("@/components/aetheria/LiquidOrb").then((m) => ({ default: m.LiquidOrb })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
