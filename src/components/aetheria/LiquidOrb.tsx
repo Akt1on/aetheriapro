@@ -13,10 +13,12 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
     const c = ref.current;
     if (!c) return;
     const gl = c.getContext("webgl2", { antialias: false, alpha: true, premultipliedAlpha: true }) as WebGL2RenderingContext | null;
-    if (!gl) return;
+    if (!gl) { c.style.display = "none"; return; }
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const RAY_STEPS = isMobile ? 40 : 72;
+    const FBM_OCT = isMobile ? 3 : 5;
     const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
 
     const vs = `#version 300 es
@@ -24,6 +26,8 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
 
     const fs = `#version 300 es
     precision highp float;
+    #define RAY_STEPS ${RAY_STEPS}
+    #define FBM_OCT ${FBM_OCT}
     out vec4 o;
     uniform vec2 uR; uniform float uT; uniform vec2 uM;
 
@@ -32,7 +36,7 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
       float a=mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),
                   mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);
       return a; }
-    float fbm(vec3 p){ float s=0., a=.5; for(int i=0;i<5;i++){ s+=a*n3(p); p*=2.02; a*=.5;} return s; }
+    float fbm(vec3 p){ float s=0., a=.5; for(int i=0;i<FBM_OCT;i++){ s+=a*n3(p); p*=2.02; a*=.5;} return s; }
 
     float sdSphere(vec3 p, float r){ return length(p)-r; }
     float map(vec3 p){
@@ -68,7 +72,7 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
       ro=Ry*Rx*ro; rd=Ry*Rx*rd;
 
       float t=0., hit=0.; vec3 p;
-      for(int i=0;i<72;i++){
+      for(int i=0;i<RAY_STEPS;i++){
         p=ro+rd*t;
         float d=map(p);
         if(d<0.001){ hit=1.; break; }
@@ -106,13 +110,24 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
 
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!; gl.shaderSource(s, src); gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.warn(gl.getShaderInfoLog(s));
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.warn("[LiquidOrb] shader compile failed:", gl.getShaderInfoLog(s) || "(no log)");
+        return null;
+      }
       return s;
     };
+    const vsSh = compile(gl.VERTEX_SHADER, vs);
+    const fsSh = compile(gl.FRAGMENT_SHADER, fs);
+    if (!vsSh || !fsSh) { c.style.display = "none"; return; }
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
-    gl.linkProgram(prog); gl.useProgram(prog);
+    gl.attachShader(prog, vsSh);
+    gl.attachShader(prog, fsSh);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn("[LiquidOrb] link failed:", gl.getProgramInfoLog(prog));
+      c.style.display = "none"; return;
+    }
+    gl.useProgram(prog);
 
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
