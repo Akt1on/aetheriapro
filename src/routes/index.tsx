@@ -13,6 +13,8 @@ const Configurator = lazy(() => import("@/components/aetheria/Configurator").the
 const GalaxyScene = lazy(() => import("@/components/aetheria/GalaxyScene").then((m) => ({ default: m.GalaxyScene })));
 const CustomCursor = lazy(() => import("@/components/aetheria/CustomCursor").then((m) => ({ default: m.CustomCursor })));
 const SmoothScroll = lazy(() => import("@/components/aetheria/SmoothScroll").then((m) => ({ default: m.SmoothScroll })));
+const ShaderBackdrop = lazy(() => import("@/components/aetheria/ShaderBackdrop").then((m) => ({ default: m.ShaderBackdrop })));
+const LiquidOrb = lazy(() => import("@/components/aetheria/LiquidOrb").then((m) => ({ default: m.LiquidOrb })));
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
 
@@ -140,6 +142,7 @@ function Index() {
       <TrustBar />
       <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
+      <ShowcaseOrb />
       <div className="cv-auto"><Work /></div>
       <section aria-hidden className="relative py-10 sm:py-16">
         <KineticMarquee items={["Aetheria", "Digital worlds that feel", "WebGL · AI · 3D", "Est. 2026", "Awwwards · FWA · CSSDA"]} />
@@ -341,7 +344,12 @@ function Hero() {
   const headline = "Цифровые миры, которые чувствуют.";
   const words = headline.split(" ");
   return (
-    <section id="top" className="relative pb-24 pt-36 md:pt-44 lg:pb-32">
+    <section id="top" className="relative overflow-hidden pb-24 pt-36 md:pt-44 lg:pb-32">
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-80">
+        <Suspense fallback={null}><ShaderBackdrop /></Suspense>
+      </div>
+
+
 
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.1fr_1fr]">
@@ -582,6 +590,34 @@ function Galaxy() {
           ) : (
             <div className="aspect-[16/10] w-full rounded-3xl glass-strong" />
           )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Showcase: Liquid Orb ---------- */
+function ShowcaseOrb() {
+  const [holder, inView] = useInView<HTMLDivElement>("300px");
+  return (
+    <section id="showcase" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="WebGL · Real-time"
+          title={<>Материя, которая <span className="text-aurora italic">дышит.</span></>}
+          subtitle="Иридесцентная сфера, отрендеренная кастомным шейдером в браузере. Ни одного полигона — только математика, свет и шум. Двигайте мышь."
+        />
+        <div ref={holder} className="relative mt-14 aspect-[16/10] w-full overflow-hidden rounded-3xl glass-strong">
+          <div className="absolute inset-0">
+            {inView ? (
+              <Suspense fallback={null}><LiquidOrb /></Suspense>
+            ) : null}
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 text-xs uppercase tracking-[0.3em] text-white/50">
+            <span>Ray-marched · fBm displacement · iridescent Fresnel</span>
+            <span className="text-gold">60 FPS · GPU shader</span>
+          </div>
         </div>
       </div>
     </section>
