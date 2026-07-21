@@ -596,6 +596,34 @@ function Galaxy() {
   );
 }
 
+/* ---------- Showcase: Liquid Orb ---------- */
+function ShowcaseOrb() {
+  const [holder, inView] = useInView<HTMLDivElement>("300px");
+  return (
+    <section id="showcase" className="relative py-20 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeader
+          eyebrow="WebGL · Real-time"
+          title={<>Материя, которая <span className="text-aurora italic">дышит.</span></>}
+          subtitle="Иридесцентная сфера, отрендеренная кастомным шейдером в браузере. Ни одного полигона — только математика, свет и шум. Двигайте мышь."
+        />
+        <div ref={holder} className="relative mt-14 aspect-[16/10] w-full overflow-hidden rounded-3xl glass-strong">
+          <div className="absolute inset-0">
+            {inView ? (
+              <Suspense fallback={null}><LiquidOrb /></Suspense>
+            ) : null}
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 text-xs uppercase tracking-[0.3em] text-white/50">
+            <span>Ray-marched · fBm displacement · iridescent Fresnel</span>
+            <span className="text-gold">60 FPS · GPU shader</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Work ---------- */
 function Work() {
   const { data } = useQuery({
