@@ -142,6 +142,7 @@ function Index() {
       <TrustBar />
       <div className="cv-auto"><Services /></div>
       <ConfiguratorSection />
+      <ShowcaseOrb />
       <div className="cv-auto"><Work /></div>
       <section aria-hidden className="relative py-10 sm:py-16">
         <KineticMarquee items={["Aetheria", "Digital worlds that feel", "WebGL · AI · 3D", "Est. 2026", "Awwwards · FWA · CSSDA"]} />
@@ -343,7 +344,12 @@ function Hero() {
   const headline = "Цифровые миры, которые чувствуют.";
   const words = headline.split(" ");
   return (
-    <section id="top" className="relative pb-24 pt-36 md:pt-44 lg:pb-32">
+    <section id="top" className="relative overflow-hidden pb-24 pt-36 md:pt-44 lg:pb-32">
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-80">
+        <Suspense fallback={null}><ShaderBackdrop /></Suspense>
+      </div>
+
+
 
 
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.1fr_1fr]">
