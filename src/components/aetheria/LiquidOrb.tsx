@@ -36,7 +36,7 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
       float a=mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),
                   mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);
       return a; }
-    float fbm(vec3 p){ float s=0., a=.5; for(int i=0;i<5;i++){ s+=a*n3(p); p*=2.02; a*=.5;} return s; }
+    float fbm(vec3 p){ float s=0., a=.5; for(int i=0;i<FBM_OCT;i++){ s+=a*n3(p); p*=2.02; a*=.5;} return s; }
 
     float sdSphere(vec3 p, float r){ return length(p)-r; }
     float map(vec3 p){
