@@ -13,10 +13,12 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
     const c = ref.current;
     if (!c) return;
     const gl = c.getContext("webgl2", { antialias: false, alpha: true, premultipliedAlpha: true }) as WebGL2RenderingContext | null;
-    if (!gl) return;
+    if (!gl) { c.style.display = "none"; return; }
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const RAY_STEPS = isMobile ? 40 : 72;
+    const FBM_OCT = isMobile ? 3 : 5;
     const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.5);
 
     const vs = `#version 300 es
