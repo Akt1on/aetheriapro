@@ -110,13 +110,24 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
 
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!; gl.shaderSource(s, src); gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.warn(gl.getShaderInfoLog(s));
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        console.warn("[LiquidOrb] shader compile failed:", gl.getShaderInfoLog(s) || "(no log)");
+        return null;
+      }
       return s;
     };
+    const vsSh = compile(gl.VERTEX_SHADER, vs);
+    const fsSh = compile(gl.FRAGMENT_SHADER, fs);
+    if (!vsSh || !fsSh) { c.style.display = "none"; return; }
     const prog = gl.createProgram()!;
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
-    gl.linkProgram(prog); gl.useProgram(prog);
+    gl.attachShader(prog, vsSh);
+    gl.attachShader(prog, fsSh);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.warn("[LiquidOrb] link failed:", gl.getProgramInfoLog(prog));
+      c.style.display = "none"; return;
+    }
+    gl.useProgram(prog);
 
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
