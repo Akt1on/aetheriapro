@@ -72,7 +72,7 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
       ro=Ry*Rx*ro; rd=Ry*Rx*rd;
 
       float t=0., hit=0.; vec3 p;
-      for(int i=0;i<72;i++){
+      for(int i=0;i<RAY_STEPS;i++){
         p=ro+rd*t;
         float d=map(p);
         if(d<0.001){ hit=1.; break; }
