@@ -26,6 +26,8 @@ export function LiquidOrb({ className = "" }: { className?: string }) {
 
     const fs = `#version 300 es
     precision highp float;
+    #define RAY_STEPS ${RAY_STEPS}
+    #define FBM_OCT ${FBM_OCT}
     out vec4 o;
     uniform vec2 uR; uniform float uT; uniform vec2 uM;
 
