@@ -13,7 +13,7 @@ export function ShaderBackdrop({ className = "" }: { className?: string }) {
     const canvas = ref.current;
     if (!canvas) return;
     const gl = canvas.getContext("webgl2", { antialias: false, alpha: true, premultipliedAlpha: true }) as WebGL2RenderingContext | null;
-    if (!gl) return;
+    if (!gl) { canvas.style.display = "none"; return; }
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
