@@ -9,7 +9,8 @@ import { KineticMarquee } from "@/components/aetheria/KineticMarquee";
 import { fetchServices, fetchProjects, slugify, type PublicService, type PublicProject } from "@/lib/public-content";
 import { Link } from "@tanstack/react-router";
 
-const MotionLink = motion.create(Link);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MotionLink = motion.create(Link) as any;
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
