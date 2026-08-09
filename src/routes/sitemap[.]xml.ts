@@ -1,10 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { FALLBACK_PROJECTS, slugify } from "@/lib/public-content";
 
 const SITE = "https://aetheriapro.lovable.app";
 
 function buildSitemap() {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = [{ loc: `${SITE}/`, priority: "1.0", changefreq: "weekly" }];
+  const urls = [
+    { loc: `${SITE}/`, priority: "1.0", changefreq: "weekly" },
+    ...FALLBACK_PROJECTS.map((p) => ({
+      loc: `${SITE}/work/${slugify(p.name)}`,
+      priority: "0.8",
+      changefreq: "monthly",
+    })),
+  ];
+
   const body = urls
     .map(
       (u) =>
