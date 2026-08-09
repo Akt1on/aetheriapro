@@ -6,7 +6,10 @@ import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plu
 import { ParticleField } from "@/components/aetheria/ParticleField";
 import { Magnetic } from "@/components/aetheria/Magnetic";
 import { KineticMarquee } from "@/components/aetheria/KineticMarquee";
-import { fetchServices, fetchProjects, type PublicService, type PublicProject } from "@/lib/public-content";
+import { fetchServices, fetchProjects, slugify, type PublicService, type PublicProject } from "@/lib/public-content";
+import { Link } from "@tanstack/react-router";
+
+const MotionLink = motion.create(Link);
 
 const HeroScene = lazy(() => import("@/components/aetheria/HeroScene").then((m) => ({ default: m.HeroScene })));
 const Configurator = lazy(() => import("@/components/aetheria/Configurator").then((m) => ({ default: m.Configurator })));
@@ -660,8 +663,9 @@ function ProjectCard({ project, index }: { project: PublicProject; index: number
   const colors = [project.color_primary, project.color_accent];
   const [hover, setHover] = useState(false);
   return (
-    <motion.a
-      href="#"
+    <MotionLink
+      to="/work/$slug"
+      params={{ slug: slugify(project.name) }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -723,7 +727,7 @@ function ProjectCard({ project, index }: { project: PublicProject; index: number
           </div>
         </motion.div>
       </div>
-    </motion.a>
+    </MotionLink>
   );
 }
 
