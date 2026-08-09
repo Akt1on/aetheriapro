@@ -135,6 +135,8 @@ function Index() {
       <div className="noise" />
       <BackgroundAura />
       <ScrollProgress />
+      <Suspense fallback={null}><Preloader /></Suspense>
+
       <Suspense fallback={null}><CustomCursor /></Suspense>
       <Suspense fallback={null}><SmoothScroll /></Suspense>
       <Nav />
