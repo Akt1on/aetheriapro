@@ -255,6 +255,7 @@ function Nav() {
     ["Конфигуратор", "#configurator"],
     ["Работы", "#work"],
     ["Отзывы", "#testimonials"],
+    ["Команда", "#team"],
     ["FAQ", "#faq"],
   ];
   return (
