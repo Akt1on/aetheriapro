@@ -15,6 +15,25 @@ export const Route = createFileRoute("/work/$slug")({
     const title = p ? `${p.name} — кейс Aetheria` : "Кейс — Aetheria";
     const desc = p ? `${p.task} ${p.result}` : "Избранный проект студии Aetheria: задача, решение и результат.";
     const url = `https://aetheriapro.lovable.app/work/${params.slug}`;
+    const caseJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: p?.name ?? "Кейс Aetheria",
+      description: desc.slice(0, 300),
+      url,
+      genre: p?.category,
+      dateCreated: p?.year ? String(p.year) : undefined,
+      creator: { "@type": "Organization", name: "Aetheria", url: "https://aetheriapro.lovable.app" },
+    });
+    const breadcrumbJsonLd = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Главная", item: "https://aetheriapro.lovable.app/" },
+        { "@type": "ListItem", position: 2, name: "Работы", item: "https://aetheriapro.lovable.app/#work" },
+        { "@type": "ListItem", position: 3, name: p?.name ?? "Кейс", item: url },
+      ],
+    });
     return {
       meta: [
         { title },
@@ -26,6 +45,10 @@ export const Route = createFileRoute("/work/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        { type: "application/ld+json", children: caseJsonLd },
+        { type: "application/ld+json", children: breadcrumbJsonLd },
+      ],
     };
   },
   component: CaseStudy,

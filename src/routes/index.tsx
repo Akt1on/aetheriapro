@@ -20,6 +20,7 @@ const SmoothScroll = lazy(() => import("@/components/aetheria/SmoothScroll").the
 const ShaderBackdrop = lazy(() => import("@/components/aetheria/ShaderBackdrop").then((m) => ({ default: m.ShaderBackdrop })));
 const LiquidOrb = lazy(() => import("@/components/aetheria/LiquidOrb").then((m) => ({ default: m.LiquidOrb })));
 const Preloader = lazy(() => import("@/components/aetheria/Preloader").then((m) => ({ default: m.Preloader })));
+const Team = lazy(() => import("@/components/aetheria/Team").then((m) => ({ default: m.Team })));
 
 
 const ICONS: Record<string, typeof Sparkles> = { Sparkles, Globe, ShoppingBag, Cpu, Boxes, Code2, Zap, Layers };
@@ -158,6 +159,7 @@ function Index() {
       <Galaxy />
       <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
+      <div className="cv-auto"><Suspense fallback={null}><Team /></Suspense></div>
       <div className="cv-auto"><WhyAetheria /></div>
       <div className="cv-auto"><FAQ /></div>
       <FinalCTA />
@@ -253,6 +255,7 @@ function Nav() {
     ["Конфигуратор", "#configurator"],
     ["Работы", "#work"],
     ["Отзывы", "#testimonials"],
+    ["Команда", "#team"],
     ["FAQ", "#faq"],
   ];
   return (
