@@ -83,7 +83,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Aetheria — Digital worlds that feel." },
       { name: "description", content: "Aetheria is a high-end digital studio crafting cinematic websites and immersive 3D experiences with AI and flawless performance." },
       { name: "author", content: "Aetheria Studio" },
+      { name: "theme-color", content: "#05050a" },
       { property: "og:title", content: "Aetheria — Digital worlds that feel." },
+
       { property: "og:description", content: "Aetheria is a high-end digital studio crafting cinematic websites and immersive 3D experiences with AI and flawless performance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
