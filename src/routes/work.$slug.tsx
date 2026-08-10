@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { fetchProjects, slugify, FALLBACK_PROJECTS, type PublicProject } from "@/lib/public-content";
+
+const CustomCursor = lazy(() => import("@/components/aetheria/CustomCursor").then((m) => ({ default: m.CustomCursor })));
+const SmoothScroll = lazy(() => import("@/components/aetheria/SmoothScroll").then((m) => ({ default: m.SmoothScroll })));
+
 
 export const Route = createFileRoute("/work/$slug")({
   head: ({ params }) => {
@@ -53,7 +58,10 @@ function CaseStudy() {
 
   return (
     <div className="dark relative min-h-screen bg-background text-foreground">
+      <Suspense fallback={null}><CustomCursor /></Suspense>
+      <Suspense fallback={null}><SmoothScroll /></Suspense>
       <div className="noise" />
+
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"

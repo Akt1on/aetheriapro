@@ -1,0 +1,11 @@
+{
+  "name": "Aetheria — цифровые миры, которые чувствуешь",
+  "short_name": "Aetheria",
+  "description": "Премиальная digital-студия: кинематографичные сайты, 3D и безупречная производительность.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05050a",
+  "theme_color": "#05050a",
+  "lang": "ru",
+  "icons": []
+}

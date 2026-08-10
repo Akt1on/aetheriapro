@@ -15,25 +15,27 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
+    <div className="dark relative flex min-h-screen flex-col items-center justify-center gap-6 overflow-hidden bg-background px-6 text-center text-foreground">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{ background: "radial-gradient(ellipse at top, oklch(0.35 0.16 285 / 0.35) 0%, oklch(0.06 0.02 265) 65%)" }}
+      />
+      <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">Ошибка 404</div>
+      <h1 className="font-display text-[22vw] leading-[0.85] text-white sm:text-[10rem]">404</h1>
+      <p className="max-w-sm text-sm leading-relaxed text-white/55">
+        Такой страницы нет — возможно, она ещё не создана или ссылка устарела.
+      </p>
+      <Link
+        to="/"
+        className="rounded-full bg-white px-7 py-3.5 text-sm font-medium text-black transition-transform hover:scale-[1.03]"
+      >
+        Вернуться на главную
+      </Link>
     </div>
   );
 }
+
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
@@ -81,7 +83,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Aetheria — Digital worlds that feel." },
       { name: "description", content: "Aetheria is a high-end digital studio crafting cinematic websites and immersive 3D experiences with AI and flawless performance." },
       { name: "author", content: "Aetheria Studio" },
+      { name: "theme-color", content: "#05050a" },
       { property: "og:title", content: "Aetheria — Digital worlds that feel." },
+
       { property: "og:description", content: "Aetheria is a high-end digital studio crafting cinematic websites and immersive 3D experiences with AI and flawless performance." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -92,6 +96,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://qhbdfxtkyddgfedmbfsm.supabase.co" },
