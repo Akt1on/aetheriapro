@@ -58,7 +58,10 @@ function CaseStudy() {
 
   return (
     <div className="dark relative min-h-screen bg-background text-foreground">
+      <Suspense fallback={null}><CustomCursor /></Suspense>
+      <Suspense fallback={null}><SmoothScroll /></Suspense>
       <div className="noise" />
+
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
