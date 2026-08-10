@@ -158,6 +158,7 @@ function Index() {
       <Galaxy />
       <div className="cv-auto"><Testimonials /></div>
       <div className="cv-auto"><Process /></div>
+      <div className="cv-auto"><Suspense fallback={null}><Team /></Suspense></div>
       <div className="cv-auto"><WhyAetheria /></div>
       <div className="cv-auto"><FAQ /></div>
       <FinalCTA />
