@@ -356,9 +356,25 @@ function Hero() {
   const words = headline.split(" ");
   return (
     <section id="top" className="relative overflow-hidden pb-24 pt-36 md:pt-44 lg:pb-32">
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-80">
+      {/* Атмосферный шейдер: мягкий, смещён к 3D-зоне, не мешает читаемости текста */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 hidden opacity-25 md:block"
+        style={{
+          maskImage: "radial-gradient(120% 90% at 78% 45%, black 0%, transparent 72%)",
+          WebkitMaskImage: "radial-gradient(120% 90% at 78% 45%, black 0%, transparent 72%)",
+        }}
+      >
         <Suspense fallback={null}><ShaderBackdrop /></Suspense>
       </div>
+      {/* Скрим под текстовой колонкой для контраста */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(90% 70% at 18% 42%, oklch(0.06 0.02 265 / 78%) 0%, oklch(0.06 0.02 265 / 30%) 45%, transparent 70%)",
+        }}
+      />
+
 
 
 
