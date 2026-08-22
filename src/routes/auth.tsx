@@ -65,7 +65,7 @@ function AuthPage() {
             <span className="text-[10px] uppercase tracking-[0.3em]">Aetheria · Админка</span>
           </div>
           <h1 className="mt-3 font-display text-3xl">{mode === "signin" ? "Вход" : "Создать аккаунт"}</h1>
-          <p className="mt-2 text-sm text-white/55">
+          <p className="mt-2 text-sm text-white/70">
             {mode === "signin"
               ? "Закрытая зона. Только для команды студии."
               : "Первый созданный аккаунт становится администратором."}
@@ -105,7 +105,7 @@ function AuthPage() {
           <button
             type="button"
             onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-            className="mt-4 w-full text-center text-xs text-white/50 hover:text-white"
+            className="mt-4 w-full text-center text-xs text-white/70 hover:text-white"
           >
             {mode === "signin" ? "Нет аккаунта? Создать" : "Уже есть аккаунт? Войти"}
           </button>

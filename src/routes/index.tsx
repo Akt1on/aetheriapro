@@ -330,7 +330,7 @@ function Nav() {
                     className="flex items-center justify-between rounded-2xl px-4 py-3 text-lg text-white/85 hover:bg-white/5"
                   >
                     <span className="font-display">{label}</span>
-                    <ArrowUpRight className="h-4 w-4 text-white/40" />
+                    <ArrowUpRight className="h-4 w-4 text-white/70" />
                   </motion.a>
                 ))}
               </div>
@@ -455,7 +455,7 @@ function Hero() {
             {[["180+", "Запущенных проектов"], ["28", "Отраслевых наград"], ["100/100", "Средний Lighthouse"]].map(([n, l]) => (
               <div key={l} className="min-w-0">
                 <div className="font-display text-xl sm:text-3xl text-white">{n}</div>
-                <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-widest text-white/40">{l}</div>
+                <div className="mt-1 text-[10px] sm:text-xs uppercase tracking-widest text-white/70">{l}</div>
               </div>
             ))}
           </motion.div>
@@ -489,7 +489,7 @@ function TrustBar() {
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-background to-transparent" />
         <div className="marquee-track flex w-max gap-16">
           {[...items, ...items].map((it, i) => (
-            <div key={i} className="flex items-center gap-3 whitespace-nowrap text-base font-medium text-white/55">
+            <div key={i} className="flex items-center gap-3 whitespace-nowrap text-base font-medium text-white/70">
               <Award className="h-4 w-4 text-gold" />
               {it}
             </div>
@@ -567,10 +567,10 @@ function ServiceCard({ icon: Icon, title, desc, tag, index, large }: { icon: any
             <Icon className="h-6 w-6 text-cyan" />
           </div>
           <h3 className="mt-6 font-display text-2xl text-white">{title}</h3>
-          <p className="mt-3 flex-1 text-sm leading-relaxed text-white/55">{desc}</p>
+          <p className="mt-3 flex-1 text-sm leading-relaxed text-white/70">{desc}</p>
           <div className="mt-6 flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gold">{tag}</span>
-            <ArrowUpRight className="h-4 w-4 text-white/40 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+            <ArrowUpRight className="h-4 w-4 text-white/70 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
           </div>
         </div>
       </div>
@@ -648,7 +648,7 @@ function ShowcaseOrb() {
             ) : null}
           </div>
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-          <div className="pointer-events-none absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 text-xs uppercase tracking-[0.3em] text-white/50">
+          <div className="pointer-events-none absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4 text-xs uppercase tracking-[0.3em] text-white/70">
             <span>Ray-marched · fBm displacement · iridescent Fresnel</span>
             <span className="text-gold">60 FPS · GPU shader</span>
           </div>
@@ -729,7 +729,7 @@ function ProjectCard({ project, index }: { project: PublicProject; index: number
       <div className="absolute inset-x-0 bottom-0 p-6">
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-white/50">{project.category} · {project.year}</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-white/70">{project.category} · {project.year}</div>
             <div className="mt-1.5 font-display text-2xl text-white">{project.name}</div>
             <div className="mt-1 text-xs text-cyan">{project.result.split(",")[0]}</div>
           </div>
@@ -791,7 +791,7 @@ function Process() {
                 <div className={`pl-14 md:pl-0 md:[direction:ltr] ${i % 2 ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
                   <div className="font-mono text-xs text-cyan">{s.n}</div>
                   <h3 className="mt-2 font-display text-3xl text-white md:text-4xl">{s.t}</h3>
-                  <p className="mt-3 text-white/55">{s.d}</p>
+                  <p className="mt-3 text-white/70">{s.d}</p>
                 </div>
                 <div className="hidden md:block" />
                 <div className="absolute left-0 top-1.5 flex h-10 w-10 items-center justify-center rounded-full glass-strong md:left-1/2 md:-translate-x-1/2">
@@ -821,11 +821,11 @@ function WhyAetheria() {
           <div className="aurora-bg opacity-50" />
           <div className="relative grid gap-12 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <div className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/40">Почему Aetheria</div>
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white/70">Почему Aetheria</div>
               <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] text-white">
                 Другие студии делают сайты.<br/><span className="text-aurora italic">Мы создаём ощущения.</span>
               </h2>
-              <p className="mt-6 max-w-md text-white/55">
+              <p className="mt-6 max-w-md text-white/70">
                 Веб никогда не был таким перенасыщенным. Чтобы выделиться, нужен не просто дизайн —
                 нужен момент. Мы создаём моменты, которые запоминают.
               </p>
@@ -842,7 +842,7 @@ function WhyAetheria() {
                 >
                   <p.icon className="h-5 w-5 text-cyan" />
                   <div className="mt-4 font-display text-xl text-white">{p.t}</div>
-                  <div className="mt-2 text-sm text-white/55">{p.d}</div>
+                  <div className="mt-2 text-sm text-white/70">{p.d}</div>
                 </motion.div>
               ))}
             </div>
@@ -912,9 +912,9 @@ function Footer() {
         <div className="flex items-center gap-2">
           <Logo />
           <span className="font-display text-lg text-white">Aetheria</span>
-          <span className="ml-3 text-xs text-white/40">© 2026 — Создано в пустоте.</span>
+          <span className="ml-3 text-xs text-white/70">© 2026 — Создано в пустоте.</span>
         </div>
-        <div className="flex gap-6 text-xs text-white/50">
+        <div className="flex gap-6 text-xs text-white/70">
           <a href="#" className="hover:text-white">Telegram</a>
           <a href="#" className="hover:text-white">Behance</a>
           <a href="#" className="hover:text-white">VK</a>
@@ -936,9 +936,9 @@ function SectionHeader({ eyebrow, title, subtitle }: { eyebrow: string; title: R
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       className="max-w-3xl"
     >
-      <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/40">{eyebrow}</div>
+      <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/70">{eyebrow}</div>
       <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-white">{title}</h2>
-      {subtitle && <p className="mt-5 max-w-2xl text-base sm:text-lg text-white/55">{subtitle}</p>}
+      {subtitle && <p className="mt-5 max-w-2xl text-base sm:text-lg text-white/70">{subtitle}</p>}
     </motion.div>
   );
 }
@@ -1002,7 +1002,7 @@ function Testimonials() {
               <div className="relative mt-7 flex items-center justify-between gap-4">
                 <figcaption className="min-w-0">
                   <div className="truncate font-display text-base text-white">{t.name}</div>
-                  <div className="mt-0.5 truncate text-xs uppercase tracking-widest text-white/45">{t.role}</div>
+                  <div className="mt-0.5 truncate text-xs uppercase tracking-widest text-white/70">{t.role}</div>
                 </figcaption>
                 <div className="flex shrink-0 items-center gap-0.5">
                   {[0, 1, 2, 3, 4].map((s) => (

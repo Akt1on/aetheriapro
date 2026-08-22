@@ -96,7 +96,7 @@ export function Configurator() {
                         ? "border-violet bg-violet/20 text-white shadow-[0_0_30px_-5px_oklch(0.7_0.24_300/70%)]"
                         : done
                         ? "border-cyan/60 bg-cyan/10 text-cyan"
-                        : "border-white/15 bg-white/5 text-white/50"
+                        : "border-white/15 bg-white/5 text-white/70"
                     }`}
                   >
                     {done ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
@@ -108,7 +108,7 @@ export function Configurator() {
           </div>
 
           <div className="mb-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-white/40">Шаг 0{step + 1} / 04</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/70">Шаг 0{step + 1} / 04</div>
             <h3 className="mt-1 font-display text-3xl text-white md:text-4xl">{STEPS[step].label}</h3>
           </div>
 
@@ -125,7 +125,7 @@ export function Configurator() {
                   {TYPES.map((t) => (
                     <OptionCard key={t.id} active={sel.type === t.id} onClick={() => setSel({ ...sel, type: t.id })}>
                       <div className="text-base font-semibold text-white">{t.label}</div>
-                      <div className="mt-1 text-sm text-white/55">{t.desc}</div>
+                      <div className="mt-1 text-sm text-white/70">{t.desc}</div>
                       <div className="mt-3 text-xs text-cyan/80">от {t.base.toLocaleString("ru-RU")} ₽</div>
                     </OptionCard>
                   ))}
@@ -168,13 +168,13 @@ export function Configurator() {
                     <OptionCard key={s.id} active={sel.scope === s.id} onClick={() => setSel({ ...sel, scope: s.id })}>
                       <div className="flex items-center justify-between">
                         <div className="text-base font-semibold text-white">{s.label}</div>
-                        <div className="text-xs text-white/50">×{s.mult.toFixed(2)}</div>
+                        <div className="text-xs text-white/70">×{s.mult.toFixed(2)}</div>
                       </div>
                     </OptionCard>
                   ))}
 
                   <div className="glass mt-6 rounded-2xl p-5">
-                    <div className="text-xs uppercase tracking-widest text-white/40">Краткое знакомство</div>
+                    <div className="text-xs uppercase tracking-widest text-white/70">Краткое знакомство</div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
                       <input value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
                       <input value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} type="email" className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
@@ -252,11 +252,11 @@ export function Configurator() {
         <div className="relative flex h-full flex-col">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Живой превью</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-white/70">Живой превью</div>
               <div className="mt-1 font-display text-2xl text-white">Ваш проект</div>
             </div>
             <div className="text-right">
-              <div className="text-xs uppercase tracking-widest text-white/40">Бюджет</div>
+              <div className="text-xs uppercase tracking-widest text-white/70">Бюджет</div>
               <div className="font-display text-3xl text-aurora">
                 <AnimatedNumber value={price} />
               </div>
@@ -268,7 +268,7 @@ export function Configurator() {
           </div>
 
           <div className="mt-6">
-            <div className="text-xs uppercase tracking-widest text-white/40">Палитра</div>
+            <div className="text-xs uppercase tracking-widest text-white/70">Палитра</div>
             <div className="mt-2 flex gap-2">
               {styleObj.colors.map((c) => (
                 <motion.div key={c} layout className="h-8 flex-1 rounded-lg ring-1 ring-white/10" style={{ background: c }} />
