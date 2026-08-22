@@ -355,6 +355,7 @@ function Logo() {
 
 /* ---------- Hero ---------- */
 function Hero() {
+  const quality = useQuality();
   const headline = "Цифровые миры, которые чувствуют.";
   const words = headline.split(" ");
   return (
@@ -630,6 +631,7 @@ function Galaxy() {
 
 /* ---------- Showcase: Liquid Orb ---------- */
 function ShowcaseOrb() {
+  const quality = useQuality();
   const [holder, inView] = useInView<HTMLDivElement>("300px");
   return (
     <section id="showcase" className="relative py-20 sm:py-32">
