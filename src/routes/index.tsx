@@ -221,7 +221,8 @@ function BackgroundAura() {
     if (typeof window !== "undefined") setMobile(window.innerWidth < 768);
   }, []);
   const quality = useQuality();
-  const density = reduced || quality === "low" ? 0 : quality === "medium" || mobile ? 90 : 200;
+  // Космос виден всегда — меняется только плотность звёзд ради 60 FPS
+  const density = reduced ? 0 : quality === "low" ? 70 : quality === "medium" || mobile ? 130 : 260;
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.06 0.02 265) 70%)" }} />
@@ -230,6 +231,38 @@ function BackgroundAura() {
           <ParticleField density={density} />
         </div>
       )}
+      {/* Планеты — чистый CSS, нулевая нагрузка на CPU */}
+      <div
+        className="absolute rounded-full will-change-transform"
+        style={{
+          top: "12%", right: "-6rem", width: "22rem", height: "22rem",
+          background: "radial-gradient(circle at 32% 28%, #8b7bff 0%, #4a2fb0 38%, #180d3a 70%, #0a0618 100%)",
+          boxShadow: "inset -30px -20px 60px rgba(0,0,0,0.75), 0 0 120px 20px rgba(124,92,255,0.22)",
+          opacity: 0.75,
+          animation: reduced ? undefined : "aeth-float-slow 26s ease-in-out infinite",
+        }}
+      />
+      <div
+        className="absolute rounded-full"
+        style={{
+          bottom: "8%", left: "-4rem", width: "13rem", height: "13rem",
+          background: "radial-gradient(circle at 35% 30%, #6ee7ff 0%, #1a7fa8 40%, #0a2233 72%, #05101a 100%)",
+          boxShadow: "inset -18px -12px 40px rgba(0,0,0,0.75), 0 0 90px 12px rgba(80,200,255,0.18)",
+          opacity: 0.6,
+          animation: reduced ? undefined : "aeth-float-slow 34s ease-in-out infinite reverse",
+        }}
+      />
+      <div
+        className="absolute rounded-full"
+        style={{
+          top: "58%", right: "22%", width: "6rem", height: "6rem",
+          background: "radial-gradient(circle at 34% 30%, #ffd9a0 0%, #c9973f 42%, #3a2510 78%, #150c05 100%)",
+          boxShadow: "inset -10px -6px 22px rgba(0,0,0,0.8), 0 0 60px 8px rgba(255,190,110,0.14)",
+          opacity: 0.45,
+          animation: reduced ? undefined : "aeth-float-slow 42s ease-in-out infinite",
+        }}
+      />
+
       <div className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
