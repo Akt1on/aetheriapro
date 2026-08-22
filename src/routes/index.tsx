@@ -4,6 +4,8 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, ArrowUp, ArrowUpRight, Award, Cpu, Layers, Menu, Minus, Plus, Quote, ShoppingBag, Sparkles, Star, X, Zap, Code2, Globe, Boxes } from "lucide-react";
 import { ParticleField } from "@/components/aetheria/ParticleField";
+import { useQuality, atLeast } from "@/lib/perf";
+import { track } from "@/lib/analytics";
 import { Magnetic } from "@/components/aetheria/Magnetic";
 import { KineticMarquee } from "@/components/aetheria/KineticMarquee";
 import { fetchServices, fetchProjects, slugify, type PublicService, type PublicProject } from "@/lib/public-content";
@@ -218,7 +220,8 @@ function BackgroundAura() {
   useEffect(() => {
     if (typeof window !== "undefined") setMobile(window.innerWidth < 768);
   }, []);
-  const density = reduced ? 0 : mobile ? 90 : 200;
+  const quality = useQuality();
+  const density = reduced || quality === "low" ? 0 : quality === "medium" || mobile ? 90 : 200;
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at top, oklch(0.18 0.06 268) 0%, oklch(0.06 0.02 265) 70%)" }} />
@@ -357,6 +360,7 @@ function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pb-24 pt-36 md:pt-44 lg:pb-32">
       {/* Атмосферный шейдер: мягкий, смещён к 3D-зоне, не мешает читаемости текста */}
+      {atLeast(quality, "high") && (
       <div
         className="pointer-events-none absolute inset-0 -z-10 hidden opacity-25 md:block"
         style={{
@@ -366,6 +370,7 @@ function Hero() {
       >
         <Suspense fallback={null}><ShaderBackdrop /></Suspense>
       </div>
+      )}
       {/* Скрим под текстовой колонкой для контраста */}
       <div
         className="pointer-events-none absolute inset-0 -z-10"
@@ -636,7 +641,7 @@ function ShowcaseOrb() {
         />
         <div ref={holder} className="relative mt-14 aspect-[16/10] w-full overflow-hidden rounded-3xl glass-strong">
           <div className="absolute inset-0">
-            {inView ? (
+            {inView && atLeast(quality, "medium") ? (
               <Suspense fallback={null}><LiquidOrb /></Suspense>
             ) : null}
           </div>
