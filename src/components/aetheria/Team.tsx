@@ -56,11 +56,11 @@ export function Team() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-3xl"
         >
-          <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/40">Команда</div>
+          <div className="text-[10px] sm:text-xs uppercase tracking-[0.4em] text-white/70">Команда</div>
           <h2 className="mt-4 font-display text-4xl leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl">
             Небольшая студия. <span className="text-aurora italic">Большая одержимость.</span>
           </h2>
-          <p className="mt-5 max-w-2xl text-base text-white/55 sm:text-lg">
+          <p className="mt-5 max-w-2xl text-base text-white/70 sm:text-lg">
             Никаких прослоек и менеджеров-передатчиков. Над вашим проектом работают те, чьи имена вы видите ниже.
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ function TeamCard({ member, index }: { member: Member; index: number }) {
         {member.initials}
       </div>
       <div className="relative mt-6 font-display text-lg text-white">{member.name}</div>
-      <div className="relative mt-1 text-[10px] uppercase tracking-[0.28em] text-white/45">{member.role}</div>
+      <div className="relative mt-1 text-[10px] uppercase tracking-[0.28em] text-white/70">{member.role}</div>
       <p className="relative mt-4 text-sm leading-relaxed text-white/60">{member.bio}</p>
     </motion.div>
   );

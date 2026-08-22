@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ArrowRight, Sparkles, Layers, Zap, Clock, Share2 } from "lucide-react";
 import { submitLead } from "@/lib/leads-client";
 import { toast } from "sonner";
+import { track } from "@/lib/analytics";
+import { TYPES, STYLES, CAPS, SCOPES, calcPrice, type Selections } from "@/lib/pricing";
 
 const STORAGE_KEY = "aetheria:configurator:v1";
 
@@ -13,48 +15,12 @@ function decodeSel(s: string): unknown | null {
   try { return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch { return null; }
 }
 
-type Selections = {
-  type: string;
-  style: string;
-  capabilities: string[];
-  scope: string;
-};
-
 const STEPS = [
   { key: "type", label: "Тип проекта", icon: Layers },
   { key: "style", label: "Стиль дизайна", icon: Sparkles },
   { key: "caps", label: "Возможности", icon: Zap },
   { key: "scope", label: "Объём и сроки", icon: Clock },
 ] as const;
-
-const TYPES = [
-  { id: "landing", label: "Премиум-лендинг", desc: "Одна страница. Кинематографичная.", base: 30000 },
-  { id: "corp", label: "Корпоративный сайт", desc: "Многостраничный бренд-опыт.", base: 80000 },
-  { id: "ecom", label: "E-commerce с 3D", desc: "Иммерсивные витрины товаров.", base: 150000 },
-  { id: "app", label: "Веб-приложение", desc: "Кастомный продукт, PWA.", base: 250000 },
-];
-
-const STYLES = [
-  { id: "void", label: "Тёмная роскошь", colors: ["#0a0a1a", "#4f46e5", "#a855f7", "#22d3ee"] },
-  { id: "editorial", label: "Редакционный", colors: ["#f5f3ee", "#0d0d0d", "#c9a84c", "#6b3a2a"] },
-  { id: "neo", label: "Нео-брутализм", colors: ["#ffffff", "#0a0a0a", "#ff5722", "#ffeb3b"] },
-  { id: "glass", label: "Стеклянное сияние", colors: ["#1a1a2e", "#4ade80", "#a78bfa", "#67e8f9"] },
-];
-
-const CAPS = [
-  { id: "3d", label: "Real-time 3D / WebGL", add: 40000 },
-  { id: "ai", label: "AI-интерфейсы", add: 35000 },
-  { id: "cms", label: "Headless CMS", add: 20000 },
-  { id: "anim", label: "Кинематографичная анимация", add: 25000 },
-  { id: "i18n", label: "Мультиязычность", add: 15000 },
-  { id: "perf", label: "Edge-производительность", add: 18000 },
-];
-
-const SCOPES = [
-  { id: "sprint", label: "Спринт · 4 недели", mult: 1.15 },
-  { id: "standard", label: "Стандарт · 8 недель", mult: 1.0 },
-  { id: "premium", label: "Премиум · 12 недель", mult: 1.25 },
-];
 
 function AnimatedNumber({ value }: { value: number }) {
   const mv = useMotionValue(0);
@@ -104,12 +70,7 @@ export function Configurator() {
     window.history.replaceState(null, "", url.toString());
   }, [sel]);
 
-  const price = useMemo(() => {
-    const base = TYPES.find((t) => t.id === sel.type)?.base ?? 0;
-    const caps = sel.capabilities.reduce((sum, c) => sum + (CAPS.find((x) => x.id === c)?.add ?? 0), 0);
-    const mult = SCOPES.find((s) => s.id === sel.scope)?.mult ?? 1;
-    return Math.round((base + caps) * mult);
-  }, [sel]);
+  const price = useMemo(() => calcPrice(sel), [sel]);
 
   const toggleCap = (id: string) =>
     setSel((s) => ({ ...s, capabilities: s.capabilities.includes(id) ? s.capabilities.filter((c) => c !== id) : [...s.capabilities, id] }));
@@ -135,7 +96,7 @@ export function Configurator() {
                         ? "border-violet bg-violet/20 text-white shadow-[0_0_30px_-5px_oklch(0.7_0.24_300/70%)]"
                         : done
                         ? "border-cyan/60 bg-cyan/10 text-cyan"
-                        : "border-white/15 bg-white/5 text-white/50"
+                        : "border-white/15 bg-white/5 text-white/70"
                     }`}
                   >
                     {done ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
@@ -147,7 +108,7 @@ export function Configurator() {
           </div>
 
           <div className="mb-6">
-            <div className="text-xs uppercase tracking-[0.3em] text-white/40">Шаг 0{step + 1} / 04</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/70">Шаг 0{step + 1} / 04</div>
             <h3 className="mt-1 font-display text-3xl text-white md:text-4xl">{STEPS[step].label}</h3>
           </div>
 
@@ -164,7 +125,7 @@ export function Configurator() {
                   {TYPES.map((t) => (
                     <OptionCard key={t.id} active={sel.type === t.id} onClick={() => setSel({ ...sel, type: t.id })}>
                       <div className="text-base font-semibold text-white">{t.label}</div>
-                      <div className="mt-1 text-sm text-white/55">{t.desc}</div>
+                      <div className="mt-1 text-sm text-white/70">{t.desc}</div>
                       <div className="mt-3 text-xs text-cyan/80">от {t.base.toLocaleString("ru-RU")} ₽</div>
                     </OptionCard>
                   ))}
@@ -207,13 +168,13 @@ export function Configurator() {
                     <OptionCard key={s.id} active={sel.scope === s.id} onClick={() => setSel({ ...sel, scope: s.id })}>
                       <div className="flex items-center justify-between">
                         <div className="text-base font-semibold text-white">{s.label}</div>
-                        <div className="text-xs text-white/50">×{s.mult.toFixed(2)}</div>
+                        <div className="text-xs text-white/70">×{s.mult.toFixed(2)}</div>
                       </div>
                     </OptionCard>
                   ))}
 
                   <div className="glass mt-6 rounded-2xl p-5">
-                    <div className="text-xs uppercase tracking-widest text-white/40">Краткое знакомство</div>
+                    <div className="text-xs uppercase tracking-widest text-white/70">Краткое знакомство</div>
                     <div className="mt-3 grid gap-3 sm:grid-cols-2">
                       <input value={contact.name} onChange={(e) => setContact({ ...contact, name: e.target.value })} className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Имя" />
                       <input value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} type="email" className="rounded-lg bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none ring-1 ring-white/10 transition focus:ring-violet" placeholder="Email" />
@@ -244,7 +205,7 @@ export function Configurator() {
               ← Назад
             </button>
             {step < STEPS.length - 1 ? (
-              <button onClick={() => setStep(step + 1)} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
+              <button onClick={() => { track("configurator_step", { step: step + 1, key: STEPS[step + 1]?.key ?? "", price }); setStep(step + 1); }} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
                 Продолжить <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
@@ -267,6 +228,7 @@ export function Configurator() {
                       estimated_price: price,
                       website: honeypotRef.current?.value ?? "",
                     });
+                    track("lead_submitted", { price, project_type: sel.type, scope: sel.scope, capabilities: sel.capabilities.join(",") });
                     setSubmitted(true);
                   } catch (e) {
                     toast.error((e as Error).message);
@@ -290,11 +252,11 @@ export function Configurator() {
         <div className="relative flex h-full flex-col">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs uppercase tracking-[0.3em] text-white/40">Живой превью</div>
+              <div className="text-xs uppercase tracking-[0.3em] text-white/70">Живой превью</div>
               <div className="mt-1 font-display text-2xl text-white">Ваш проект</div>
             </div>
             <div className="text-right">
-              <div className="text-xs uppercase tracking-widest text-white/40">Бюджет</div>
+              <div className="text-xs uppercase tracking-widest text-white/70">Бюджет</div>
               <div className="font-display text-3xl text-aurora">
                 <AnimatedNumber value={price} />
               </div>
@@ -306,7 +268,7 @@ export function Configurator() {
           </div>
 
           <div className="mt-6">
-            <div className="text-xs uppercase tracking-widest text-white/40">Палитра</div>
+            <div className="text-xs uppercase tracking-widest text-white/70">Палитра</div>
             <div className="mt-2 flex gap-2">
               {styleObj.colors.map((c) => (
                 <motion.div key={c} layout className="h-8 flex-1 rounded-lg ring-1 ring-white/10" style={{ background: c }} />
