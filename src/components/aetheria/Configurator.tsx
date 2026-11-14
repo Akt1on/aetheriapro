@@ -1,9 +1,10 @@
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ArrowRight, Sparkles, Layers, Zap, Clock, Share2 } from "lucide-react";
+import { Check, ArrowRight, Sparkles, Layers, Zap, Clock, Share2, FileDown } from "lucide-react";
 import { submitLead } from "@/lib/leads-client";
 import { toast } from "sonner";
 import { track } from "@/lib/analytics";
+import { playStep, playSuccess, playClick } from "@/lib/sound";
 import { TYPES, STYLES, CAPS, SCOPES, calcPrice, type Selections } from "@/lib/pricing";
 
 const STORAGE_KEY = "aetheria:configurator:v1";
@@ -198,14 +199,21 @@ export function Configurator() {
 
           <div className="mt-8 flex items-center justify-between">
             <button
-              onClick={() => setStep(Math.max(0, step - 1))}
+              onClick={() => { playClick(); setStep(Math.max(0, step - 1)); }}
               disabled={step === 0}
               className="text-sm text-white/60 transition hover:text-white disabled:opacity-30"
             >
               ← Назад
             </button>
+            <button
+              type="button"
+              onClick={() => { track("estimate_print", { price }); window.print(); }}
+              className="inline-flex items-center gap-1.5 text-sm text-white/70 transition hover:text-white"
+            >
+              <FileDown className="h-4 w-4" /> Смета PDF
+            </button>
             {step < STEPS.length - 1 ? (
-              <button onClick={() => { track("configurator_step", { step: step + 1, key: STEPS[step + 1]?.key ?? "", price }); setStep(step + 1); }} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
+              <button onClick={() => { track("configurator_step", { step: step + 1, key: STEPS[step + 1]?.key ?? "", price }); playStep(); setStep(step + 1); }} className="btn-primary-glow group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm">
                 Продолжить <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>
             ) : (
@@ -229,6 +237,7 @@ export function Configurator() {
                       website: honeypotRef.current?.value ?? "",
                     });
                     track("lead_submitted", { price, project_type: sel.type, scope: sel.scope, capabilities: sel.capabilities.join(",") });
+                    playSuccess();
                     setSubmitted(true);
                   } catch (e) {
                     toast.error((e as Error).message);
@@ -295,6 +304,20 @@ export function Configurator() {
         </div>
       </div>
 
+      <div className="print-only" aria-hidden>
+        <h1 style={{ fontSize: 32, margin: 0 }}>AETHERIA</h1>
+        <p style={{ marginTop: 4 }}>Предварительная смета проекта · {new Date().toLocaleDateString("ru-RU")}</p>
+        <table style={{ marginTop: 24 }}>
+          <tbody>
+            <tr><td>Тип проекта</td><td style={{ textAlign: "right" }}>{TYPES.find((t) => t.id === sel.type)?.label}</td></tr>
+            <tr><td>Стиль</td><td style={{ textAlign: "right" }}>{styleObj.label}</td></tr>
+            <tr><td>Объём</td><td style={{ textAlign: "right" }}>{SCOPES.find((x) => x.id === sel.scope)?.label}</td></tr>
+            <tr><td>Возможности</td><td style={{ textAlign: "right" }}>{sel.capabilities.map((id) => CAPS.find((c) => c.id === id)?.label ?? id).join(", ") || "—"}</td></tr>
+            <tr><td><b>Итого (ориентир)</b></td><td style={{ textAlign: "right" }}><b>{price.toLocaleString("ru-RU")} ₽</b></td></tr>
+          </tbody>
+        </table>
+        <p style={{ marginTop: 24, fontSize: 12 }}>Окончательная стоимость фиксируется после брифа. aetheriapro.lovable.app</p>
+      </div>
       <AnimatePresence>
         {submitted && <SuccessOverlay onClose={() => setSubmitted(false)} price={price} />}
       </AnimatePresence>

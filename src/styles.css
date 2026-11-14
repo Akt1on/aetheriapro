@@ -270,3 +270,23 @@ html.has-custom-cursor * {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
   50% { transform: translate3d(0, -28px, 0) scale(1.03); }
 }
+
+/* restore text cursor in fields */
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select,
+html.has-custom-cursor [contenteditable="true"] {
+  cursor: text !important;
+}
+
+@keyframes aeth-eq { from { height: 4px; } to { height: 14px; } }
+
+/* Printable estimate */
+.print-only { display: none; }
+@media print {
+  body * { visibility: hidden !important; }
+  .print-only, .print-only * { visibility: visible !important; }
+  .print-only { display: block !important; position: absolute; inset: 0; background: #fff; color: #111; padding: 40px; font-family: Georgia, serif; }
+  .print-only table { width: 100%; border-collapse: collapse; }
+  .print-only td { padding: 8px 0; border-bottom: 1px solid #ddd; }
+}

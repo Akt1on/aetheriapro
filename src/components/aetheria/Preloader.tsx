@@ -21,6 +21,7 @@ export function Preloader() {
     const start = performance.now();
     const DUR = 2200;
     let raf = 0;
+    let doneTimer = 0;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / DUR);
       const eased = 1 - Math.pow(1 - p, 3);
@@ -28,7 +29,7 @@ export function Preloader() {
       if (p < 1) raf = requestAnimationFrame(tick);
       else {
         try { sessionStorage.setItem(KEY, "1"); } catch { /* noop */ }
-        setTimeout(() => {
+        doneTimer = window.setTimeout(() => {
           setActive(false);
           document.body.style.overflow = "";
           window.dispatchEvent(new Event("aetheria:intro-done"));
@@ -38,6 +39,7 @@ export function Preloader() {
     raf = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(doneTimer);
       document.body.style.overflow = "";
     };
   }, []);

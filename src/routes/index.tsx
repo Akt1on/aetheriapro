@@ -1,3 +1,4 @@
+import { SoundToggle } from "@/components/aetheria/SoundToggle";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
@@ -318,6 +319,7 @@ function Nav() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <SoundToggle />
             <a href="#configurator" onClick={() => track("cta_click", { place: "nav" })} className="btn-primary-glow inline-flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-xs font-medium sm:px-5">
               <span className="hidden sm:inline">Начать проект</span><span className="sm:hidden">Начать</span> <ArrowRight className="h-3.5 w-3.5" />
             </a>

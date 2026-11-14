@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const payloadSchema = z.object({
   name: z.string().trim().max(200).optional().nullable(),
-  email: z.string().trim().max(200).optional().nullable(),
+  email: z.string().trim().email().max(200),
   company: z.string().trim().max(200).optional().nullable(),
   project_type: z.string().min(1).max(80),
   design_style: z.string().min(1).max(80),

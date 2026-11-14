@@ -30,11 +30,23 @@ function publish(q: Quality) {
 /** Measures real frame budget once per session and downgrades quality if the device struggles. */
 function probeFps() {
   if (typeof window === "undefined") return;
+  // Background tabs throttle rAF — never measure them, wait until visible.
+  if (document.visibilityState !== "visible") {
+    const onVis = () => {
+      if (document.visibilityState === "visible") {
+        document.removeEventListener("visibilitychange", onVis);
+        window.setTimeout(probeFps, 1200);
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return;
+  }
   let frames = 0;
   const start = performance.now();
   const tick = () => {
     frames++;
     const elapsed = performance.now() - start;
+    if (document.visibilityState !== "visible") { probeFps(); return; }
     if (elapsed < 1200) {
       requestAnimationFrame(tick);
       return;
