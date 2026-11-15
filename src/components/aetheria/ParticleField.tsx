@@ -72,7 +72,7 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
     });
 
     // A handful of luminous "hero" stars
-    const heroes = Array.from({ length: 22 }, () => ({
+    const heroes = Array.from({ length: w < 900 ? 10 : 18 }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,
       r: (2 + Math.random() * 2) * DPR,
@@ -81,6 +81,13 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
       hue: Math.random() < 0.5 ? 270 : 200,
     }));
 
+    const sprites: Record<number, HTMLCanvasElement> = {};
+    for (const hue of [200, 270]) {
+      const c = document.createElement("canvas"); c.width = c.height = 64;
+      const x = c.getContext("2d")!; const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, `hsla(${hue},95%,80%,0.55)`); g.addColorStop(0.5, `hsla(${hue},95%,65%,0.12)`); g.addColorStop(1, "hsla(0,0%,0%,0)");
+      x.fillStyle = g; x.fillRect(0, 0, 64, 64); sprites[hue] = c;
+    }
     // ---- Shooting stars ----
     type Shot = { x: number; y: number; vx: number; vy: number; life: number; max: number };
     const shots: Shot[] = [];
@@ -149,14 +156,10 @@ export function ParticleField({ density = 220, className = "" }: { density?: num
         const tw = 0.5 + 0.5 * Math.sin(s.tw);
         const px = s.x + par.x * 0.9;
         const py = s.y + par.y * 0.9;
-        const halo = ctx.createRadialGradient(px, py, 0, px, py, s.r * 8);
-        halo.addColorStop(0, `hsla(${s.hue}, 95%, 80%, ${0.55 * tw})`);
-        halo.addColorStop(0.5, `hsla(${s.hue}, 95%, 65%, ${0.12 * tw})`);
-        halo.addColorStop(1, "hsla(0,0%,0%,0)");
-        ctx.fillStyle = halo;
-        ctx.beginPath();
-        ctx.arc(px, py, s.r * 8, 0, Math.PI * 2);
-        ctx.fill();
+        const hr = s.r * 8;
+        ctx.globalAlpha = tw;
+        ctx.drawImage(sprites[s.hue], px - hr, py - hr, hr * 2, hr * 2);
+        ctx.globalAlpha = 1;
         ctx.fillStyle = `hsla(${s.hue}, 100%, 95%, ${0.9 * tw})`;
         ctx.beginPath();
         ctx.arc(px, py, s.r, 0, Math.PI * 2);

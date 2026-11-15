@@ -20,7 +20,7 @@ const LANGS: { id: Lang; label: string; sub: string }[] = [
 function Card({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button type="button" onClick={onClick} aria-pressed={active}
-      className={`glass w-full rounded-2xl border p-4 text-left transition-all duration-300 hover:-translate-y-0.5 sm:p-5 ${active ? "border-primary bg-primary/15 shadow-[0_0_40px_-10px_var(--color-primary)]" : "border-border/40 hover:border-primary/50"}`}>
+      className={`glass w-full rounded-2xl border p-4 text-left transition-colors duration-200 sm:p-5 ${active ? "border-primary bg-primary/15" : "border-border/40 hover:border-primary/50"}`}>
       {children}
     </button>
   );
@@ -139,11 +139,11 @@ export function Portal() {
   const titles = ["s1", "s2", "s3", "s4", "s5", "s6"][s.step - 1];
 
   return (
-    <div className="dark relative h-[100dvh] overflow-hidden bg-background text-foreground">
+    <div className="dark relative min-h-[100dvh] h-[100dvh] overflow-hidden bg-background text-foreground">
       <div aria-hidden className="pointer-events-none absolute inset-0 print:hidden">
-        <ParticleField density={180} />
-        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.6 0.2 290), oklch(0.15 0.05 270) 70%)", boxShadow: "0 0 120px oklch(0.5 0.2 290 / .4)", animation: "aeth-float-slow 30s ease-in-out infinite" }} />
-        <div className="absolute -bottom-16 -left-10 h-48 w-48 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.75 0.13 200), oklch(0.15 0.05 250) 70%)", boxShadow: "0 0 90px oklch(0.6 0.14 200 / .35)", animation: "aeth-float-slow 38s ease-in-out infinite reverse" }} />
+        <ParticleField density={typeof window !== "undefined" && window.innerWidth < 640 ? 70 : 160} />
+        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.6 0.2 290), oklch(0.15 0.05 270) 70%)" }} />
+        <div className="absolute -bottom-16 -left-10 h-48 w-48 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.75 0.13 200), oklch(0.15 0.05 250) 70%)" }} />
       </div>
 
       <div className="relative z-10 flex h-full flex-col px-4 py-4 sm:px-10 sm:py-6">
@@ -165,10 +165,10 @@ export function Portal() {
         <main className="flex min-h-0 flex-1 flex-col overflow-y-auto py-4">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div key={s.step + status} custom={dir}
-              initial={{ opacity: 0, scale: 0.94, filter: "blur(12px)", y: dir * 30 }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
-              exit={{ opacity: 0, scale: 1.04, filter: "blur(12px)", y: dir * -30 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: dir * 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: dir * -18 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="m-auto w-full max-w-4xl">
               {status !== "ok" && <div className="mb-6 text-center">
                 <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground">{t.step} {s.step} / 6</div>
@@ -188,7 +188,7 @@ export function Portal() {
 
       <AnimatePresence>
         {drawer && <>
-          <motion.div className="absolute inset-0 z-20 bg-background/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDrawer(false)} />
+          <motion.div className="absolute inset-0 z-20 bg-background/80" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDrawer(false)} />
           <motion.aside initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="glass absolute right-0 top-0 z-30 h-full w-full max-w-md overflow-y-auto border-l border-border/40 p-6">
             <div className="mb-6 flex items-center justify-between"><h2 className="font-display text-3xl">{t.portfolio}</h2>
