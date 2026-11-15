@@ -162,14 +162,14 @@ export function Portal() {
           <motion.div className="h-full bg-primary" animate={{ width: `${(s.step / 6) * 100}%` }} />
         </div>
 
-        <main className="flex flex-1 flex-col justify-center overflow-y-auto py-4">
+        <main className="flex min-h-0 flex-1 flex-col overflow-y-auto py-4">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div key={s.step + status} custom={dir}
               initial={{ opacity: 0, scale: 0.94, filter: "blur(12px)", y: dir * 30 }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
               exit={{ opacity: 0, scale: 1.04, filter: "blur(12px)", y: dir * -30 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mx-auto w-full max-w-4xl">
+              className="m-auto w-full max-w-4xl">
               {status !== "ok" && <div className="mb-6 text-center">
                 <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground">{t.step} {s.step} / 6</div>
                 <h1 className="mt-2 font-display text-4xl leading-tight sm:text-6xl">{t[titles + "_t"]}</h1>
