@@ -36,8 +36,8 @@
   --color-gold: var(--gold);
   --color-ink: var(--ink);
   --color-navy: var(--navy);
-  --font-display: "Instrument Serif", "Times New Roman", serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", "Noto Sans Armenian", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", "Noto Sans Armenian", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 

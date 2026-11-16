@@ -40,7 +40,7 @@ function LeadsPage() {
     return (leads as Array<Record<string, unknown>>).filter((l) => {
       if (filter !== "all" && l.status !== filter) return false;
       if (!q) return true;
-      const hay = `${l.name ?? ""} ${l.email ?? ""} ${l.company ?? ""} ${l.project_type ?? ""}`.toLowerCase();
+      const hay = `${l.name ?? ""} ${l.phone ?? ""} ${l.email ?? ""} ${l.company ?? ""} ${l.project_type ?? ""}`.toLowerCase();
       return hay.includes(q.toLowerCase());
     });
   }, [leads, filter, q]);
@@ -68,7 +68,7 @@ function LeadsPage() {
 
   const exportCsv = () => {
     const rows = filtered;
-    const headers = ["created_at", "name", "email", "company", "project_type", "design_style", "scope", "estimated_price", "capabilities", "status"];
+    const headers = ["created_at", "name", "phone", "email", "language", "currency", "company", "project_type", "design_style", "scope", "estimated_price", "capabilities", "status"];
     const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
     const csv = [headers.join(",")]
       .concat(rows.map((r) => headers.map((h) => esc(Array.isArray(r[h]) ? (r[h] as string[]).join("|") : r[h])).join(",")))
@@ -134,7 +134,7 @@ function LeadsPage() {
                   >
                     <div className="col-span-12 sm:col-span-3">
                       <div className="text-sm text-white">{(l.name as string) || <span className="text-white/40">без имени</span>}</div>
-                      <div className="text-xs text-white/50">{(l.email as string) || (l.company as string) || ""}</div>
+                      <div className="text-xs text-white/50">{[l.phone, l.email].filter(Boolean).join(" · ") || (l.company as string) || ""}{l.language ? ` · ${String(l.language).toUpperCase()}/${l.currency}` : ""}</div>
                     </div>
                     <div className="col-span-6 text-xs text-white/60 sm:col-span-3">{l.project_type as string} · {l.scope as string}</div>
                     <div className="col-span-3 text-sm text-aurora sm:col-span-2">{(l.estimated_price as number).toLocaleString("ru-RU")} ₽</div>

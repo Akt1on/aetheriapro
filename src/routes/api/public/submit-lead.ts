@@ -4,7 +4,11 @@ import { z } from "zod";
 
 const payloadSchema = z.object({
   name: z.string().trim().max(200).optional().nullable(),
-  email: z.string().trim().email().max(200),
+  email: z.union([z.string().trim().email().max(200), z.literal("")]).optional().nullable(),
+  phone: z.string().trim().max(100).optional().nullable(),
+  currency: z.enum(["AMD", "RUB", "USD"]).default("RUB"),
+  language: z.enum(["hy", "ru", "en"]).default("ru"),
+  display_price: z.string().max(60).optional().nullable(),
   company: z.string().trim().max(200).optional().nullable(),
   project_type: z.string().min(1).max(80),
   design_style: z.string().min(1).max(80),
@@ -13,7 +17,7 @@ const payloadSchema = z.object({
   estimated_price: z.number().int().min(0).max(100_000_000),
   // Honeypot — real users leave it empty. Bots fill every input.
   website: z.string().max(500).optional().nullable(),
-});
+}).refine((d) => !!(d.email && d.email.length) || !!(d.phone && d.phone.trim().length >= 3), { message: "contact required" });
 
 // Per-worker in-memory rate limit. Ephemeral (workers restart), but combined
 // with the honeypot it stops the vast majority of automated abuse without a
@@ -47,13 +51,15 @@ async function notifyTelegram(l: z.infer<typeof payloadSchema>) {
   const CHAT_ID = process.env.TELEGRAM_ADMIN_CHAT_ID;
   if (!LOVABLE_API_KEY || !TELEGRAM_API_KEY || !CHAT_ID) return;
 
-  const price = l.estimated_price.toLocaleString("ru-RU");
+  const price = l.display_price || `${l.estimated_price.toLocaleString("ru-RU")} ₽`;
+  const flag = { hy: "🇦🇲 Հայերեն", ru: "🇷🇺 Русский", en: "🇬🇧 English" }[l.language];
   const caps = l.capabilities.length ? l.capabilities.join(", ") : "—";
-  const contact = [l.name, l.email, l.company].filter(Boolean).join(" · ") || "без контактов";
+  const contact = [l.name, l.phone, l.email].filter(Boolean).join(" · ") || "без контактов";
   const text = [
     "<b>🚀 Новая заявка · Aetheria</b>",
     "",
-    `<b>Бюджет:</b> ${price} ₽`,
+    `<b>Бюджет:</b> ${escapeHtml(price)} (${l.estimated_price.toLocaleString("ru-RU")} ₽)`,
+    `<b>Язык:</b> ${flag}`,
     `<b>Тип:</b> ${escapeHtml(l.project_type)}`,
     `<b>Стиль:</b> ${escapeHtml(l.design_style)}`,
     `<b>Объём:</b> ${escapeHtml(l.scope)}`,
@@ -119,7 +125,10 @@ export const Route = createFileRoute("/api/public/submit-lead")({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error } = await (supabaseAdmin.from("leads") as any).insert({
           name: data.name ?? null,
-          email: data.email ?? null,
+          email: data.email || null,
+          phone: data.phone || null,
+          currency: data.currency,
+          language: data.language,
           company: data.company ?? null,
           project_type: data.project_type,
           design_style: data.design_style,

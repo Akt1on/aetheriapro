@@ -7,6 +7,10 @@ export type LeadPayload = {
   name?: string | null;
   email?: string | null;
   company?: string | null;
+  phone?: string | null;
+  currency?: "AMD" | "RUB" | "USD";
+  language?: "hy" | "ru" | "en";
+  display_price?: string;
   project_type: string;
   design_style: string;
   capabilities: string[];

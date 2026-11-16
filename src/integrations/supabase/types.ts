@@ -19,12 +19,15 @@ export type Database = {
           capabilities: string[]
           company: string | null
           created_at: string
+          currency: string
           design_style: string
           email: string | null
           estimated_price: number
           id: string
+          language: string
           name: string | null
           notes: string | null
+          phone: string | null
           project_type: string
           scope: string
           source: string | null
@@ -36,12 +39,15 @@ export type Database = {
           capabilities?: string[]
           company?: string | null
           created_at?: string
+          currency?: string
           design_style: string
           email?: string | null
           estimated_price: number
           id?: string
+          language?: string
           name?: string | null
           notes?: string | null
+          phone?: string | null
           project_type: string
           scope: string
           source?: string | null
@@ -53,12 +59,15 @@ export type Database = {
           capabilities?: string[]
           company?: string | null
           created_at?: string
+          currency?: string
           design_style?: string
           email?: string | null
           estimated_price?: number
           id?: string
+          language?: string
           name?: string | null
           notes?: string | null
+          phone?: string | null
           project_type?: string
           scope?: string
           source?: string | null

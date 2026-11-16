@@ -78,7 +78,7 @@ export const T: Record<Lang, Dict> = {
     est: "Մոտավոր արժեք", name: "Անուն", phone: "Հեռախոս / Telegram", email: "Էլ. փոստ",
     pdf: "Նախահաշիվ PDF", submit: "Ուղարկել հայտը", sending: "Ուղարկվում է…",
     ok_t: "Շնորհակալություն!", ok_s: "Մենք շուտով կկապվենք Ձեզ հետ։", again: "Նոր նախագիծ",
-    err: "Ստուգեք էլ. փոստը", close: "Փակել", task: "Խնդիր", result: "Արդյունք", open: "Դիտել կեյսը",
+    err: "Ստուգեք էլ. փոստը", err_contact: "Նշեք հեռախոս/Telegram կամ ճիշտ էլ. փոստ", close: "Փակել", task: "Խնդիր", result: "Արդյունք", open: "Դիտել կեյսը",
   },
   ru: {
     portfolio: "Наши работы", back: "Назад", next: "Далее", step: "Шаг",
@@ -103,7 +103,7 @@ export const T: Record<Lang, Dict> = {
     est: "Ориентировочная стоимость", name: "Имя", phone: "Телефон / Telegram", email: "Email",
     pdf: "Смета PDF", submit: "Отправить заявку", sending: "Отправляем…",
     ok_t: "Спасибо!", ok_s: "Мы скоро свяжемся с вами.", again: "Новый проект",
-    err: "Проверьте email", close: "Закрыть", task: "Задача", result: "Результат", open: "Смотреть кейс",
+    err: "Проверьте email", err_contact: "Укажите телефон/Telegram или корректный email", close: "Закрыть", task: "Задача", result: "Результат", open: "Смотреть кейс",
   },
   en: {
     portfolio: "Our work", back: "Back", next: "Continue", step: "Step",
@@ -128,6 +128,6 @@ export const T: Record<Lang, Dict> = {
     est: "Estimated investment", name: "Name", phone: "Phone / Telegram", email: "Email",
     pdf: "Estimate PDF", submit: "Send request", sending: "Sending…",
     ok_t: "Thank you!", ok_s: "We will contact you shortly.", again: "New project",
-    err: "Check your email", close: "Close", task: "Task", result: "Result", open: "View case",
+    err: "Check your email", err_contact: "Enter a phone/Telegram or a valid email", close: "Close", task: "Task", result: "Result", open: "View case",
   },
 };

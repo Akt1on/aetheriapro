@@ -6,7 +6,7 @@ import { SoundToggle } from "@/components/aetheria/SoundToggle";
 import { P_TYPES, P_STYLES, P_FEATURES, P_TIMES, T, LANG_CURRENCY, formatMoney, portalPriceRub, type Lang } from "@/lib/portal";
 import { playClick, playStep, playSuccess } from "@/lib/sound";
 import { submitLead } from "@/lib/leads-client";
-import { FALLBACK_PROJECTS, slugify } from "@/lib/public-content";
+import { FALLBACK_PROJECTS, slugify, localizeProject } from "@/lib/public-content";
 
 const KEY = "aetheria-portal";
 type State = { lang: Lang; step: number; type: string; style: string; features: string[]; time: string };
@@ -39,7 +39,7 @@ export function Portal() {
   useEffect(() => { try { const v = localStorage.getItem(KEY); if (v) setS({ ...INIT, ...JSON.parse(v) }); } catch { /* noop */ } }, []);
   useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* noop */ } document.documentElement.lang = s.lang; }, [s]);
 
-  const canNext = s.step === 2 ? !!s.type : s.step === 3 ? !!s.style : s.step < 6;
+  const canNext = s.step === 1 ? !!s.lang : s.step === 2 ? !!s.type : s.step === 3 ? !!s.style : s.step === 5 ? !!s.time : s.step < 6;
   const go = (d: number) => {
     const n = s.step + d;
     if (n < 1 || n > 6 || (d > 0 && !canNext)) return;
@@ -47,12 +47,14 @@ export function Portal() {
   };
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
-      if ((e.target as HTMLElement)?.tagName === "INPUT") return;
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON") return;
       if (e.key === "Enter") go(1);
       if (e.key === "Backspace" || e.key === "ArrowLeft") go(-1);
     };
     window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [s, canNext]);
   const set = (p: Partial<State>, auto = false) => {
     playClick(); const n = { ...s, ...p };
     if (auto) { setDir(1); n.step = s.step + 1; }
@@ -61,10 +63,12 @@ export function Portal() {
 
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) { setStatus("err"); return; }
+    const email = form.email.trim(), phone = form.phone.trim();
+    if ((email && !/^\S+@\S+\.\S+$/.test(email)) || (!email && phone.length < 3)) { setStatus("err"); return; }
     setStatus("sending");
     try {
-      await submitLead({ name: form.name || null, email: form.email, company: form.phone || null, website: form.website,
+      await submitLead({ name: form.name || null, email: email || null, phone: phone || null, company: null, website: form.website,
+        currency: cur, language: s.lang, display_price: formatMoney(price, cur),
         project_type: s.type, design_style: s.style, capabilities: s.features, scope: s.time, estimated_price: price });
       playSuccess(); setStatus("ok");
     } catch { setStatus("err"); }
@@ -122,12 +126,13 @@ export function Portal() {
           </div>
           <form onSubmit={send} className="space-y-3 print:hidden">
             {(["name", "phone", "email"] as const).map((k) => (
-              <input key={k} type={k === "email" ? "email" : "text"} required={k === "email"} placeholder={t[k]} value={form[k]}
+              <input key={k} type={k === "email" ? "email" : k === "phone" ? "tel" : "text"} placeholder={t[k]} value={form[k]}
+                inputMode={k === "email" ? "email" : k === "phone" ? "tel" : "text"} autoComplete={k === "email" ? "email" : k === "phone" ? "tel" : "name"}
                 onChange={(e) => setForm({ ...form, [k]: e.target.value })}
                 className="w-full rounded-xl border border-border/50 bg-background/40 px-4 py-3 text-sm outline-none focus:border-primary" />
             ))}
             <input tabIndex={-1} autoComplete="off" aria-hidden className="hidden" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} />
-            {status === "err" && <p className="text-sm text-destructive">{t.err}</p>}
+            {status === "err" && <p className="text-sm text-destructive">{t.err_contact}</p>}
             <button disabled={status === "sending"} className="w-full rounded-full bg-foreground py-3.5 text-sm font-medium text-background disabled:opacity-60">
               {status === "sending" ? t.sending : t.submit}</button>
           </form>
@@ -139,14 +144,14 @@ export function Portal() {
   const titles = ["s1", "s2", "s3", "s4", "s5", "s6"][s.step - 1];
 
   return (
-    <div className="dark relative min-h-[100dvh] h-[100dvh] overflow-hidden bg-background text-foreground">
+    <div className="dark relative min-h-[100dvh] overflow-x-hidden sm:h-[100dvh] sm:overflow-hidden bg-background text-foreground">
       <div aria-hidden className="pointer-events-none absolute inset-0 print:hidden">
         <ParticleField density={typeof window !== "undefined" && window.innerWidth < 640 ? 70 : 160} />
         <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.6 0.2 290), oklch(0.15 0.05 270) 70%)" }} />
         <div className="absolute -bottom-16 -left-10 h-48 w-48 rounded-full" style={{ background: "radial-gradient(circle at 30% 30%, oklch(0.75 0.13 200), oklch(0.15 0.05 250) 70%)" }} />
       </div>
 
-      <div className="relative z-10 flex h-full flex-col px-4 py-4 sm:px-10 sm:py-6">
+      <div className="relative z-10 flex min-h-[100dvh] flex-col sm:h-full sm:min-h-0 px-4 py-4 sm:px-10 sm:py-6">
         <header className="flex items-center justify-between gap-2 print:hidden">
           <div className="font-display text-2xl tracking-wide">Aetheria</div>
           <div className="flex items-center gap-2">
@@ -162,7 +167,7 @@ export function Portal() {
           <motion.div className="h-full bg-primary" animate={{ width: `${(s.step / 6) * 100}%` }} />
         </div>
 
-        <main className="flex min-h-0 flex-1 flex-col overflow-y-auto py-4">
+        <main className="flex flex-1 flex-col py-4 sm:min-h-0 sm:overflow-y-auto">
           <AnimatePresence mode="wait" custom={dir}>
             <motion.div key={s.step + status} custom={dir}
               initial={{ opacity: 0, y: dir * 18 }}
@@ -188,20 +193,20 @@ export function Portal() {
 
       <AnimatePresence>
         {drawer && <>
-          <motion.div className="absolute inset-0 z-20 bg-background/80" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDrawer(false)} />
+          <motion.div className="fixed inset-0 z-20 bg-background/80" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setDrawer(false)} />
           <motion.aside initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="glass absolute right-0 top-0 z-30 h-full w-full max-w-md overflow-y-auto border-l border-border/40 p-6">
+            className="glass fixed right-0 top-0 z-30 h-full w-full max-w-md overflow-y-auto border-l border-border/40 p-6">
             <div className="mb-6 flex items-center justify-between"><h2 className="font-display text-3xl">{t.portfolio}</h2>
               <button onClick={() => setDrawer(false)} className="text-sm text-muted-foreground">{t.close} ✕</button></div>
             <div className="space-y-4">
-              {FALLBACK_PROJECTS.map((p) => (
+              {FALLBACK_PROJECTS.map((p0) => { const p = localizeProject(p0, s.lang); return (
                 <div key={p.id} className="rounded-2xl border border-border/40 p-5" style={{ background: `linear-gradient(135deg, ${p.color_primary}, transparent)` }}>
                   <div className="text-xs text-muted-foreground">{p.category} · {p.year}</div>
                   <div className="mt-1 font-display text-2xl">{p.name}</div>
                   <p className="mt-2 text-sm"><span className="text-muted-foreground">{t.task}: </span>{p.task}</p>
                   <p className="mt-1 text-sm" style={{ color: p.color_accent }}>{t.result}: {p.result}</p>
                   <Link to="/work/$slug" params={{ slug: slugify(p.name) }} className="mt-3 inline-block text-xs underline">{t.open} →</Link>
-                </div>))}
+                </div>); })}
             </div>
           </motion.aside>
         </>}
